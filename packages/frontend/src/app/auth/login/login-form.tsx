@@ -10,6 +10,7 @@ import * as UserActions from '@/actions/auth/user'
 import { SVG } from '@/components/svg'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { Link } from '@/components/ui/link'
 import { useTheme } from '@/contexts/theme-context'
 
 type Errors = {
@@ -76,12 +77,14 @@ const LoginForm: React.FC = () => {
           className="bg-white dark:bg-black p-8 rounded-lg shadow-lg max-w-md w-[450px]"
         >
           <div className="flex justify-center mb-4">
-            <img
-              src="/images/isotype.svg"
-              alt="Logo"
-              className="w-16 h-16"
-              data-testid="isotype"
-            />
+            <Link href="/">
+              <img
+                src="/images/isotype.svg"
+                alt="Logo"
+                className="w-16 h-16"
+                data-testid="isotype"
+              />
+            </Link>
           </div>
 
           <h2 className="text-2xl font-medium text-center mb-4 text-gray-800 dark:text-white toggle-text-dark-mode">
