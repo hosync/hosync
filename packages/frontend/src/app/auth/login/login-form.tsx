@@ -1,13 +1,16 @@
 'use client'
 
+import { signIn } from 'next-auth/react'
 import { useSearchParams } from 'next/navigation'
+import { FcGoogle } from 'react-icons/fc'
 import React, { useEffect, useState } from 'react'
-import { security } from '@hosync/utils'
+import { cx, security } from '@hosync/utils'
 
 import * as UserActions from '@/actions/auth/user'
 import { SVG } from '@/components/svg'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { useTheme } from '@/contexts/theme-context'
 
 type Errors = {
   invalidLogin?: string
@@ -16,6 +19,7 @@ type Errors = {
 const LoginForm: React.FC = () => {
   const query = useSearchParams()
   const redirectTo = query.get('redirectTo') || '/'
+  const { darkMode } = useTheme()
 
   const [errors, setErrors] = useState<Errors>({ invalidLogin: '' })
 
@@ -135,6 +139,17 @@ const LoginForm: React.FC = () => {
               Or
             </span>
             <hr className="flex-grow border-gray-300 dark:border-gray-600" />
+          </div>
+
+          <div className="flex items-center w-full gap-x-2">
+            <Button
+              size="large"
+              className="w-full"
+              color={darkMode ? 'dark' : 'light'}
+              onClick={() => signIn('google')}
+            >
+              <FcGoogle className="h-5 w-5" />
+            </Button>
           </div>
 
           <div

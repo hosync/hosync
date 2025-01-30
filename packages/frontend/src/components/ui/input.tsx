@@ -98,7 +98,7 @@ const Input: React.FC<InputProps> = ({
           autoComplete={name === 'password' ? 'new-password' : 'off'}
           name={name}
           className={cx.join(
-            'mt-1 block w-full px-3 py-2 bg-white dark:bg-black border shadow-sm sm:text-sm',
+            'mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-900 border shadow-sm sm:text-sm',
             'text-black dark:text-white',
             shape === 'rounded' ? 'rounded-md' : 'rounded-full',
             disabled ? 'opacity-50 cursor-not-allowed' : null,
