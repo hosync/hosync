@@ -1,0 +1,5 @@
+{
+  "watch": ["src/index.ts", "src/**/*.ts"],
+  "ext": "ts,json",
+  "exec": "node -r ts-node/register --env-file=.env src/api/index.ts"
+}
