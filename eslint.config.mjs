@@ -25,7 +25,8 @@ const config = [
       'no-console': 'warn',
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/ban-ts-comment': 'off',
-      '@typescript-eslint/no-require-imports': 'off'
+      '@typescript-eslint/no-require-imports': 'off',
+      '@next/next/no-img-element': 'off'
     }
   }
 ]

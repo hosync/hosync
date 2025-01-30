@@ -1,22 +1,156 @@
-import * as React from 'react'
+import { useRef, useState } from 'react'
+import { cx } from '@hosync/utils'
 
-import { cn } from '@/lib/utils'
+import { SVG } from '@/components/svg'
 
-const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<'input'>>(
-  ({ className, type, ...props }, ref) => {
-    return (
-      <input
-        type={type}
-        className={cn(
-          'flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm',
-          className
-        )}
-        ref={ref}
-        {...props}
-      />
-    )
+const EyeOffIcon = SVG.EyeOff
+const EyeIcon = SVG.Eye
+
+interface InputProps extends React.ComponentPropsWithoutRef<'input'> {
+  label?: string
+  fullWidth?: boolean
+  errorText?: string
+  countryCodes?: { [code: string]: string }
+  countryCodeValue?: string
+  onCountryCodeChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void
+  leftIcon?: React.ReactNode
+  shape?: 'rounded' | 'pill'
+  dropdownItems?: string[]
+}
+
+const Input: React.FC<InputProps> = ({
+  className = '',
+  disabled = false,
+  errorText = '',
+  fullWidth = false,
+  name = '',
+  label = '',
+  type = 'text',
+  value,
+  onChange,
+  leftIcon = null,
+  shape = 'rounded',
+  dropdownItems = [],
+  ...restProps
+}) => {
+  const [hasFocus, setHasFocus] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
+  const [inputValue, setInputValue] = useState<any>(value || '')
+  const [isError, setIsError] = useState<boolean>(false)
+  const [localErrorText, setLocalErrorText] = useState<string>('')
+
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword)
   }
-)
-Input.displayName = 'Input'
+
+  const isPasswordType = type === 'password'
+  const inputType = isPasswordType && showPassword ? 'text' : type
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value)
+    setIsError(false)
+    setLocalErrorText('')
+
+    if (onChange) {
+      onChange(e)
+    }
+  }
+
+  const handleFocus = () => {
+    setHasFocus(true)
+  }
+
+  const handleBlur = () => {
+    setTimeout(() => {
+      setHasFocus(false)
+    }, 100)
+  }
+
+  return (
+    <div
+      data-component="Input"
+      className={cx.join('text-left', fullWidth ? 'w-full block' : null)}
+    >
+      {label && (
+        <label
+          className="block text-gray-700 text-sm font-bold text-left dark:text-gray-300"
+          htmlFor={name}
+        >
+          {label}
+        </label>
+      )}
+      <div className="flex relative">
+        {leftIcon && (
+          <button
+            type="button"
+            className="absolute inset-y-0 left-2 pr-3 flex items-center text-sm leading-5"
+            onClick={togglePasswordVisibility}
+            style={{ top: '3px' }}
+          >
+            {leftIcon}
+          </button>
+        )}
+
+        <input
+          ref={inputRef}
+          autoComplete={name === 'password' ? 'new-password' : 'off'}
+          name={name}
+          className={cx.join(
+            'mt-1 block w-full px-3 py-2 bg-white dark:bg-black border shadow-sm sm:text-sm',
+            'text-black dark:text-white',
+            shape === 'rounded' ? 'rounded-md' : 'rounded-full',
+            disabled ? 'opacity-50 cursor-not-allowed' : null,
+            fullWidth ? 'w-full block' : null,
+            hasFocus
+              ? 'focus:outline-none focus:ring focus:ring-pacific'
+              : null,
+            leftIcon ? 'pl-10' : '',
+            className,
+            isError ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
+          )}
+          type={inputType}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          onChange={handleInputChange}
+          value={inputValue}
+          disabled={disabled}
+          list={`${name}-datalist`} // Associate the input with the datalist
+          style={isError ? { border: '1px solid red' } : restProps.style}
+          {...restProps}
+        />
+
+        {isPasswordType && (
+          <button
+            type="button"
+            className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
+            onClick={togglePasswordVisibility}
+            aria-label={showPassword ? 'Hide password' : 'Show password'}
+            title={showPassword ? 'Hide password' : 'Show password'}
+            style={{ top: '3px' }}
+          >
+            {showPassword ? <EyeOffIcon /> : <EyeIcon />}
+          </button>
+        )}
+      </div>
+
+      {/* Datalist replacing the dropdown menu */}
+      {dropdownItems.length > 0 && (
+        <datalist id={`${name}-datalist`}>
+          {dropdownItems.map((item, index) => (
+            <option key={index} value={item} />
+          ))}
+        </datalist>
+      )}
+
+      {(errorText || localErrorText) && (
+        <div className="text-red-500 text-xs">
+          {errorText || localErrorText}
+        </div>
+      )}
+    </div>
+  )
+}
 
 export { Input }
