@@ -1,7 +1,13 @@
 'use client'
 
-import React, { createContext, FC, ReactNode, useContext, useEffect, useState } from 'react'
-
+import React, {
+  createContext,
+  FC,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState
+} from 'react'
 import { cookies } from '@hosync/utils'
 
 type ThemeContextType = {
@@ -17,14 +23,13 @@ type Props = {
 }
 
 export const ThemeProvider: FC<Props> = ({ children, defaultDarkMode }) => {
-  const isDarkMode = defaultDarkMode || cookies.get('darkMode')
-
+  const isDarkMode = !!defaultDarkMode
   const [darkMode, setDarkMode] = useState<boolean>(isDarkMode)
 
   useEffect(() => {
     // On initial load, remove the 'dark' class to ensure light mode is the default
-    if (!isDarkMode) {
-      document.documentElement.classList.remove('dark')
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark')
     }
   }, [isDarkMode])
 

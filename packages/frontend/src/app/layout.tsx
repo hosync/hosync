@@ -31,20 +31,17 @@ const RootLayout = async ({
 }: Readonly<{
   children: React.ReactNode
 }>) => {
-  const darkMode = await cookies.get('darkMode', false)
-  const theme = darkMode ? 'dark' : 'theme'
+  const darkMode = await cookies.get('darkMode')
 
   return (
-    <html lang="en">
+    <html lang="en" className={cx.join({ dark: darkMode })}>
       <head>
         <link rel="icon" href="/images/favicon.png" />
       </head>
 
       <body className={cx.join(inter.className)}>
         <SessionProvider>
-          <ThemeProvider defaultDarkMode={theme === 'dark'}>
-            {children}
-          </ThemeProvider>
+          <ThemeProvider defaultDarkMode={darkMode}>{children}</ThemeProvider>
         </SessionProvider>
       </body>
     </html>

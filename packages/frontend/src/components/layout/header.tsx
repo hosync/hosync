@@ -89,19 +89,19 @@ const Header: React.FC<HeaderProps> = ({ connectedUser = {}, page }) => {
                 href="#"
                 className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 hover:no-underline dark:hover:bg-gray-600 focus:outline-none user-select-none"
               >
-                home.header.links.profile
+                Profile
               </Link>
               <Link
                 href="/dashboard"
                 className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 hover:no-underline dark:hover:bg-gray-600 focus:outline-none user-select-none"
               >
-                home.header.links.dashboard
+                Dashboard
               </Link>
               <a
                 href="/logout"
                 className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 hover:no-underline dark:hover:bg-gray-600 focus:outline-none user-select-none"
               >
-                home.header.links.logout
+                Logout
               </a>
             </Dropdown>
           </div>

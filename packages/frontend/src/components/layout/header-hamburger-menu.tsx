@@ -14,6 +14,7 @@ type Props = {
 
 const HamburgerMenu: FC<Props> = ({ isLogged, connectedUser }) => {
   const { darkMode } = useTheme()
+
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const stroke = darkMode ? 'white' : 'black'
 
@@ -38,26 +39,26 @@ const HamburgerMenu: FC<Props> = ({ isLogged, connectedUser }) => {
           <RenderBlockIf isTrue={isLogged}>
             <div className="flex flex-col items-center justify-center pt-20 text-black dark:text-white text-xl">
               <div className="mb-10">
-                <b>welcome,</b> {connectedUser.fullName}!
+                <b>Welcome,</b> {connectedUser.fullName}!
               </div>
 
               <Link
                 href="#"
                 className="block mb-2 text-black text-center text-xl dark:text-white font-bold"
               >
-                profile
+                Profile
               </Link>
               <Link
                 href="/dashboard"
                 className="block mb-2 text-black text-center text-xl dark:text-white font-bold"
               >
-                dashboard
+                Dashboard
               </Link>
               <a
                 href="/logout"
                 className="block mb-2 text-black text-center text-xl dark:text-white font-bold"
               >
-                logout
+                Logout
               </a>
             </div>
           </RenderBlockIf>
@@ -67,37 +68,37 @@ const HamburgerMenu: FC<Props> = ({ isLogged, connectedUser }) => {
               href="#"
               className="block mb-4 text-black text-center text-xl dark:text-white"
             >
-              reservations
+              Reservations
             </Link>
             <Link
               href="#"
               className="block mb-4 text-black text-center text-xl dark:text-white"
             >
-              features
+              Features
             </Link>
             <Link
               href="#"
               className="block mb-4 text-black text-center text-xl dark:text-white"
             >
-              pricing
+              Pricing
             </Link>
             <Link
               href="#"
               className="block mb-4 text-black text-center text-xl dark:text-white"
             >
-              trustedBy
+              Trusted by
             </Link>
             <Link
               href="/login"
               className="block mb-4 text-black text-center text-xl dark:text-white"
             >
-              login
+              Login
             </Link>
             <Link
               href="/signup"
               className="block mb-4 text-black text-center text-xl dark:text-white"
             >
-              signUp
+              Sign up
             </Link>
           </div>
         </div>
