@@ -89,13 +89,13 @@ const HamburgerMenu: FC<Props> = ({ isLogged, connectedUser }) => {
               Trusted by
             </Link>
             <Link
-              href="/login"
+              href="/auth/login"
               className="block mb-4 text-black text-center text-xl dark:text-white"
             >
               Login
             </Link>
             <Link
-              href="/signup"
+              href="/auth/register"
               className="block mb-4 text-black text-center text-xl dark:text-white"
             >
               Sign up

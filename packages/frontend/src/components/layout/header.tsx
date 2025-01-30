@@ -37,7 +37,7 @@ const Header: React.FC<HeaderProps> = ({ connectedUser = {}, page }) => {
   }
 
   const loginLink = showLogin ? (
-    <Link href="/login" data-testid="login-link">
+    <Link href="/auth/login" data-testid="login-link">
       Login
     </Link>
   ) : (
