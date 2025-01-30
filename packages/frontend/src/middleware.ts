@@ -33,6 +33,10 @@ export default auth((req) => {
     return Response.redirect(new URL('/auth/login', nextUrl))
   }
 
+  if (nextUrl.pathname === '/login') {
+    return Response.redirect(new URL('/auth/login', nextUrl))
+  }
+
   return NextResponse.next()
 })
 

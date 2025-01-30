@@ -1,39 +1,22 @@
 'use client'
 
 import { signIn } from 'next-auth/react'
-import { useSearchParams } from 'next/navigation'
 import { FcGoogle } from 'react-icons/fc'
-import React, { useEffect, useState } from 'react'
-import { cx, security } from '@hosync/utils'
+import React, { useState } from 'react'
 
-import * as UserActions from '@/actions/auth/user'
+import { login } from '@/actions/auth/login'
 import { SVG } from '@/components/svg'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Link } from '@/components/ui/link'
 import { useTheme } from '@/contexts/theme-context'
 
-type Errors = {
-  invalidLogin?: string
-}
-
 const LoginForm: React.FC = () => {
-  const query = useSearchParams()
-  const redirectTo = query.get('redirectTo') || '/'
   const { darkMode } = useTheme()
 
-  const [errors, setErrors] = useState<Errors>({ invalidLogin: '' })
+  const [error, setError] = useState('')
 
-  useEffect(() => {
-    document.body.style.overflow = 'hidden'
-    document.body.classList.add('bg-login')
-
-    return () => {
-      document.body.style.overflow = ''
-    }
-  }, [])
-
-  const handleSubmit = async (e: any) => {
+  const onSubmit = (e: any) => {
     e.preventDefault()
 
     const formData = new FormData(e.target)
@@ -41,36 +24,15 @@ const LoginForm: React.FC = () => {
     const email = formData.get('email') as string
     const password = formData.get('password') as string
 
-    formData.delete('email')
-    formData.delete('password')
+    console.log({ email, password })
 
-    formData.append(
-      security.base64.encode('email', true),
-      security.base64.encode(email, true)
-    )
-
-    formData.append(
-      security.base64.encode('password', true),
-      security.base64.encode(security.password.encrypt(password), true)
-    )
-
-    if (!email || !password) {
-      return setErrors({ invalidLogin: 'Invalid login' })
-    }
-
-    const response = await UserActions.login(formData)
-
-    if (response?.ok) {
-      window.location.href = redirectTo
-    } else {
-      setErrors({
-        invalidLogin: 'Invalid login'
-      })
-    }
+    login({ email, password }).then((data: any) => {
+      setError(data.error)
+    })
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={onSubmit}>
       <div className="flex justify-center items-center min-h-screen">
         <div
           id="form-container"
@@ -91,9 +53,7 @@ const LoginForm: React.FC = () => {
             Login to your account
           </h2>
 
-          <p className="text-red-500 mb-4 text-xs text-center">
-            {errors.invalidLogin}
-          </p>
+          <p className="text-red-500 mb-4 text-xs text-center">{error}</p>
 
           <div className="relative mb-4">
             <div className="relative">
