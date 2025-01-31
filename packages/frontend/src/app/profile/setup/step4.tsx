@@ -2,23 +2,19 @@
 
 import React, { FC, useEffect } from 'react'
 
-import { SVG } from '@hosgu/components'
-
-import { useTheme } from '~/app/core/contexts/client/ThemeContext'
-import i18n from '~/app/core/contexts/server/I18nContext'
-import CheckCard from '~/design-system/CheckCard'
+import { SVG } from '@/components/svg'
+import { CheckCard } from '@/components/ui/check-card'
+import { useTheme } from '@/contexts/theme-context'
 
 type Props = {
-  locale: string
   values: any
   setValues: any
   setEnableNext: any
 }
 
-const Step: FC<Props> = ({ locale, values, setValues, setEnableNext }) => {
+const Step4: FC<Props> = ({ values, setValues, setEnableNext }) => {
   const { amenities } = values
   const { darkMode } = useTheme()
-  const t = i18n(locale)
 
   useEffect(() => {
     const currentValues = Array.from(Object.values(values.amenities))
@@ -45,20 +41,33 @@ const Step: FC<Props> = ({ locale, values, setValues, setEnableNext }) => {
       <CheckCard
         label="Wifi"
         checked={amenities.wifi}
-        icon={<SVG.Wifi size="32px" alternativeColor={darkMode || amenities.wifi ? '#fff' : ''} />}
+        icon={
+          <SVG.Wifi
+            size="32px"
+            alternativeColor={darkMode || amenities.wifi ? '#fff' : ''}
+          />
+        }
         onChange={() => onChangeCheck('wifi')}
       />
       <CheckCard
         label="Tv"
         checked={amenities.tv}
-        icon={<SVG.TV size="32px" alternativeColor={darkMode || amenities.tv ? '#fff' : ''} />}
+        icon={
+          <SVG.TV
+            size="32px"
+            alternativeColor={darkMode || amenities.tv ? '#fff' : ''}
+          />
+        }
         onChange={() => onChangeCheck('tv')}
       />
       <CheckCard
         label={t('profile.setup.step4.kitchen')}
         checked={amenities.kitchen}
         icon={
-          <SVG.Kitchen size="42px" alternativeColor={darkMode || amenities.kitchen ? '#fff' : ''} />
+          <SVG.Kitchen
+            size="42px"
+            alternativeColor={darkMode || amenities.kitchen ? '#fff' : ''}
+          />
         }
         onChange={() => onChangeCheck('kitchen')}
       />
@@ -66,7 +75,10 @@ const Step: FC<Props> = ({ locale, values, setValues, setEnableNext }) => {
         label={t('profile.setup.step4.extraBed')}
         checked={amenities.extraBed}
         icon={
-          <SVG.Bed size="32px" alternativeColor={darkMode || amenities.extraBed ? '#fff' : ''} />
+          <SVG.Bed
+            size="32px"
+            alternativeColor={darkMode || amenities.extraBed ? '#fff' : ''}
+          />
         }
         onChange={() => onChangeCheck('extraBed')}
       />
@@ -85,7 +97,10 @@ const Step: FC<Props> = ({ locale, values, setValues, setEnableNext }) => {
         label={t('profile.setup.step4.bedSheets')}
         checked={amenities.bedSheets}
         icon={
-          <SVG.Bed size="32px" alternativeColor={darkMode || amenities.bedSheets ? '#fff' : ''} />
+          <SVG.Bed
+            size="32px"
+            alternativeColor={darkMode || amenities.bedSheets ? '#fff' : ''}
+          />
         }
         onChange={() => onChangeCheck('bedSheets')}
       />
@@ -104,14 +119,22 @@ const Step: FC<Props> = ({ locale, values, setValues, setEnableNext }) => {
         label={t('profile.setup.step4.towels')}
         checked={amenities.towels}
         icon={
-          <SVG.Towel size="32px" alternativeColor={darkMode || amenities.towels ? '#fff' : ''} />
+          <SVG.Towel
+            size="32px"
+            alternativeColor={darkMode || amenities.towels ? '#fff' : ''}
+          />
         }
         onChange={() => onChangeCheck('towels')}
       />
       <CheckCard
         label={t('profile.setup.step4.pool')}
         checked={amenities.pool}
-        icon={<SVG.Swim size="32px" alternativeColor={darkMode || amenities.pool ? '#fff' : ''} />}
+        icon={
+          <SVG.Swim
+            size="32px"
+            alternativeColor={darkMode || amenities.pool ? '#fff' : ''}
+          />
+        }
         onChange={() => onChangeCheck('pool')}
       />
       <CheckCard
@@ -140,20 +163,33 @@ const Step: FC<Props> = ({ locale, values, setValues, setEnableNext }) => {
       <CheckCard
         label={t('profile.setup.step4.oven')}
         checked={amenities.oven}
-        icon={<SVG.Oven size="32px" alternativeColor={darkMode || amenities.oven ? '#fff' : ''} />}
+        icon={
+          <SVG.Oven
+            size="32px"
+            alternativeColor={darkMode || amenities.oven ? '#fff' : ''}
+          />
+        }
         onChange={() => onChangeCheck('oven')}
       />
       <CheckCard
         label={t('profile.setup.step4.ac')}
         checked={amenities.ac}
-        icon={<SVG.AC size="32px" alternativeColor={darkMode || amenities.ac ? '#fff' : ''} />}
+        icon={
+          <SVG.AC
+            size="32px"
+            alternativeColor={darkMode || amenities.ac ? '#fff' : ''}
+          />
+        }
         onChange={() => onChangeCheck('ac')}
       />
       <CheckCard
         label={t('profile.setup.step4.garden')}
         checked={amenities.garden}
         icon={
-          <SVG.Garden size="32px" alternativeColor={darkMode || amenities.garden ? '#fff' : ''} />
+          <SVG.Garden
+            size="32px"
+            alternativeColor={darkMode || amenities.garden ? '#fff' : ''}
+          />
         }
         onChange={() => onChangeCheck('garden')}
       />
@@ -161,7 +197,10 @@ const Step: FC<Props> = ({ locale, values, setValues, setEnableNext }) => {
         label={t('profile.setup.step4.laundry')}
         checked={amenities.laundry}
         icon={
-          <SVG.Laundry size="32px" alternativeColor={darkMode || amenities.laundry ? '#fff' : ''} />
+          <SVG.Laundry
+            size="32px"
+            alternativeColor={darkMode || amenities.laundry ? '#fff' : ''}
+          />
         }
         onChange={() => onChangeCheck('laundry')}
       />
@@ -169,7 +208,10 @@ const Step: FC<Props> = ({ locale, values, setValues, setEnableNext }) => {
         label="Pet friendly"
         checked={amenities.petFriendly}
         icon={
-          <SVG.Pet size="32px" alternativeColor={darkMode || amenities.petFriendly ? '#fff' : ''} />
+          <SVG.Pet
+            size="32px"
+            alternativeColor={darkMode || amenities.petFriendly ? '#fff' : ''}
+          />
         }
         onChange={() => onChangeCheck('petFriendly')}
       />
@@ -177,7 +219,10 @@ const Step: FC<Props> = ({ locale, values, setValues, setEnableNext }) => {
         label={t('profile.setup.step4.smokingArea')}
         checked={amenities.smoking}
         icon={
-          <SVG.Smoke size="32px" alternativeColor={darkMode || amenities.smoking ? '#fff' : ''} />
+          <SVG.Smoke
+            size="32px"
+            alternativeColor={darkMode || amenities.smoking ? '#fff' : ''}
+          />
         }
         onChange={() => onChangeCheck('smoking')}
       />
@@ -185,4 +230,4 @@ const Step: FC<Props> = ({ locale, values, setValues, setEnableNext }) => {
   )
 }
 
-export default Step
+export { Step4 }

@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 
-import { db } from '../../../db'
+import { db } from '../../..'
 import { handleErrorResponse } from '../../error'
 import { createCRUDRoutes } from '../../routerGenerator'
 import CRUD from './crud'

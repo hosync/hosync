@@ -2,7 +2,7 @@ import { eq } from 'drizzle-orm'
 
 import { DataResponse, ItemData } from '~/api/types'
 
-import { DB, GuestFields, Reservation, reservation } from '../../../db'
+import { DB, GuestFields, Reservation, reservation } from '../../..'
 import CRUDHandler from '../../CRUD'
 
 class CRUD extends CRUDHandler<Reservation> {

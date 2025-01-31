@@ -1,6 +1,6 @@
 import { desc } from 'drizzle-orm'
 
-import { db } from '.'
+import { db } from '..'
 import { business } from './schemas/business'
 import { setting } from './schemas/setting'
 import { user } from './schemas/user'

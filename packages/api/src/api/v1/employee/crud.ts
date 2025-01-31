@@ -1,4 +1,4 @@
-import { DB, Employee, employee } from '../../../db'
+import { DB, Employee, employee } from '../../..'
 import CRUDHandler from '../../CRUD'
 
 class CRUD extends CRUDHandler<Employee> {

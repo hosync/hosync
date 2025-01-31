@@ -12,6 +12,8 @@ plugins: ['@ianvs/prettier-plugin-sort-imports']
 importOrder:
   [
     '^react$',
+    '',
+    '^@hosync/api$',
     '^@hosync/utils$',
     '^@hookform/resolvers/zod$',
     '',

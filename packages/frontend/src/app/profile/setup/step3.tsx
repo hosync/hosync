@@ -1,7 +1,7 @@
 import React, { FC, useEffect } from 'react'
 
-import CabinSetup from './CabinSetup'
-import HotelSetup from './HotelSetup'
+import CabinSetup from './step3-cabin-setup'
+import HotelSetup from './step3-hotel-setup'
 
 type Props = {
   locale: string

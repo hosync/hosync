@@ -1,23 +1,28 @@
-import React, { ChangeEvent, FC, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
-import { cx, getCitiesByState, getStates } from '@hosgu/utils'
+import { cx, getCitiesByState, getStates } from '@hosync/utils'
 
-import i18n from '~/app/core/contexts/server/I18nContext'
 import EmailInput from '~/app/shared/components/Forms/Inputs/Profile/Email'
 import PasswordInput from '~/app/shared/components/Forms/Inputs/Profile/Password'
 import Input from '~/design-system/Input'
 
-type Props = {
+interface Step1Props {
   locale: string
   values: any
   errors: any
-  handleChange: (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void
+  handleChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => void
   setValues: any
   validate: any
 }
 
-const Step: FC<Props> = ({ locale, values, setValues, handleChange, errors }) => {
-  const t = i18n(locale)
+const Step1: React.FC<Step1Props> = ({
+  values,
+  setValues,
+  handleChange,
+  errors
+}) => {
   const [cities, setCities] = useState<string[]>([])
 
   useEffect(() => {
@@ -27,7 +32,9 @@ const Step: FC<Props> = ({ locale, values, setValues, handleChange, errors }) =>
     }
   }, [values.state, values.country])
 
-  const handleStateChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleStateChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     handleChange(e)
     const newCities = getCitiesByState(values.country, e.target.value)
     setCities(newCities)
@@ -39,7 +46,7 @@ const Step: FC<Props> = ({ locale, values, setValues, handleChange, errors }) =>
   return (
     <div className="mx-auto p-6 lg:w-[600px] flex flex-col md:flex-row md:flex-wrap bg-white dark:bg-gray-900 w-full">
       <div className="w-full md:w-1/2 md:pr-4">
-        <EmailInput label={t('common.user.email')} value={values.email} />
+        <EmailInput label="common.user.email" value={values.email} />
 
         <PasswordInput
           label="Password"
@@ -56,7 +63,9 @@ const Step: FC<Props> = ({ locale, values, setValues, handleChange, errors }) =>
           onChange={handleChange}
           placeholder="https://www.google.com/maps/place/..."
           required
-          className={errors.googleMaps ? 'border-red-500 dark:border-red-500' : ''}
+          className={
+            errors.googleMaps ? 'border-red-500 dark:border-red-500' : ''
+          }
           style={{ width: '100%', marginBottom: '2px' }}
         />
         <p className="text-red-500 mb-3 text-xxs ml-1 break-words max-w-[300px]">
@@ -67,7 +76,7 @@ const Step: FC<Props> = ({ locale, values, setValues, handleChange, errors }) =>
       <div className="w-full md:w-1/2 md:pl-4">
         <Input
           name="country"
-          label={t('common.general.country')}
+          label="common.general.country"
           value={values.country}
           onChange={handleChange}
           disabled
@@ -81,7 +90,7 @@ const Step: FC<Props> = ({ locale, values, setValues, handleChange, errors }) =>
         <Input
           autoComplete="new-password"
           name="state"
-          label={t('common.general.state')}
+          label="common.general.state"
           value={values.state}
           onChange={handleStateChange}
           required
@@ -92,12 +101,14 @@ const Step: FC<Props> = ({ locale, values, setValues, handleChange, errors }) =>
           style={{ width: '100%', marginBottom: '2px' }}
         />
 
-        <p className="text-red-500 mb-4 text-xxs ml-1 break-words max-w-[300px]">{errors.state}</p>
+        <p className="text-red-500 mb-4 text-xxs ml-1 break-words max-w-[300px]">
+          {errors.state}
+        </p>
 
         <Input
           autoComplete="new-password"
           name="city"
-          label={t('common.general.city')}
+          label="common.general.city"
           value={values.city}
           onChange={handleChange}
           required
@@ -108,12 +119,14 @@ const Step: FC<Props> = ({ locale, values, setValues, handleChange, errors }) =>
           style={{ width: '100%', marginBottom: '2px' }}
         />
 
-        <p className="text-red-500 mb-4 text-xxs ml-1 break-words max-w-[300px]">{errors.city}</p>
+        <p className="text-red-500 mb-4 text-xxs ml-1 break-words max-w-[300px]">
+          {errors.city}
+        </p>
 
         <Input
           autoComplete="new-password"
           name="address1"
-          label={t('common.business.address')}
+          label="common.business.address"
           value={values.address1}
           onChange={handleChange}
           placeholder={t('profile.setup.step1.streetAddress')}
@@ -129,7 +142,7 @@ const Step: FC<Props> = ({ locale, values, setValues, handleChange, errors }) =>
           name="address2"
           value={values.address2}
           onChange={handleChange}
-          placeholder={t('profile.setup.step1.placeholder')}
+          placeholder="profile.setup.step1.placeholder"
           required
           className={cx.join({
             'border-red-500 dark:border-red-500': errors.address1
@@ -144,7 +157,7 @@ const Step: FC<Props> = ({ locale, values, setValues, handleChange, errors }) =>
         <Input
           autoComplete="new-password"
           name="zipCode"
-          label={t('common.business.zipCode')}
+          label="common.business.zipCode"
           value={values.zipCode}
           onChange={handleChange}
           required
@@ -162,4 +175,4 @@ const Step: FC<Props> = ({ locale, values, setValues, handleChange, errors }) =>
   )
 }
 
-export default Step
+export { Step1 }

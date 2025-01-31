@@ -11,7 +11,9 @@
     "build:utils": "cd ./packages/utils && npm run build",
     "lint": "eslint ./packages/**/src",
     "utils:webpack:development": "webpack --config ./dist/config/webpack.config.js --env mode=production --env packageName=utils",
-    "utils:webpack:production": "webpack --config ./dist/config/webpack.config.js --env mode=production --env packageName=utils"
+    "utils:webpack:production": "webpack --config ./dist/config/webpack.config.js --env mode=production --env packageName=utils",
+    "api:webpack:development": "webpack --config ./dist/config/webpack.config.js --env mode=production --env packageName=api",
+    "api:webpack:production": "webpack --config ./dist/config/webpack.config.js --env mode=production --env packageName=api"
   },
   "devDependencies": {
     "@eslint/eslintrc": "3.2.0",

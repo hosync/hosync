@@ -1,4 +1,4 @@
-import { DB, Unit, unit } from '../../../db'
+import { DB, Unit, unit } from '../../..'
 import CRUDHandler from '../../CRUD'
 
 class CRUD extends CRUDHandler<Unit> {

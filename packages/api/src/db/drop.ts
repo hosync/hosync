@@ -1,6 +1,6 @@
 import { sql } from 'drizzle-orm'
 
-import { db } from '.' // Ensure the path is correct
+import { db } from '..' // Ensure the path is correct
 
 const dropAllTables = async (): Promise<void> => {
   try {

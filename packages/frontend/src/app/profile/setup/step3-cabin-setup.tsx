@@ -1,6 +1,5 @@
-import React, { FC, useEffect } from 'react'
+import { useEffect } from 'react'
 
-import i18n from '~/app/core/contexts/server/I18nContext'
 import Counter from '~/design-system/Counter'
 
 type Props = {
@@ -10,10 +9,8 @@ type Props = {
   setEnableNext: any
 }
 
-const Step: FC<Props> = ({ locale, values, setValues, setEnableNext }) => {
+const Step: React.FC<Props> = ({ values, setValues, setEnableNext }) => {
   const { guests, bathrooms, bedrooms, beds } = values
-
-  const t = i18n(locale)
 
   // Handlers for setting new values
   const handleGuestsChange = (count: number) => {

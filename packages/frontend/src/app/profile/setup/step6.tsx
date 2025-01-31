@@ -1,12 +1,11 @@
 'use client'
 
-import React, { FC, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
-import i18n from '~/app/core/contexts/server/I18nContext'
-import config from '~/config'
-import File from '~/design-system/File'
-import FilesPreviewer from '~/design-system/FilesPreviewer'
-import Modal from '~/design-system/Modal'
+import File from '@/components/ui/file'
+import FilesPreviewer from '@/components/ui/files-previewer'
+import Modal from '@/components/ui/modal'
+import config from '@/lib/config'
 
 type Props = {
   locale: string
@@ -15,9 +14,12 @@ type Props = {
   setEnableNext: (enableNext: boolean) => void
 }
 
-const Step: FC<Props> = ({ locale, uploadedFiles, setUploadedFiles, setEnableNext }) => {
+const Step: React.FC<Props> = ({
+  uploadedFiles,
+  setUploadedFiles,
+  setEnableNext
+}) => {
   const [isUploadPhotosOpen, setIsUploadPhotosOpen] = useState(true)
-  const t = i18n(locale)
 
   useEffect(() => {
     if (uploadedFiles.length > 0) {
@@ -44,11 +46,10 @@ const Step: FC<Props> = ({ locale, uploadedFiles, setUploadedFiles, setEnableNex
           >
             <File
               name="fileName"
-              locale={locale}
               label={
                 uploadedFiles.length === 0
-                  ? t('profile.setup.step6.dragYourPhoto')
-                  : t('profile.setup.step6.addMorePhotos')
+                  ? 'profile.setup.step6.dragYourPhoto'
+                  : 'profile.setup.step6.addMorePhotos'
               }
               maxFileSize={52000000}
               multiple
@@ -59,7 +60,6 @@ const Step: FC<Props> = ({ locale, uploadedFiles, setUploadedFiles, setEnableNex
         </div>
 
         <FilesPreviewer
-          locale={locale}
           files={uploadedFiles}
           setFiles={setUploadedFiles}
           isUploadPhotosOpen={isUploadPhotosOpen}

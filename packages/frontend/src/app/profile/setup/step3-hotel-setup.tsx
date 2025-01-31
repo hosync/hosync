@@ -1,7 +1,11 @@
 import React, { FC, useEffect, useState } from 'react'
 
-import i18n from '~/app/core/contexts/server/I18nContext'
-import { Floor, generateRooms, groupRoomsByFloor, Room } from '~/app/core/utils/hotel'
+import {
+  Floor,
+  generateRooms,
+  groupRoomsByFloor,
+  Room
+} from '@/lib/utils/hotel'
 
 const roomTypes = ['Single', 'Double', 'Penthouse', 'Studio', 'Deluxe']
 
@@ -16,14 +20,11 @@ type Props = {
 }
 
 const HotelSetup: FC<Props> = ({
-  locale,
   setParentRooms,
   setParentFloors,
   parentRooms,
   parentFloors
 }) => {
-  const t = i18n(locale)
-
   const [floors, setFloors] = useState<Floor[]>(parentFloors)
   const [rooms, setRooms] = useState<Room[]>(parentRooms)
   const [skipFloor13, setSkipFloor13] = useState<boolean>(true)
@@ -78,7 +79,9 @@ const HotelSetup: FC<Props> = ({
     const floorRooms = newFloors[floorIndex].rooms
 
     if (floorRooms.length < roomTypes.length) {
-      const nextType = roomTypes.find((type) => !floorRooms.some((room) => room.type === type))
+      const nextType = roomTypes.find(
+        (type) => !floorRooms.some((room) => room.type === type)
+      )
       if (nextType) {
         floorRooms.push({ count: 1, type: nextType })
         setFloors(newFloors)
@@ -121,7 +124,7 @@ const HotelSetup: FC<Props> = ({
   return (
     <div className="container mx-auto p-6 bg-white dark:bg-gray-800 shadow-md rounded-lg">
       <h2 className="text-2xl font-semibold mb-4 dark:text-white">
-        {t('profile.setup.hotelsetup.roomsetup')}
+        profile.setup.hotelsetup.roomsetup
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-4">
         {floors.map((floor, floorIndex) => (
@@ -135,33 +138,52 @@ const HotelSetup: FC<Props> = ({
             >
               X
             </button>
+
             <h3 className="text-xl font-semibold mb-4">Floor {floor.floor}</h3>
+
             {floor.rooms.map((room, roomIndex) => (
               <div key={roomIndex} className="mb-4 flex relative">
                 <div className="mr-4">
-                  <label className="block mb-1">{t('profile.setup.hotelsetup.roomcount')}</label>
+                  <label className="block mb-1">
+                    profile.setup.hotelsetup.roomcount
+                  </label>
                   <input
                     type="number"
                     value={room.count}
                     onChange={(e) =>
-                      handleRoomChange(floorIndex, roomIndex, 'count', Number(e.target.value))
+                      handleRoomChange(
+                        floorIndex,
+                        roomIndex,
+                        'count',
+                        Number(e.target.value)
+                      )
                     }
                     className="p-2 border rounded w-20 dark:bg-gray-700 dark:border-gray-600"
                   />
                 </div>
+
                 <div>
-                  <label className="block mb-1">{t('profile.setup.hotelsetup.roomtype')}</label>
+                  <label className="block mb-1">
+                    profile.setup.hotelsetup.roomtype
+                  </label>
+
                   <select
                     value={room.type}
                     onChange={(e) =>
-                      handleRoomChange(floorIndex, roomIndex, 'type', e.target.value)
+                      handleRoomChange(
+                        floorIndex,
+                        roomIndex,
+                        'type',
+                        e.target.value
+                      )
                     }
                     className="p-2 border rounded dark:bg-gray-700 dark:border-gray-600"
                   >
                     {roomTypes
                       .filter(
                         (type) =>
-                          !floor.rooms.some((room) => room.type === type) || room.type === type
+                          !floor.rooms.some((room) => room.type === type) ||
+                          room.type === type
                       )
                       .map((type) => (
                         <option key={type} value={type}>
@@ -183,14 +205,17 @@ const HotelSetup: FC<Props> = ({
                 onClick={() => handleAddRoomType(floorIndex)}
                 className="bg-blue-500 text-white py-2 px-4 rounded w-full"
               >
-                {t('profile.setup.hotelsetup.addroomtype')}
+                profile.setup.hotelsetup.addroomtype
               </button>
             )}
           </div>
         ))}
       </div>
-      <button onClick={handleAddFloor} className="bg-green-500 text-white py-2 px-4 rounded w-full">
-        {t('profile.setup.hotelsetup.addfloor')}
+      <button
+        onClick={handleAddFloor}
+        className="bg-green-500 text-white py-2 px-4 rounded w-full"
+      >
+        profile.setup.hotelsetup.addfloor
       </button>
       <div className="mt-4 flex items-center">
         <input
@@ -199,18 +224,21 @@ const HotelSetup: FC<Props> = ({
           onChange={() => setSkipFloor13(!skipFloor13)}
           className="mr-2"
         />
-        <label>{t('profile.setup.hotelsetup.dontskip13')}</label>
+        <label>profile.setup.hotelsetup.dontskip13</label>
       </div>
       <div className="mt-4">
         <h3 className="text-xl font-semibold mb-4">
-          {t('profile.setup.hotelsetup.generatedrooms')}
+          profile.setup.hotelsetup.generatedrooms
         </h3>
 
         {floorNumbers
           .slice()
           .sort((a, b) => b - a)
           .map((floor) => (
-            <div key={floor} className="mb-4 p-4 border rounded bg-gray-100 dark:bg-gray-800">
+            <div
+              key={floor}
+              className="mb-4 p-4 border rounded bg-gray-100 dark:bg-gray-800"
+            >
               <h3 className="text-xl font-semibold mb-4">Floor {floor}</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
                 {getFloorRooms(floor).map((room, index) => (
@@ -219,12 +247,14 @@ const HotelSetup: FC<Props> = ({
                     className="p-4 border rounded flex flex-col items-center dark:bg-gray-700 dark:border-gray-600"
                   >
                     <h4 className="text-lg font-semibold mb-2 text-gray-800 dark:text-gray-300">
-                      {t('profile.setup.hotelsetup.room')} {room.roomNumber}
+                      profile.setup.hotelsetup.room {room.roomNumber}
                     </h4>
+
                     <div className="mb-2 w-full">
                       <label className="block mb-1 text-center text-gray-800 dark:text-gray-300">
-                        {t('profile.setup.hotelsetup.roomtype')}
+                        profile.setup.hotelsetup.roomtype
                       </label>
+
                       <select
                         value={room.type}
                         onChange={(e) => {

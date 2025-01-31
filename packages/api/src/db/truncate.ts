@@ -1,6 +1,6 @@
 import { sql } from 'drizzle-orm'
 
-import { db } from '.'
+import { db } from '..'
 
 const clearDb = async (): Promise<void> => {
   await db.execute(sql.raw(`TRUNCATE TABLE "agent" CASCADE;`))

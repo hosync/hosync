@@ -1,4 +1,4 @@
-import { DB, Room, room } from '../../../db'
+import { DB, Room, room } from '../../..'
 import CRUDHandler from '../../CRUD'
 
 class CRUD extends CRUDHandler<Room> {

@@ -1,6 +1,6 @@
 import { eq } from 'drizzle-orm'
 
-import { business as businessTable, db } from '../../../db'
+import { business as businessTable, db } from '../../..'
 
 export const getBusinessBy = async (where: any): Promise<any> => {
   const response = await db

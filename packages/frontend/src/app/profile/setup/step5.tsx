@@ -1,18 +1,15 @@
 'use client'
 
-import React, { FC, useEffect, useState } from 'react'
-
-import i18n from '~/app/core/contexts/server/I18nContext'
+import { useEffect, useState } from 'react'
 
 type Props = {
-  locale: string
   values: any
   setValues: (values: any) => void
   enableNext: boolean
   setEnableNext: (enableNext: boolean) => void
 }
 
-const Step: FC<Props> = ({ locale, setValues, values }) => {
+const Step5: React.FC<Props> = ({ setValues, values }) => {
   const { price: propertyPrice, currency: originalCurrency } = values
 
   const [price, setPrice] = useState<number>(propertyPrice)
@@ -22,13 +19,19 @@ const Step: FC<Props> = ({ locale, setValues, values }) => {
   const [currency, setCurrency] = useState<string>(originalCurrency)
 
   const [checkInHour, setCheckInHour] = useState(values.checkInHour || '03')
-  const [checkInMinute, setCheckInMinute] = useState(values.checkInMinute || '00')
-  const [checkInPeriod, setCheckInPeriod] = useState(values.checkInPeriod || 'PM')
+  const [checkInMinute, setCheckInMinute] = useState(
+    values.checkInMinute || '00'
+  )
+  const [checkInPeriod, setCheckInPeriod] = useState(
+    values.checkInPeriod || 'PM'
+  )
   const [checkOutHour, setCheckOutHour] = useState(values.checkOutHour || '12')
-  const [checkOutMinute, setCheckOutMinute] = useState(values.checkOutMinute || '00')
-  const [checkOutPeriod, setCheckOutPeriod] = useState(values.checkOutPeriod || 'PM')
-
-  const t = i18n(locale)
+  const [checkOutMinute, setCheckOutMinute] = useState(
+    values.checkOutMinute || '00'
+  )
+  const [checkOutPeriod, setCheckOutPeriod] = useState(
+    values.checkOutPeriod || 'PM'
+  )
 
   useEffect(() => {
     setInputValue(price.toString())
@@ -249,4 +252,4 @@ const Step: FC<Props> = ({ locale, setValues, values }) => {
   )
 }
 
-export default Step
+export { Step5 }

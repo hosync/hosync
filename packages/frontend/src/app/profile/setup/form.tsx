@@ -2,38 +2,34 @@
 
 import React, { ChangeEvent, FC, useEffect, useState } from 'react'
 
-import { RenderIf } from '@hosgu/components'
-import { cookies, core, cx, files as fileUtils, security } from '@hosgu/utils'
+import { UserFields } from '@hosync/api'
+import { cookies, core, cx, files as fileUtils, security } from '@hosync/utils'
 
-import { setupProfile } from '~/app/core/actions/profile'
-import * as UserActions from '~/app/core/actions/user'
-import i18n from '~/app/core/contexts/server/I18nContext'
-import useCustomState from '~/app/core/hooks/useCustomState'
-import { Floor, floors, generateRooms, Room } from '~/app/core/utils/hotel'
-import StepIndicator from '~/app/shared/components/StepIndicator'
-import Button from '~/design-system/Button'
-import Notification from '~/design-system/Notification'
+import { setupProfile } from '@/actions/auth/profile'
+import * as UserActions from '@/actions/auth/user'
+import { RenderBlockIf } from '@/components/helpers/render-block-if'
+import { Button } from '@/components/ui/button'
+import { Notification } from '@/components/ui/notification'
+import useCustomState from '@/hooks/useCustomState'
+import { Floor, floors, generateRooms, Room } from '@/lib/utils/hotel'
 
-import { UserFields } from '../../../db'
-import Step1 from './Step1'
-import Step2 from './Step2'
-import Step3 from './Step3'
-import Step4 from './Step4'
-import Step5 from './Step5'
-import Step6 from './Step6'
-import Step7 from './Step7'
-import Step8 from './Step8'
+import { StepIndicator } from './step-indicator'
+import Step1 from './step1'
+import Step2 from './step2'
+import Step3 from './step3'
+import Step4 from './step4'
+import Step5 from './step5'
+import Step6 from './step6'
+import Step7 from './step7'
+import Step8 from './step8'
 
 type Props = {
   user: UserFields & {
     businessSlug: string
   }
-  locale: string
 }
 
-const Form: FC<Props> = ({ locale, user }) => {
-  const t = i18n(locale)
-
+const Form: FC<Props> = ({ user }) => {
   const [currentStep, setCurrentStep] = useCustomState(0)
 
   const [values, setValues] = useCustomState({
@@ -145,11 +141,15 @@ const Form: FC<Props> = ({ locale, user }) => {
 
     // Go to next step
     if (isValidStep) {
-      setCurrentStep((prev: number) => (prev < steps.length - 1 ? prev + 1 : prev))
+      setCurrentStep((prev: number) =>
+        prev < steps.length - 1 ? prev + 1 : prev
+      )
     }
   }
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target
 
     setValues((prevState) => ({
@@ -160,33 +160,35 @@ const Form: FC<Props> = ({ locale, user }) => {
 
   const validations = {
     propertyState: (value: string) => {
-      return !value ? t('profile.setup.error.pleaseEnterYourPropertyState') : ''
+      return !value ? 'profile.setup.error.pleaseEnterYourPropertyState' : ''
     },
     propertyName: (value: string) => {
-      return !value ? t('profile.setup.error.pleaseEnterYourPropertyName') : ''
+      return !value ? 'profile.setup.error.pleaseEnterYourPropertyName' : ''
     },
     propertyCity: (value: string) => {
       if (value.length < 3) {
-        return t('profile.setup.error.pleaseEnterAValidPropertyCity')
+        return 'profile.setup.error.pleaseEnterAValidPropertyCity'
       }
 
-      return !value ? t('profile.setup.error.pleaseEnterYourPropertyCity') : ''
+      return !value ? 'profile.setup.error.pleaseEnterYourPropertyCity' : ''
     },
     propertyAddress1: (value: string) => {
       if (value.length < 3) {
-        return t('profile.setup.error.pleaseEnterAValidPropertyAddress')
+        return 'profile.setup.error.pleaseEnterAValidPropertyAddress'
       }
 
-      return !value ? t('profile.setup.error.pleaseEnterYourPropertyAddress') : ''
+      return !value ? 'profile.setup.error.pleaseEnterYourPropertyAddress' : ''
     },
     propertyZipCode: (value: string) => {
       const zipCodePattern = /^\d{5}$/
 
       if (!zipCodePattern.test(value)) {
-        return t('profile.setup.error.pleaseEnterAValidPropertyPostalCode')
+        return 'profile.setup.error.pleaseEnterAValidPropertyPostalCode'
       }
 
-      return !value ? t('profile.setup.error.pleaseEnterYourPropertyPostalCode') : ''
+      return !value
+        ? 'profile.setup.error.pleaseEnterYourPropertyPostalCode'
+        : ''
     },
     googleMaps: (value: string) => {
       if (
@@ -200,11 +202,11 @@ const Form: FC<Props> = ({ locale, user }) => {
       }
 
       return !value
-        ? t('profile.setup.error.pleaseEnterYourGoogleMaps')
-        : t('profile.setup.error.pleaseEnterAValidGoogleMaps')
+        ? 'profile.setup.error.pleaseEnterYourGoogleMaps'
+        : 'profile.setup.error.pleaseEnterAValidGoogleMaps'
     },
     propertyPrice: (value: number) => {
-      return !value ? t('profile.setup.error.pleaseEnterYourNightPrice') : ''
+      return !value ? 'profile.setup.error.pleaseEnterYourNightPrice' : ''
     }
   }
 
@@ -215,23 +217,23 @@ const Form: FC<Props> = ({ locale, user }) => {
       const passwordValidation = security.password.validation(values.password)
 
       if (passwordValidation.reasons?.includes('length')) {
-        setErrors('password', t('profile.setup.validation.passwordLength'))
+        setErrors('password', 'profile.setup.validation.passwordLength')
         tmpErrors.push('password')
         return tmpErrors
       } else if (passwordValidation.reasons?.includes('lowercase')) {
-        setErrors('password', t('profile.setup.validation.passwordLowercase'))
+        setErrors('password', 'profile.setup.validation.passwordLowercase')
         tmpErrors.push('password')
         return tmpErrors
       } else if (passwordValidation.reasons?.includes('uppercase')) {
-        setErrors('password', t('profile.setup.validation.passwordUppercase'))
+        setErrors('password', 'profile.setup.validation.passwordUppercase')
         tmpErrors.push('password')
         return tmpErrors
       } else if (passwordValidation.reasons?.includes('digit')) {
-        setErrors('password', t('profile.setup.validation.passwordDigit'))
+        setErrors('password', 'profile.setup.validation.passwordDigit')
         tmpErrors.push('password')
         return tmpErrors
       } else if (passwordValidation.reasons?.includes('special')) {
-        setErrors('password', t('profile.setup.validation.passwordSpecial'))
+        setErrors('password', 'profile.setup.validation.passwordSpecial')
         tmpErrors.push('password')
         return tmpErrors
       }
@@ -388,17 +390,15 @@ const Form: FC<Props> = ({ locale, user }) => {
   const steps = [
     <Step1
       key="step1"
-      locale={locale}
       values={values}
       setValues={setValues}
       errors={errors}
       handleChange={handleChange}
       validate={validate}
     />,
-    <Step2 key="step2" locale={locale} setValues={setValues} setStep={setCurrentStep} />,
+    <Step2 key="step2" setValues={setValues} setStep={setCurrentStep} />,
     <Step3
       key="step3"
-      locale={locale}
       values={values}
       setValues={setValues}
       setParentFloors={setParentFloors}
@@ -411,14 +411,12 @@ const Form: FC<Props> = ({ locale, user }) => {
     />,
     <Step4
       key="step4"
-      locale={locale}
       values={values}
       setValues={setValues}
       setEnableNext={setEnableNext}
     />,
     <Step5
       key="step5"
-      locale={locale}
       values={values}
       setValues={setValues}
       enableNext={enableNext}
@@ -426,7 +424,6 @@ const Form: FC<Props> = ({ locale, user }) => {
     />,
     <Step6
       key="step6"
-      locale={locale}
       setUploadedFiles={setUploadedFiles}
       uploadedFiles={uploadedFiles}
       setEnableNext={setEnableNext}
@@ -434,11 +431,10 @@ const Form: FC<Props> = ({ locale, user }) => {
     <Step7
       key="step7"
       values={values}
-      locale={locale}
       parentFloors={parentFloors}
       parentRooms={parentRooms}
     />,
-    <Step8 key="step8" locale={locale} />
+    <Step8 key="step8" />
   ]
 
   useEffect(() => {
@@ -455,9 +451,9 @@ const Form: FC<Props> = ({ locale, user }) => {
 
   return (
     <>
-      <RenderIf isTrue={showNotification}>
+      <RenderBlockIf isTrue={showNotification}>
         <Notification message="Error on saving profile data" type="error" />
-      </RenderIf>
+      </RenderBlockIf>
 
       <div
         className={cx.join(
@@ -474,14 +470,14 @@ const Form: FC<Props> = ({ locale, user }) => {
             }}
           >
             <h2 className="p-0 text-2xl font-bold mb-2 text-gray-800 text-center dark:text-gray-300">
-              {currentStep === 0 && t('profile.setup.step1.headline')}
-              {currentStep === 1 && t('profile.setup.step2.headline')}
+              {currentStep === 0 && 'profile.setup.step1.headline'}
+              {currentStep === 1 && 'profile.setup.step2.headline'}
               {currentStep === 2 &&
                 `${t('profile.setup.step3.headline')} ${values.propertyType === 'cabin' ? t('common.general.cabin') : t('common.general.hotel')}`}
-              {currentStep === 3 && t('profile.setup.step4.headline')}
-              {currentStep === 4 && t('profile.setup.step5.headline')}
-              {currentStep === 5 && t('profile.setup.step6.headline')}
-              {currentStep === 6 && t('profile.setup.step7.headline')}
+              {currentStep === 3 && 'profile.setup.step4.headline'}
+              {currentStep === 4 && 'profile.setup.step5.headline'}
+              {currentStep === 5 && 'profile.setup.step6.headline'}
+              {currentStep === 6 && 'profile.setup.step7.headline'}
             </h2>
 
             {steps[currentStep]}
@@ -489,30 +485,32 @@ const Form: FC<Props> = ({ locale, user }) => {
         </div>
       </div>
 
-      <RenderIf isTrue={currentStep < 7}>
+      <RenderBlockIf isTrue={currentStep < 7}>
         <div className="sticky h-20 mt-3 bg-white dark:bg-gray-900 z-50 pt-4 border-t border-gray-100 dark:border-gray-800">
           <div className="flex items-center h-full">
             <div className="flex w-full justify-between items-center">
               <Button color="dark" onClick={goBack} className="mr-4 h-12">
-                {t('common.general.back')}
+                common.general.back
               </Button>
 
-              <StepIndicator locale={locale} steps={8} currentStep={currentStep + 1} />
+              <StepIndicator steps={8} currentStep={currentStep + 1} />
 
-              <RenderIf isTrue={currentStep !== 1}>
+              <RenderBlockIf isTrue={currentStep !== 1}>
                 <Button
                   color="primary"
                   onClick={validateBeforeGoNext}
                   disabled={!enableNext}
                   className="h-12"
                 >
-                  {currentStep < 6 ? t('common.general.next') : t('common.general.finish')}
+                  {currentStep < 6
+                    ? 'common.general.next'
+                    : 'common.general.finish'}
                 </Button>
-              </RenderIf>
+              </RenderBlockIf>
             </div>
           </div>
         </div>
-      </RenderIf>
+      </RenderBlockIf>
     </>
   )
 }

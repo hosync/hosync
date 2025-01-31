@@ -1,6 +1,6 @@
 import express, { Request, RequestHandler, Response, Router } from 'express'
 
-import { db } from '../db'
+import { db } from '..'
 import { handleErrorResponse } from './error'
 import { ICRUDHandler } from './types'
 

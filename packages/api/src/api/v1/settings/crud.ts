@@ -1,4 +1,4 @@
-import { DB, Setting, setting } from '../../../db'
+import { DB, Setting, setting } from '../../..'
 import CRUDHandler from '../../CRUD'
 
 class CRUD extends CRUDHandler<Setting> {

@@ -1,4 +1,4 @@
-import { Business, business, DB } from '../../../db'
+import { Business, business, DB } from '../../..'
 import CRUDHandler from '../../CRUD'
 import { getBusinessBy } from './actions'
 

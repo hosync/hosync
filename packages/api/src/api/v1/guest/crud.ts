@@ -1,6 +1,6 @@
 import { security } from '@hosync/utils'
 
-import { DB, Guest, guest } from '../../../db'
+import { DB, Guest, guest } from '../../..'
 import CRUDHandler from '../../CRUD'
 
 class CRUD extends CRUDHandler<Guest> {

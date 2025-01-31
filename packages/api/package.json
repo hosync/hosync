@@ -7,8 +7,6 @@
     "dist"
   ],
   "scripts": {
-    "clean": "rm -rf ./dist",
-    "compile": "tsc",
     "db:drop": "node -r ts-node/register --env-file .env ./src/db/drop.ts",
     "db:migrations:drop": "drizzle-kit drop --config=drizzle.config.ts",
     "db:migrations:generate": "drizzle-kit generate --config=drizzle.config.ts",
@@ -17,7 +15,13 @@
     "db:studio": "drizzle-kit studio",
     "db:truncate": "node -r ts-node/register --env-file .env ./src/db/truncate.ts",
     "dev": "nodemon",
-    "lint": "npm run --prefix ../../ lint"
+    "lint": "npm run --prefix ../../ lint",
+    "build:dev": "cross-env NODE_ENV=development npm-run-all clean compile webpack:development",
+    "build": "cross-env NODE_ENV=production npm-run-all clean compile webpack:production",
+    "clean": "rm -rf ./dist",
+    "compile": "tsc",
+    "webpack:development": "npm run --prefix ../../ api:webpack:development",
+    "webpack:production": "npm run --prefix ../../ api:webpack:production"
   },
   "license": "MIT",
   "dependencies": {

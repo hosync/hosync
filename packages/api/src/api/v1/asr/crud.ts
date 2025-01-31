@@ -1,4 +1,4 @@
-import { ASR, asrTbl, DB } from '../../../db'
+import { ASR, asrTbl, DB } from '../../..'
 import CRUDHandler from '../../CRUD'
 
 class CRUD extends CRUDHandler<ASR> {

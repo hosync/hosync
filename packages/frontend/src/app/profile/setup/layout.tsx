@@ -1,12 +1,10 @@
-import { FC, ReactElement } from 'react'
-
 import { Header } from '@/components/layout/header'
 
 type Props = {
-  children: ReactElement
+  children: React.ReactElement
 }
 
-const Layout: FC<Props> = async ({ children }) => {
+const Layout: React.FC<Props> = async ({ children }) => {
   return (
     <main>
       <div className="sticky top-0 z-50 bg-white dark:bg-black dark:text-white">

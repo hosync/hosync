@@ -1,4 +1,4 @@
-import { Commission, commission, DB } from '../../../db'
+import { Commission, commission, DB } from '../../..'
 import CRUDHandler from '../../CRUD'
 
 class CRUD extends CRUDHandler<Commission> {

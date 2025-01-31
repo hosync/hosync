@@ -1,19 +1,13 @@
 'use client'
 
 import Image from 'next/image'
-import React, { FC } from 'react'
 
-import i18n from '~/app/core/contexts/server/I18nContext'
-
-type Props = {
-  locale: string
+interface Step2Props {
   setValues: any
   setStep: any
 }
 
-const Step: FC<Props> = ({ locale = 'en-us', setValues, setStep }) => {
-  const t = i18n(locale)
-
+const Step2: React.FC<Step2Props> = ({ setValues, setStep }) => {
   return (
     <>
       <div className="flex w-full justify-between mt-20">
@@ -26,15 +20,21 @@ const Step: FC<Props> = ({ locale = 'en-us', setValues, setStep }) => {
             }))
             setStep((prevState: any) => prevState + 1)
           }}
-          title={t('common.general.cabin')}
+          title="common.general.cabin"
         >
           <div className="w-24 h-24 ml-14 mb-2 bg-gray-300 dark:bg-black rounded-full flex items-center justify-center">
-            <Image src="/images/icons/cabin.png" alt="Cabin" width={64} height={64} />
+            <Image
+              src="/images/icons/cabin.png"
+              alt="Cabin"
+              width={64}
+              height={64}
+            />
           </div>
           <div className="text-center text-base font-bold">
-            {t('profile.setup.step2.entirePlace')}
+            profile.setup.step2.entirePlace
           </div>
-          <div className="text-center text-sm">{t('profile.setup.step2.cabin')}</div>
+
+          <div className="text-center text-sm">profile.setup.step2.cabin</div>
         </div>
 
         <div
@@ -46,17 +46,28 @@ const Step: FC<Props> = ({ locale = 'en-us', setValues, setStep }) => {
             }))
             setStep((prevState: any) => prevState + 1)
           }}
-          title={t('common.general.hotel')}
+          title="common.general.hotel"
         >
           <div className="w-24 h-24 mx-auto mb-2 bg-gray-300 dark:bg-black rounded-full flex items-center justify-center">
-            <Image src="/images/icons/hotel.png" alt="Hotel" width={64} height={64} />
+            <Image
+              src="/images/icons/hotel.png"
+              alt="Hotel"
+              width={64}
+              height={64}
+            />
           </div>
-          <div className="text-center text-base font-bold">{t('profile.setup.step2.hotel')}</div>
-          <div className="text-center text-sm">{t('profile.setup.step2.hotelPlaceholder')}</div>
+
+          <div className="text-center text-base font-bold">
+            profile.setup.step2.hotel
+          </div>
+
+          <div className="text-center text-sm">
+            profile.setup.step2.hotelPlaceholder
+          </div>
         </div>
       </div>
     </>
   )
 }
 
-export default Step
+export { Step2 }

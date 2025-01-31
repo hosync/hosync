@@ -1,9 +1,8 @@
 import { eq } from 'drizzle-orm'
 import jwt from 'jsonwebtoken'
-
 import { api, is, security } from '@hosync/utils'
 
-import { business as businessTable, db, user as userTable } from '../../../db'
+import { business as businessTable, db, user as userTable } from '../../..'
 import { expiresIn, secretKey, UsersFields, usersFields } from './props'
 
 export type Login = {

@@ -1,4 +1,4 @@
-import { Cancellation, cancellation, DB } from '../../../db'
+import { Cancellation, cancellation, DB } from '../../..'
 import CRUDHandler from '../../CRUD'
 
 class CRUD extends CRUDHandler<Cancellation> {

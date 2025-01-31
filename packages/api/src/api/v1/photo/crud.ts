@@ -1,4 +1,4 @@
-import { DB, Photo, photo } from '../../../db'
+import { DB, Photo, photo } from '../../..'
 import CRUDHandler from '../../CRUD'
 
 class CRUD extends CRUDHandler<Photo> {

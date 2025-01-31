@@ -2,10 +2,9 @@ import { NextPage } from 'next'
 
 import * as UserActions from '@/actions/auth/user'
 import { NotFound } from '@/components/ui/not-found'
-import config from '@/lib/config'
 import * as cookies from '@/lib/cookies'
 
-import ProfileSetupForm from './components/Form'
+import ProfileSetupForm from './form'
 
 type Props = {
   params: {

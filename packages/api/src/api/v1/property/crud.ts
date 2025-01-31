@@ -1,4 +1,4 @@
-import { DB, Property, property } from '../../../db'
+import { DB, Property, property } from '../../..'
 import CRUDHandler from '../../CRUD'
 
 class CRUD extends CRUDHandler<Property> {

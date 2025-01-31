@@ -1,9 +1,8 @@
 import { Column, TableConfig } from 'drizzle-orm'
 import { PgTable } from 'drizzle-orm/pg-core'
-
 import { is, security } from '@hosync/utils'
 
-import { DB, sql, SQL } from '../db'
+import { DB, sql, SQL } from '..'
 import { DataResponse, ItemData } from './types'
 
 type TableColumns = {
