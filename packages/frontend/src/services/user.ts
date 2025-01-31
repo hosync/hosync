@@ -1,6 +1,6 @@
 import { api, security, slug } from '@hosync/utils'
 
-import * as cookies from '@/lib/cookies'
+import * as cookies from '@/lib/utils/cookies'
 import { APIResponse, CreatedItem, Token } from '@/types/api'
 
 import ServiceHandler from './Service'

@@ -2,7 +2,7 @@ import { NextPage } from 'next'
 
 import * as UserActions from '@/actions/auth/user'
 import { NotFound } from '@/components/ui/not-found'
-import * as cookies from '@/lib/cookies'
+import * as cookies from '@/lib/utils/cookies'
 
 import ProfileSetupForm from './form'
 

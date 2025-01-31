@@ -37,6 +37,10 @@ export default auth((req) => {
     return Response.redirect(new URL('/auth/login', nextUrl))
   }
 
+  if (nextUrl.pathname === '/logout') {
+    return Response.redirect(new URL('/auth/logout', nextUrl))
+  }
+
   return NextResponse.next()
 })
 

@@ -1,11 +1,12 @@
 import type { Metadata, Viewport } from 'next'
 import { SessionProvider } from 'next-auth/react'
 import { Inter } from 'next/font/google'
+
 import { cx } from '@hosync/utils'
 
 import { ThemeProvider } from '@/contexts/theme-context'
 import config from '@/lib/config'
-import * as cookies from '@/lib/cookies'
+import * as cookies from '@/lib/utils/cookies'
 
 import './globals.css'
 

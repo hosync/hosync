@@ -2,7 +2,7 @@ import { redirect } from 'next/navigation'
 import { FC, ReactElement } from 'react'
 
 import * as UserActions from '@/actions/auth/user'
-import * as cookies from '@/lib/cookies'
+import * as cookies from '@/lib/utils/cookies'
 
 import Header from './components/Header'
 
