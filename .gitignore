@@ -39,6 +39,8 @@ next-env.d.ts
 packages/*/node_modules
 packages/*/dist
 packages/*/.next
+packages/*/.env
+packages/*/.env.local
 
 package-lock.json
 yarn.lock
