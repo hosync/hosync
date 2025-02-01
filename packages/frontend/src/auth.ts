@@ -8,6 +8,8 @@ import { LoginSchema } from './schemas'
 
 export const BASE_PATH = '/api/auth'
 
+const scope = 'openid email profile https://www.googleapis.com/auth/contacts'
+
 async function refreshAccessToken(token: any) {
   try {
     const body = {
@@ -51,7 +53,7 @@ const authOptions: NextAuthConfig = {
           const { email, password } = validatedFields.data
 
           const body = {
-            emailOrUsername: email.toLowerCase(),
+            email: email.toLowerCase(),
             password: security.password.encrypt(password)
           }
 
@@ -69,7 +71,6 @@ const authOptions: NextAuthConfig = {
             const { items } = response
             const user = items[0].user
 
-            console.log('USER===>', items[0].user)
             return {
               id: user.id,
               name: user.fullName,
@@ -87,8 +88,7 @@ const authOptions: NextAuthConfig = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       authorization: {
         params: {
-          scope:
-            'openid email profile https://www.googleapis.com/auth/contacts',
+          scope,
           access_type: 'offline',
           prompt: 'consent'
         }
@@ -99,11 +99,13 @@ const authOptions: NextAuthConfig = {
     async jwt({
       token,
       account,
-      user
+      user,
+      profile
     }: {
       token: any
       account: any
       user: any
+      profile: any
     }) {
       if (user) {
         token.id = user.id // Add the user ID to the token
@@ -135,7 +137,29 @@ const authOptions: NextAuthConfig = {
     },
     async signIn(allData: any) {
       console.log('ALL DATA ===>', allData)
-      return true
+
+      try {
+        const response = await api.fetch<any>(
+          `${process.env.API_URL}/api/v1/account/link`,
+          {
+            method: 'POST',
+            body: {
+              ...allData,
+              scope
+            }
+          }
+        )
+
+        const connectedUser = response.items[0]
+
+        return (
+          connectedUser.active &&
+          allData.account.providerAccountId === connectedUser.providerAccountId
+        )
+      } catch (error) {
+        console.error('Error linking account:', error)
+        return true
+      }
     }
   },
   basePath: BASE_PATH,
