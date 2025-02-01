@@ -63,7 +63,7 @@ export const initialSignup = async (
     businessWebsite,
     country
   })
-  console.log('RESPONSE', response)
+
   return response
 }
 

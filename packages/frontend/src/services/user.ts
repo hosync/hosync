@@ -79,10 +79,22 @@ class Service extends ServiceHandler {
         }
       },
       ({ items }: any) => ({
-        url: `${process.env.API_URL}/api/v1/business/create`,
+        url: `${process.env.API_URL}/api/v1/account/create`,
         method: 'POST',
         body: {
           userId: items[0].id,
+          provider: 'credentials',
+          providerAccountId: '',
+          accessToken: '',
+          refreshToken: '',
+          scope: ''
+        }
+      }),
+      ({ items }: any) => ({
+        url: `${process.env.API_URL}/api/v1/business/create`,
+        method: 'POST',
+        body: {
+          userId: items[0].userId,
           type: 'cabin',
           name: businessName,
           slug: slug(businessName),

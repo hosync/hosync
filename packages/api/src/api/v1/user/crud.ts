@@ -3,7 +3,7 @@ import { security } from '@hosync/utils'
 import { DB, User, UserFields, user as userTable } from '../../..'
 import CRUDHandler from '../../CRUD'
 import { DataResponse, ItemData } from '../../types'
-import { authenticate, getUserBy, getUserData, Login } from './actions'
+import { authenticate, getUserBy, Login } from './actions'
 
 const roles = [
   'global.god',

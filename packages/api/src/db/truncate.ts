@@ -3,29 +3,36 @@ import { sql } from 'drizzle-orm'
 import { db } from '..'
 
 const clearDb = async (): Promise<void> => {
-  await db.execute(sql.raw(`TRUNCATE TABLE "agent" CASCADE;`))
-  await db.execute(sql.raw(`TRUNCATE TABLE "asr" CASCADE;`))
-  await db.execute(sql.raw(`TRUNCATE TABLE "asset" CASCADE;`))
-  await db.execute(sql.raw(`TRUNCATE TABLE "business" CASCADE;`))
-  await db.execute(sql.raw(`TRUNCATE TABLE "cancellation" CASCADE;`))
-  await db.execute(sql.raw(`TRUNCATE TABLE "commission" CASCADE;`))
-  await db.execute(sql.raw(`TRUNCATE TABLE "employee" CASCADE;`))
-  await db.execute(sql.raw(`TRUNCATE TABLE "fee" CASCADE;`))
-  await db.execute(sql.raw(`TRUNCATE TABLE "guest" CASCADE;`))
-  await db.execute(sql.raw(`TRUNCATE TABLE "housekeeping" CASCADE;`))
-  await db.execute(sql.raw(`TRUNCATE TABLE "invoice" CASCADE;`))
-  await db.execute(sql.raw(`TRUNCATE TABLE "photo" CASCADE;`))
-  await db.execute(sql.raw(`TRUNCATE TABLE "property" CASCADE;`))
-  await db.execute(sql.raw(`TRUNCATE TABLE "reservation" CASCADE;`))
-  await db.execute(sql.raw(`TRUNCATE TABLE "room" CASCADE;`))
-  await db.execute(sql.raw(`TRUNCATE TABLE "setting" CASCADE;`))
-  await db.execute(sql.raw(`TRUNCATE TABLE "tier" CASCADE;`))
-  await db.execute(sql.raw(`TRUNCATE TABLE "unit" CASCADE;`))
-  await db.execute(sql.raw(`TRUNCATE TABLE "user" CASCADE;`))
+  try {
+    // Fetch all table names from PostgreSQL system catalog
+    const tables = await db.execute<{ tablename: string }>(
+      sql.raw(`
+        SELECT tablename
+        FROM pg_tables
+        WHERE schemaname = 'public'
+      `)
+    )
 
-  console.log('Database cleared')
+    // Extract table names
+    const tableNames = tables.map((row) => row.tablename)
 
-  process.exit()
+    if (tableNames.length === 0) {
+      console.log('No tables found to truncate.')
+      process.exit(0)
+    }
+
+    // Construct TRUNCATE query dynamically with CASCADE
+    const truncateQuery = `TRUNCATE TABLE ${tableNames.map((t) => `"${t}"`).join(', ')} CASCADE;`
+
+    // Execute truncation
+    await db.execute(sql.raw(truncateQuery))
+
+    console.log('Database cleared')
+  } catch (error) {
+    console.error('Error clearing database:', error)
+  } finally {
+    process.exit()
+  }
 }
 
 clearDb()
