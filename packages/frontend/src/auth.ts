@@ -96,17 +96,10 @@ const authOptions: NextAuthConfig = {
     })
   ],
   callbacks: {
-    async jwt({
-      token,
-      account,
-      user,
-      profile
-    }: {
-      token: any
-      account: any
-      user: any
-      profile: any
-    }) {
+    async jwt(params: { token: any; account: any; user: any; profile?: any }) {
+      console.log('JWT COMPLETA===>', params)
+      const { token, account, user } = params
+
       if (user) {
         token.id = user.id // Add the user ID to the token
         token.role = user.role // Add custom role field
@@ -129,7 +122,9 @@ const authOptions: NextAuthConfig = {
 
       return token
     },
-    async session({ session, token }: any) {
+    async session(params: any) {
+      console.log('SESSION COMPLETA===>', params)
+      const { session, token } = params
       session.user.id = token.id
       session.user.role = token.role
       session.user.accessToken = token.accessToken
@@ -150,12 +145,12 @@ const authOptions: NextAuthConfig = {
           }
         )
 
-        const connectedUser = response.items[0]
+        // const connectedUser = response.items[0]
+        // const isActive = connectedUser.active
+        // const isLinked =
+        //   connectedUser.providerAccountId === allData.account.providerAccountId
 
-        return (
-          connectedUser.active &&
-          allData.account.providerAccountId === connectedUser.providerAccountId
-        )
+        return true
       } catch (error) {
         console.error('Error linking account:', error)
         return true
