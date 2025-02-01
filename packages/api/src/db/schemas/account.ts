@@ -11,9 +11,10 @@ export const account = pgTable('account', {
   providerAccountId: varchar('providerAccountId', { length: 255 }),
   accessToken: text('accessToken'),
   refreshToken: text('refreshToken'),
+  scope: varchar('scope', { length: 255 }),
   createdAt: timestamp('createdAt').defaultNow(),
   updatedAt: timestamp('updatedAt').defaultNow()
 })
 
-export type Account = typeof user
-export type UserFields = typeof user.$inferSelect
+export type Account = typeof account
+export type AccountFields = typeof account.$inferSelect

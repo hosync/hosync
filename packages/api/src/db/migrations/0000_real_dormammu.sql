@@ -5,6 +5,7 @@ CREATE TABLE "account" (
 	"providerAccountId" varchar(255),
 	"accessToken" text,
 	"refreshToken" text,
+	"scope" varchar(255),
 	"createdAt" timestamp DEFAULT now(),
 	"updatedAt" timestamp DEFAULT now()
 );

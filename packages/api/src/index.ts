@@ -15,6 +15,7 @@ export const sql = sqlQuery
 export type SQL = typeof sql
 export type DB = typeof db
 
+export * from './db/schemas/account'
 export * from './db/schemas/agent'
 export * from './db/schemas/asr'
 export * from './db/schemas/asset'
