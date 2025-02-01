@@ -1,8 +1,10 @@
 'use client'
 
 import React, { FC, useState } from 'react'
+
 import { constants, core, is } from '@hosync/utils'
 
+import * as UserActions from '@/actions/auth/user'
 import { RenderBlockIf } from '@/components/helpers/render-block-if'
 import { SVG } from '@/components/svg'
 import { Button } from '@/components/ui/button'
@@ -109,7 +111,7 @@ const Registration: FC<Props> = ({ fromRegisterPage = false }) => {
       businessWebsite: validations.businessWebsite(values.businessWebsite),
       country: validations.country(values.country)
     }
-
+    console.log('newErrors', newErrors)
     setErrors(newErrors)
 
     return (
@@ -128,8 +130,9 @@ const Registration: FC<Props> = ({ fromRegisterPage = false }) => {
     const formData = new FormData(e.target)
 
     const values = core.formData.get(formData)
+    console.log('values', values)
     const isValidForm = validate(values)
-
+    console.log('isValidForm', isValidForm)
     if (isValidForm) {
       const response = await UserActions.initialSignup(formData)
 

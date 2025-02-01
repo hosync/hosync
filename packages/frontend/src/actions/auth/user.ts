@@ -3,8 +3,7 @@
 import { core, security } from '@hosync/utils'
 
 import UserService from '@/services/user'
-
-import { APIResponse, CreatedItem, Token } from '~/types'
+import { APIResponse, CreatedItem } from '@/types/api'
 
 export const getAll = async () => {
   const response = await UserService.getAll({ endpoint: 'user/' })
@@ -30,6 +29,13 @@ export const initialSignup = async (
     businessWebsite,
     country
   } = core.formData.get(e)
+
+  console.log('fullName', fullName)
+  console.log('businessName', businessName)
+  console.log('businessEmail', businessEmail)
+  console.log('businessPhone', businessPhone)
+  console.log('businessWebsite', businessWebsite)
+  console.log('country', country)
 
   if (
     !fullName ||
@@ -57,7 +63,7 @@ export const initialSignup = async (
     businessWebsite,
     country
   })
-
+  console.log('RESPONSE', response)
   return response
 }
 
