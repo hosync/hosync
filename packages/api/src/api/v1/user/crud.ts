@@ -22,42 +22,6 @@ class CRUD extends CRUDHandler<User> {
     super(db, userTable)
   }
 
-  async getOne(at: string): Promise<DataResponse<ItemData>> {
-    const connectedUser = await getUserData(at)
-
-    if (connectedUser) {
-      // Re-validating if the user is still valid
-      const user = await getUserBy(
-        {
-          id: connectedUser.id,
-          email: connectedUser.email,
-          active: connectedUser.active
-        },
-        roles,
-        stringFields
-      )
-
-      if (user?.id) {
-        return {
-          items: [user],
-          isLogged: true
-        }
-      } else {
-        throw {
-          type: 'NOT_FOUND_ERROR',
-          code: 'USER_NOT_FOUND',
-          message: 'userNotFound'
-        }
-      }
-    }
-
-    throw {
-      type: 'UNAUTHORIZED_ERROR',
-      code: 'INVALID_TOKEN',
-      message: 'invalidToken'
-    }
-  }
-
   async create({
     user
   }: {
@@ -130,11 +94,11 @@ class CRUD extends CRUDHandler<User> {
   }
 
   async login({
-    emailOrUsername = '',
+    email = '',
     password = ''
   }: Login): Promise<DataResponse<ItemData>> {
     try {
-      const user = await authenticate(emailOrUsername, password)
+      const user = await authenticate(email, password)
 
       return {
         items: [

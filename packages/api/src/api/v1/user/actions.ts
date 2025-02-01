@@ -1,84 +1,22 @@
 import { eq } from 'drizzle-orm'
-import jwt from 'jsonwebtoken'
-import { api, is, security } from '@hosync/utils'
+
+import { api, security } from '@hosync/utils'
 
 import { business as businessTable, db, user as userTable } from '../../..'
-import { expiresIn, secretKey, UsersFields, usersFields } from './props'
+import { UsersFields, usersFields } from './props'
 
 export type Login = {
-  emailOrUsername: string
+  email: string
   password: string
 }
 
-export const createToken = async (user: any): Promise<string[] | string> => {
-  const {
-    id,
-    tier,
-    fullName,
-    password,
-    email,
-    active,
-    role,
-    businessId,
-    businessLogo,
-    businessName,
-    businessSlug
-  } = user
-
-  const token = security.base64.encode(
-    `${security.password.encrypt(secretKey)}${password}`,
-    true
-  )
-  const userData = {
-    id,
-    tier,
-    role,
-    fullName,
-    email,
-    active,
-    token,
-    businessId,
-    businessLogo,
-    businessName,
-    businessSlug
-  }
-
-  // @ts-ignore
-  const createTk = jwt.sign(
-    { data: security.base64.encode(userData, true) },
-    secretKey,
-    {
-      expiresIn
-    }
-  )
-
-  return Promise.all([createTk])
-}
-
-export function jwtVerify(accessToken = '', cb: any): any {
-  const token = security.string.deobfuscate(accessToken)
-
-  jwt.verify(token, secretKey, (error: any, accessTokenData: any = {}) => {
-    const { data: user } = accessTokenData
-
-    if (error || !user) {
-      return cb(false)
-    }
-
-    const userData = security.base64.decode(user, true)
-
-    return cb(userData)
-  })
-}
-
 export const getUserData = async (accessToken: any): Promise<any> => {
-  const UserPromise = new Promise((resolve) =>
-    jwtVerify(accessToken, (user: any) => resolve(user))
-  )
+  const response = await db
+    .select()
+    .from(userTable)
+    .where(eq(userTable.id, accessToken.userId))
 
-  const user = await UserPromise
-
-  return user
+  return response
 }
 
 export const getUserBy = async (
@@ -128,12 +66,10 @@ export const getUserBy = async (
 }
 
 export const authenticate = async (
-  emailOrUsername: string,
+  email: string,
   password: string
 ): Promise<any> => {
-  const where = is(emailOrUsername).email()
-    ? { email: emailOrUsername }
-    : { username: emailOrUsername }
+  const where = { email }
 
   const user = await getUserBy(
     where,

@@ -14,8 +14,7 @@ const getWebpackProductionConfig = (): Configuration => {
       commonjs2: 'react-dom',
       amd: 'ReactDOM',
       root: 'ReactDOM'
-    },
-    jsonwebtoken: 'jsonwebtoken'
+    }
   }
 
   const webpackConfig = {
