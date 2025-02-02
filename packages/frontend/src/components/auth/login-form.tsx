@@ -2,7 +2,6 @@
 
 import { useForm } from 'react-hook-form'
 import { useState, useTransition } from 'react'
-import { zodResolver } from '@hookform/resolvers/zod'
 
 import { login } from '@/actions/auth/login'
 import { CardWrapper } from '@/components/auth/card-wrapper'
@@ -10,22 +9,22 @@ import { FormAlert } from '@/components/form/form-alert'
 import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import { InputWrapper } from '@/components/ui/input-wrapper'
-import { AlertValues, LoginSchema, LoginSchemaValues } from '@/schemas'
+import { AlertValues } from '@/schemas'
+import validation, { LoginValues } from '@/validations'
 
 const LoginForm: React.FC = () => {
   const [isPending, startTransition] = useTransition()
   const [error, setError] = useState<string | undefined>('')
   const [success, setSuccess] = useState<string | undefined>('')
 
-  const form = useForm<LoginSchemaValues>({
-    resolver: zodResolver(LoginSchema),
+  const form = useForm<LoginValues>({
     defaultValues: {
       email: '',
       password: ''
     }
   })
 
-  const onSubmit = (values: LoginSchemaValues) => {
+  const onSubmit = (values: LoginValues) => {
     setError('')
     setSuccess('')
 

@@ -4,7 +4,7 @@ import GoogleProvider from 'next-auth/providers/google'
 
 import { api, security } from '@hosync/utils'
 
-import { LoginSchema } from './schemas'
+import validation, { LoginValues } from '@/validations'
 
 export const BASE_PATH = '/api/auth'
 
@@ -47,10 +47,10 @@ const authOptions: NextAuthConfig = {
   providers: [
     CredentialsProvider({
       async authorize(credentials): Promise<any> {
-        const validatedFields = LoginSchema.safeParse(credentials)
+        const validatedFields = validation.login(credentials as LoginValues)
 
         if (validatedFields.success) {
-          const { email, password } = validatedFields.data
+          const { email, password } = validatedFields.safeValues
 
           const body = {
             email: email.toLowerCase(),

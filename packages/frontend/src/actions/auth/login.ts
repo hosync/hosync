@@ -4,10 +4,10 @@ import { AuthError } from 'next-auth'
 
 import { signIn } from '@/auth'
 import { DEFAULT_LOGIN_REDIRECT } from '@/routes'
-import { LoginSchema, LoginSchemaValues } from '@/schemas'
+import validation, { LoginValues } from '@/validations'
 
-export const login = async (values: LoginSchemaValues) => {
-  const validatedFields = LoginSchema.safeParse(values)
+export const login = async (values: LoginValues) => {
+  const validatedFields = validation.login(values)
 
   if (!validatedFields.success) {
     return {
@@ -15,7 +15,7 @@ export const login = async (values: LoginSchemaValues) => {
     }
   }
 
-  const { email, password } = validatedFields.data
+  const { email, password } = validatedFields.safeValues
 
   try {
     await signIn('credentials', {
@@ -41,5 +41,9 @@ export const login = async (values: LoginSchemaValues) => {
     }
 
     throw error
+  }
+
+  return {
+    success: 'Logged in'
   }
 }
