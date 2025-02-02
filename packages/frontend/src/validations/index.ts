@@ -1,5 +1,10 @@
 import { validate, verify } from '@/lib/utils/validation'
 
+type AlertValues = {
+  error?: string
+  success?: string
+}
+
 type LoginValues = {
   email: string
   password: string
@@ -19,5 +24,5 @@ const validation = {
   }
 }
 
-export type { LoginValues }
+export type { AlertValues, LoginValues }
 export default validation
