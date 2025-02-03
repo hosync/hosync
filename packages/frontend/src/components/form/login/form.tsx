@@ -64,7 +64,7 @@ const LoginForm: React.FC = () => {
           fullWidth
           type="submit"
         >
-          Login 2
+          Login
         </Button>
       </div>
 

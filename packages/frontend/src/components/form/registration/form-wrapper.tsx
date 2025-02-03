@@ -4,8 +4,9 @@ import { cx } from '@hosync/utils'
 
 import { RegistrationForm } from '@/components/form/registration/form'
 import { RenderBlockIf } from '@/components/helpers/render-block-if'
+import { Link } from '@/components/ui/link'
 import { useFormContext } from '@/contexts/form-context'
-import { RegistrationFormProvider } from '@/hooks/forms/useRegistrationForm'
+import RegistrationFormProvider from '@/hooks/forms/useRegistrationForm'
 
 interface RegistrationFormProps {
   area: string
@@ -22,6 +23,15 @@ const RegistrationFormContent: React.FC<RegistrationFormProps> = ({ area }) => {
       <p className="w-11/12" style={{ margin: '0 auto' }}>
         Thank you for registering! Please check your email to complete your
         profile setup and activate your account.
+      </p>
+
+      <p>
+        <Link
+          href="/"
+          className="text-green-500 dark:text-green-500 font-medium hover:underline"
+        >
+          Back to home
+        </Link>
       </p>
     </div>
   )
