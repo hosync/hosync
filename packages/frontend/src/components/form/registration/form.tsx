@@ -2,9 +2,11 @@
 
 import { constants } from '@hosync/utils'
 
+import { RenderBlockIf } from '@/components/helpers/render-block-if'
 import { SVG } from '@/components/svg'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { Link } from '@/components/ui/link'
 import { useFormContext } from '@/contexts/form-context'
 import { RegistrationValuesOrErrors } from '@/validations'
 
@@ -121,6 +123,19 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ columns = 2 }) => {
         We are committed to your privacy. hosgu.com uses the information you
         provide to us to contact you about our relevant content, products, and
         services. You may unsubscribe at any time.
+      </div>
+
+      <div
+        className="text-center mt-4 text-gray-500 dark:text-gray-300 toggle-text-dark-mode"
+        data-testid="create-account"
+      >
+        Already have an account?{' '}
+        <a
+          href="/auth/login"
+          className="text-green-500 dark:text-green-500 font-medium hover:underline"
+        >
+          Login
+        </a>
       </div>
     </>
   )
