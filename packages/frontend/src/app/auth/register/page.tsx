@@ -1,9 +1,9 @@
 import { NextPage } from 'next'
 
-import { RegisterForm } from './register-form'
+import { RegistrationFormWrapper } from '@/components/form/registration/form-wrapper'
 
 const RegisterPage: NextPage = () => {
-  return <RegisterForm />
+  return <RegistrationFormWrapper area="register" />
 }
 
 export default RegisterPage
