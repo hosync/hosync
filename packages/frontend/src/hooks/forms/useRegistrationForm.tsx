@@ -24,4 +24,4 @@ const RegistrationFormProvider: React.FC<{ children: React.ReactNode }> = ({
   )
 }
 
-export { RegistrationFormProvider }
+export default RegistrationFormProvider
