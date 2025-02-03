@@ -8,9 +8,7 @@ import {
   isValidZipCode
 } from './validations'
 
-type ValidationResult = {
-  message: string
-}
+type ValidationResult = string
 
 type PasswordValidation = {
   min: (length: number) => PasswordValidation
@@ -46,41 +44,43 @@ function verify(key: string, value: any): Validator {
   return {
     isValidFullName(message: string): ValidationResult {
       const isValid = isValidFullName(value)
-      return isValid ? { message: '' } : { message }
+      return isValid ? '' : message
     },
     isEmail(message: string): ValidationResult {
       const isValid = isValidEmail(value)
-      return isValid ? { message: '' } : { message }
+      return isValid ? '' : message
     },
     isPhone(message: string): ValidationResult {
       const isValid = isValidPhone(value)
-      return isValid ? { message: '' } : { message }
+      return isValid ? '' : message
     },
     isZipCode(message: string): ValidationResult {
       const isValid = isValidZipCode(value)
-      return isValid ? { message: '' } : { message }
+      return isValid ? '' : message
     },
     isUrl(message: string): ValidationResult {
       const isValid = isValidUrl(value)
-      return isValid ? { message: '' } : { message }
+      return isValid ? '' : message
     },
     isDate(message: string): ValidationResult {
       const isValid = isValidDate(value)
-      return isValid ? { message: '' } : { message }
+      return isValid ? '' : message
     },
     isGoogleMapsUrl(message: string): ValidationResult {
       const isValid = isValidGoogleMapsUrl(value)
-      return isValid ? { message: '' } : { message }
+      return isValid ? '' : message
     },
     minLength(length: number, message: string): ValidationResult {
-      return value.length >= length ? { message: '' } : { message }
+      const isValid = value.length >= length
+      return isValid ? '' : message
     },
     maxLength(length: number, message: string): ValidationResult {
-      return value.length <= length ? { message: '' } : { message }
+      const isValid = value.length <= length
+      return isValid ? '' : message
     },
     required(message: string): ValidationResult {
       const isValid = value !== '' && value !== null && value !== undefined
-      return isValid ? { message: '' } : { message }
+      return isValid ? '' : message
     },
     password(messages: Record<string, string>): PasswordValidation {
       let lastError: string = ''
@@ -108,7 +108,7 @@ function verify(key: string, value: any): Validator {
           return this
         },
         getMessage(): ValidationResult {
-          return { message: lastError }
+          return lastError || ''
         }
       }
     }
@@ -149,7 +149,7 @@ function validate<T>(
   let safeValues: T = { ...inputs }
 
   Object.entries(validations).forEach(([key, result]) => {
-    if (result.message) {
+    if (result) {
       success = false
       errors[key] = result
     }
