@@ -45,8 +45,10 @@ export const FormProvider = <T extends Record<string, any>>({
 // ✅ Ensure correct typing for `useFormContext`
 export const useFormContext = <T extends Record<string, any>>() => {
   const context = useContext(FormContext)
+
   if (!context) {
     throw new Error('useFormContext must be used within a FormProvider')
   }
+
   return context as FormType<T> // ✅ Now `state`, `onSubmit`, etc., are properly typed!
 }

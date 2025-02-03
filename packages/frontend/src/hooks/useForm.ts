@@ -41,7 +41,7 @@ export const useForm = <T extends Record<string, any>>({
   validate: (values: T) => { success: boolean; error?: T; safeValues?: T }
   onSubmitAction: (
     values: T
-  ) => Promise<{ ok: boolean; error?: { code: string } }>
+  ) => Promise<{ ok: boolean; error?: { code: string; message: string } }>
 }) => {
   const [mounted, setMounted] = useState(false)
   const [state, dispatch] = useReducer(reducer<T>, {
@@ -83,10 +83,10 @@ export const useForm = <T extends Record<string, any>>({
     if (validatedFields.success && validatedFields.safeValues) {
       const response = await onSubmitAction(validatedFields.safeValues)
 
-      if (!response.ok && response.error?.code === 'EMAIL_ALREADY_EXISTS') {
+      if (!response.ok) {
         dispatch({
           type: 'SET_ERRORS',
-          payload: { businessEmail: 'Email already exists' } as T
+          payload: { responseError: response.error?.message } as unknown as T
         })
         dispatch({
           type: 'SET_SUBMITTED',

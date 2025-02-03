@@ -27,6 +27,7 @@ type Validator = {
   isUrl: (message: string) => ValidationResult
   isDate: (message: string) => ValidationResult
   isGoogleMapsUrl: (message: string) => ValidationResult
+  isRequired: (message: string) => ValidationResult
   minLength: (length: number, message: string) => ValidationResult
   maxLength: (length: number, message: string) => ValidationResult
   required: (message: string) => ValidationResult
@@ -68,6 +69,10 @@ function verify(key: string, value: any): Validator {
     },
     isGoogleMapsUrl(message: string): ValidationResult {
       const isValid = isValidGoogleMapsUrl(value)
+      return isValid ? '' : message
+    },
+    isRequired(message: string): ValidationResult {
+      const isValid = value !== '' && value !== null && value !== undefined
       return isValid ? '' : message
     },
     minLength(length: number, message: string): ValidationResult {

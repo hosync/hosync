@@ -75,7 +75,7 @@ class Service extends ServiceHandler {
         },
         error: {
           code: 'EMAIL_ALREADY_EXISTS',
-          message: 'emailAlreadyExists'
+          message: 'Email already exists'
         }
       },
       ({ items }: any) => ({

@@ -6,14 +6,15 @@ import { SVG } from '@/components/svg'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useFormContext } from '@/contexts/form-context'
-import { RegistrationValues } from '@/validations'
+import { RegistrationValuesOrErrors } from '@/validations'
 
 interface RegistrationFormProps {
   columns?: 1 | 2
 }
 
 const RegistrationForm: React.FC<RegistrationFormProps> = ({ columns = 2 }) => {
-  const { state, onChange, onSubmit } = useFormContext<RegistrationValues>()
+  const { state, onChange, onSubmit } =
+    useFormContext<RegistrationValuesOrErrors>()
 
   return (
     <>
@@ -57,7 +58,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ columns = 2 }) => {
             required
             onChange={onChange}
             value={state.values.businessEmail}
-            errorText={state.errors.businessEmail}
+            errorText={state.errors.businessEmail || state.errors.responseError}
           />
         </div>
 

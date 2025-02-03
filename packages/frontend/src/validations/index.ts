@@ -5,12 +5,14 @@ export type AlertValues = {
   success?: string
 }
 
-export type LoginValues = {
+export type LoginValuesOrErrors = {
+  responseError?: string
   email: string
   password: string
 }
 
-export type RegistrationValues = {
+export type RegistrationValuesOrErrors = {
+  responseError?: string
   fullName: string
   businessName: string
   businessEmail: string
@@ -20,7 +22,7 @@ export type RegistrationValues = {
 }
 
 const validation = {
-  login: <T extends LoginValues>(values: T) => {
+  login: <T extends LoginValuesOrErrors>(values: T) => {
     const validations = {
       email: verify('email', values.email).isEmail('Email is required'),
       password: verify('password', values.password).minLength(
@@ -31,7 +33,7 @@ const validation = {
 
     return validate<T>(validations, values)
   },
-  registration: <T extends RegistrationValues>(values: T) => {
+  registration: <T extends RegistrationValuesOrErrors>(values: T) => {
     const validations = {
       fullName: verify('fullName', values.fullName).isValidFullName(
         'Invalid full name (e.g. John Smith)'

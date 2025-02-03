@@ -64,7 +64,7 @@ class CRUD extends CRUDHandler<User> {
       throw {
         type: 'CONFLICT_ERROR',
         code: 'EMAIL_ALREADY_EXISTS',
-        message: 'emailAlreadyExists'
+        message: 'Email already exists'
       }
     }
 

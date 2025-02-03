@@ -4,7 +4,7 @@ import { core, security } from '@hosync/utils'
 
 import UserService from '@/services/user'
 import { APIResponse, CreatedItem } from '@/types/api'
-import { RegistrationValues } from '@/validations'
+import { RegistrationValuesOrErrors } from '@/validations'
 
 export const getAll = async () => {
   const response = await UserService.getAll({ endpoint: 'user/' })
@@ -20,7 +20,7 @@ export const del = async (e: FormData): Promise<APIResponse<any>> => {
 }
 
 export const initialSignup = async (
-  values: RegistrationValues
+  values: RegistrationValuesOrErrors
 ): Promise<APIResponse<CreatedItem>> => {
   const {
     fullName,
@@ -30,13 +30,6 @@ export const initialSignup = async (
     businessWebsite,
     country
   } = values
-
-  console.log('fullName', fullName)
-  console.log('businessName', businessName)
-  console.log('businessEmail', businessEmail)
-  console.log('businessPhone', businessPhone)
-  console.log('businessWebsite', businessWebsite)
-  console.log('country', country)
 
   if (
     !fullName ||

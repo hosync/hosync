@@ -2,34 +2,18 @@
 
 import { signIn } from 'next-auth/react'
 import { FcGoogle } from 'react-icons/fc'
-import React, { useState } from 'react'
 
-import { login } from '@/actions/auth/login'
 import { SVG } from '@/components/svg'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Link } from '@/components/ui/link'
+import { useFormContext } from '@/contexts/form-context'
 import { useTheme } from '@/contexts/theme-context'
+import { LoginValues } from '@/validations'
 
 const LoginForm: React.FC = () => {
   const { darkMode } = useTheme()
-
-  const [error, setError] = useState('')
-
-  const onSubmit = (e: any) => {
-    e.preventDefault()
-
-    const formData = new FormData(e.target)
-
-    const email = formData.get('email') as string
-    const password = formData.get('password') as string
-
-    console.log({ email, password })
-
-    login({ email, password }).then((data: any) => {
-      setError(data.error)
-    })
-  }
+  const { state, onChange, onSubmit } = useFormContext<LoginValues>()
 
   return (
     <div className="flex justify-center items-center min-h-screen">
