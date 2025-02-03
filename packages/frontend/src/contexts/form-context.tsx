@@ -35,7 +35,7 @@ export const FormProvider = <T extends Record<string, any>>({
   validate: (values: T) => { success: boolean; error?: T; safeValues?: T }
   onSubmitAction: (
     values: T
-  ) => Promise<{ ok: boolean; error?: { code: string } }>
+  ) => Promise<{ ok: boolean; error?: { code: string; message: string } }>
 }) => {
   const form = useForm<T>({ initialValues, validate, onSubmitAction })
 
