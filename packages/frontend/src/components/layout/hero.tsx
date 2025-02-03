@@ -2,7 +2,7 @@
 
 import { cx } from '@hosync/utils'
 
-import Registration from './registration'
+import { RegistrationFormWrapper } from '@/components/form/registration/wrapper'
 
 const Hero: React.FC = () => {
   return (
@@ -28,7 +28,7 @@ const Hero: React.FC = () => {
           </p>
         </div>
 
-        <Registration />
+        <RegistrationFormWrapper />
       </div>
     </div>
   )

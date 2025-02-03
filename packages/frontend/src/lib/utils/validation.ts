@@ -1,6 +1,7 @@
 import {
   isValidDate,
   isValidEmail,
+  isValidFullName,
   isValidGoogleMapsUrl,
   isValidPhone,
   isValidUrl,
@@ -21,6 +22,7 @@ type PasswordValidation = {
 }
 
 type Validator = {
+  isValidFullName: (message: string) => ValidationResult
   isEmail: (message: string) => ValidationResult
   isPhone: (message: string) => ValidationResult
   isZipCode: (message: string) => ValidationResult
@@ -42,6 +44,10 @@ type ValidatedResult<T> = {
 
 function verify(key: string, value: any): Validator {
   return {
+    isValidFullName(message: string): ValidationResult {
+      const isValid = isValidFullName(value)
+      return isValid ? { message: '' } : { message }
+    },
     isEmail(message: string): ValidationResult {
       const isValid = isValidEmail(value)
       return isValid ? { message: '' } : { message }

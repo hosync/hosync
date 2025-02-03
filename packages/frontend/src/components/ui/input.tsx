@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react'
+
 import { cx } from '@hosync/utils'
 
 import { SVG } from '@/components/svg'
@@ -36,7 +37,6 @@ const Input: React.FC<InputProps> = ({
   const [hasFocus, setHasFocus] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
   const [inputValue, setInputValue] = useState<any>(value || '')
-  const [isError, setIsError] = useState<boolean>(false)
   const [localErrorText, setLocalErrorText] = useState<string>('')
 
   const inputRef = useRef<HTMLInputElement>(null)
@@ -50,7 +50,6 @@ const Input: React.FC<InputProps> = ({
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value)
-    setIsError(false)
     setLocalErrorText('')
 
     if (onChange) {
@@ -108,7 +107,9 @@ const Input: React.FC<InputProps> = ({
               : null,
             leftIcon ? 'pl-10' : '',
             className,
-            isError ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
+            !!errorText
+              ? 'border-red-500'
+              : 'border-gray-300 dark:border-gray-600'
           )}
           type={inputType}
           onFocus={handleFocus}
@@ -117,7 +118,6 @@ const Input: React.FC<InputProps> = ({
           value={inputValue}
           disabled={disabled}
           list={`${name}-datalist`} // Associate the input with the datalist
-          style={isError ? { border: '1px solid red' } : restProps.style}
           {...restProps}
         />
 
@@ -145,7 +145,7 @@ const Input: React.FC<InputProps> = ({
       )}
 
       {(errorText || localErrorText) && (
-        <div className="text-red-500 text-xs">
+        <div className="text-red-500 text-xxs">
           {errorText || localErrorText}
         </div>
       )}

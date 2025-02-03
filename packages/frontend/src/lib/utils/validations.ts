@@ -32,11 +32,18 @@ function isValidGoogleMapsUrl(url: string): boolean {
   )
 }
 
+const isValidFullName = (name: string) => {
+  return /^[a-zA-ZÀ-ÖØ-öø-ÿ]+([ '-][a-zA-ZÀ-ÖØ-öø-ÿ]+)*\s+[a-zA-ZÀ-ÖØ-öø-ÿ]+([ '-][a-zA-ZÀ-ÖØ-öø-ÿ]+)*$/.test(
+    name.trim()
+  )
+}
+
 export {
   isValidEmail,
   isValidPhone,
   isValidZipCode,
   isValidUrl,
   isValidDate,
-  isValidGoogleMapsUrl
+  isValidGoogleMapsUrl,
+  isValidFullName
 }
