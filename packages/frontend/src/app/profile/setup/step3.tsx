@@ -16,7 +16,7 @@ type Props = {
   parentSkipFloor13: any
 }
 
-const Step: FC<Props> = ({
+const Step3: FC<Props> = ({
   locale,
   values,
   setValues,
@@ -63,4 +63,4 @@ const Step: FC<Props> = ({
   )
 }
 
-export default Step
+export { Step3 }

@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from 'react'
 
-import File from '@/components/ui/file'
-import FilesPreviewer from '@/components/ui/files-previewer'
-import Modal from '@/components/ui/modal'
+import { File } from '@/components/ui/file'
+import { FilesPreviewer } from '@/components/ui/files-previewer'
+import { Modal } from '@/components/ui/modal'
 import config from '@/lib/config'
 
 type Props = {
@@ -14,7 +14,7 @@ type Props = {
   setEnableNext: (enableNext: boolean) => void
 }
 
-const Step: React.FC<Props> = ({
+const Step6: React.FC<Props> = ({
   uploadedFiles,
   setUploadedFiles,
   setEnableNext
@@ -70,4 +70,4 @@ const Step: React.FC<Props> = ({
   )
 }
 
-export default Step
+export { Step6 }

@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 
-import Counter from '~/design-system/Counter'
+import { Counter } from '@/components/ui/counter'
 
 type Props = {
   locale: string

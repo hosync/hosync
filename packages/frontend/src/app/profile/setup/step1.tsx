@@ -2,9 +2,7 @@ import { useEffect, useState } from 'react'
 
 import { cx, getCitiesByState, getStates } from '@hosync/utils'
 
-import EmailInput from '~/app/shared/components/Forms/Inputs/Profile/Email'
-import PasswordInput from '~/app/shared/components/Forms/Inputs/Profile/Password'
-import Input from '~/design-system/Input'
+import { Input } from '@/components/ui/input'
 
 interface Step1Props {
   locale: string
@@ -46,15 +44,6 @@ const Step1: React.FC<Step1Props> = ({
   return (
     <div className="mx-auto p-6 lg:w-[600px] flex flex-col md:flex-row md:flex-wrap bg-white dark:bg-gray-900 w-full">
       <div className="w-full md:w-1/2 md:pr-4">
-        <EmailInput label="common.user.email" value={values.email} />
-
-        <PasswordInput
-          label="Password"
-          value={values.password}
-          onChange={handleChange}
-          errors={errors}
-        />
-
         <Input
           autoComplete="new-password"
           name="googleMaps"
@@ -129,7 +118,7 @@ const Step1: React.FC<Step1Props> = ({
           label="common.business.address"
           value={values.address1}
           onChange={handleChange}
-          placeholder={t('profile.setup.step1.streetAddress')}
+          placeholder="profile.setup.step1.streetAddress"
           required
           className={cx.join({
             'border-red-500 dark:border-red-500': errors.address1
