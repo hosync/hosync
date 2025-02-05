@@ -87,6 +87,7 @@ const Input: React.FC<InputProps> = ({
             className="absolute inset-y-0 left-2 pr-3 flex items-center text-sm leading-5"
             onClick={togglePasswordVisibility}
             style={{ top: '3px' }}
+            tabIndex={-1}
           >
             {leftIcon}
           </button>
