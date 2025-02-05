@@ -33,7 +33,7 @@ const Footer: React.FC = () => {
         </li>
         <li className="hover:text-gray-400 text-center">
           <a href="#" className="text-sm">
-            Contact <u></u>s
+            Contact Us
           </a>
         </li>
       </ul>
