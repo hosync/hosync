@@ -24,7 +24,7 @@ export type RegistrationValuesOrErrors = {
 const validation = {
   login: <T extends LoginValuesOrErrors>(values: T) => {
     const validations = {
-      email: verify('email', values.email).isEmail('Email is required'),
+      email: verify('email', values.email).isEmail('Invalid Email'),
       password: verify('password', values.password).minLength(
         1,
         'Password is required'

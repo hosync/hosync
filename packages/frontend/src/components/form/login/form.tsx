@@ -13,7 +13,7 @@ import { LoginValuesOrErrors } from '@/validations'
 const LoginForm: React.FC = () => {
   const { darkMode } = useTheme()
   const { state, onChange, onSubmit } = useFormContext<LoginValuesOrErrors>()
-  console.log('state', state)
+
   return (
     <>
       <div className="relative mb-4">

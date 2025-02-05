@@ -2,11 +2,9 @@
 
 import { constants } from '@hosync/utils'
 
-import { RenderBlockIf } from '@/components/helpers/render-block-if'
 import { SVG } from '@/components/svg'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Link } from '@/components/ui/link'
 import { useFormContext } from '@/contexts/form-context'
 import { RegistrationValuesOrErrors } from '@/validations'
 
@@ -21,7 +19,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ columns = 2 }) => {
   return (
     <>
       <div
-        className={`grid gap-4 grid-cols-1 ${columns === 2 ? 'lg:grid-cols-2' : 'lg:grid-cols-1'}`}
+        className={`grid gap-4 mt-4 grid-cols-1 ${columns === 2 ? 'lg:grid-cols-2' : 'lg:grid-cols-1'}`}
       >
         <div className="relative">
           <Input

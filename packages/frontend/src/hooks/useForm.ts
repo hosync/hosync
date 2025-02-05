@@ -2,15 +2,14 @@ import { useEffect, useReducer, useState } from 'react'
 
 type State<T> = {
   values: T
-  errors: T // ✅ Errors now have the same shape as `values`
+  errors: T
   isSubmitted: boolean
   isSuccess: boolean | null
 }
 
-// ✅ Ensure `errors` has the same fields as `values`
 const initializeFields = <T extends Record<string, any>>(values: T): T => {
   return Object.keys(values).reduce(
-    (acc, key) => ({ ...acc, [key]: '' }), // Initialize all fields to empty strings
+    (acc, key) => ({ ...acc, [key]: '' }),
     {} as T
   )
 }
@@ -20,7 +19,7 @@ const reducer = <T>(state: State<T>, action: any): State<T> => {
     case 'SET_VALUES':
       return { ...state, values: { ...state.values, ...action.payload } }
     case 'SET_ERRORS':
-      return { ...state, errors: { ...state.errors, ...action.payload } } // ✅ Merge errors instead of replacing
+      return { ...state, errors: { ...state.errors, ...action.payload } }
     case 'SET_SUBMITTED':
       return {
         ...state,
@@ -110,7 +109,7 @@ export const useForm = <T extends Record<string, any>>({
         isSuccess: null
       },
       dispatch: () => {},
-      onSubmit: async () => {}, // ✅ Always return `Promise<void>`
+      onSubmit: async () => {},
       onChange: () => {}
     }
   }

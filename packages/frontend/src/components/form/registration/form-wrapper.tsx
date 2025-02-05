@@ -25,14 +25,16 @@ const RegistrationFormContent: React.FC<RegistrationFormProps> = ({ area }) => {
         profile setup and activate your account.
       </p>
 
-      <p>
-        <Link
-          href="/"
-          className="text-green-500 dark:text-green-500 font-medium hover:underline"
-        >
-          Back to home
-        </Link>
-      </p>
+      <RenderBlockIf isTrue={area !== 'hero'}>
+        <p>
+          <Link
+            href="/"
+            className="text-green-500 dark:text-green-500 font-medium hover:underline"
+          >
+            Back to home
+          </Link>
+        </p>
+      </RenderBlockIf>
     </div>
   )
 
