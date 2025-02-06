@@ -46,7 +46,7 @@ const Step2: React.FC<Step2Props> = ({ setValues, setStep }) => {
             }))
             setStep((prevState: any) => prevState + 1)
           }}
-          title="common.general.hotel"
+          title="Hotel"
         >
           <div className="w-24 h-24 mx-auto mb-2 bg-gray-300 dark:bg-black rounded-full flex items-center justify-center">
             <Image
