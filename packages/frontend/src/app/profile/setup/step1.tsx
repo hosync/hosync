@@ -65,7 +65,7 @@ const Step1: React.FC<Step1Props> = ({
       <div className="w-full md:w-1/2 md:pl-4">
         <Input
           name="country"
-          label="common.general.country"
+          label="Country"
           value={values.country}
           onChange={handleChange}
           disabled
@@ -79,7 +79,7 @@ const Step1: React.FC<Step1Props> = ({
         <Input
           autoComplete="new-password"
           name="state"
-          label="common.general.state"
+          label="State"
           value={values.state}
           onChange={handleStateChange}
           required
@@ -97,7 +97,7 @@ const Step1: React.FC<Step1Props> = ({
         <Input
           autoComplete="new-password"
           name="city"
-          label="common.general.city"
+          label="City"
           value={values.city}
           onChange={handleChange}
           required
@@ -115,7 +115,7 @@ const Step1: React.FC<Step1Props> = ({
         <Input
           autoComplete="new-password"
           name="address1"
-          label="common.business.address"
+          label="Address"
           value={values.address1}
           onChange={handleChange}
           placeholder="profile.setup.step1.streetAddress"
@@ -146,7 +146,7 @@ const Step1: React.FC<Step1Props> = ({
         <Input
           autoComplete="new-password"
           name="zipCode"
-          label="common.business.zipCode"
+          label="Zip Code"
           value={values.zipCode}
           onChange={handleChange}
           required

@@ -20,7 +20,7 @@ const Step2: React.FC<Step2Props> = ({ setValues, setStep }) => {
             }))
             setStep((prevState: any) => prevState + 1)
           }}
-          title="common.general.cabin"
+          title="Cabin"
         >
           <div className="w-24 h-24 ml-14 mb-2 bg-gray-300 dark:bg-black rounded-full flex items-center justify-center">
             <Image

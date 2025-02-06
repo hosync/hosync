@@ -54,7 +54,7 @@ const Step: React.FC<Props> = ({ values, setValues, setEnableNext }) => {
     <div className="flex flex-col space-y-4 w-96">
       <div className="bg-white dark:bg-gray-900 p-2 rounded-xl text-black dark:text-white">
         <div className="flex flex-row justify-between items-center space-x-2 my-6">
-          <p>{t('profile.setup.step3.guests')}</p>
+          <p>Guests</p>
 
           <Counter
             onChange={handleGuestsChange}
@@ -68,7 +68,7 @@ const Step: React.FC<Props> = ({ values, setValues, setEnableNext }) => {
         <hr className="border-solid dark:border-gray-700" />
 
         <div className="flex flex-row justify-between items-center space-x-2 my-6">
-          <p>{t('common.profile.setup.bathrooms')}</p>
+          <p>Bathrooms</p>
 
           <Counter
             onChange={handleBathroomsChange}
@@ -82,7 +82,7 @@ const Step: React.FC<Props> = ({ values, setValues, setEnableNext }) => {
         <hr className="border-solid dark:border-gray-700" />
 
         <div className="flex flex-row justify-between items-center space-x-2 my-6">
-          <p>{t('common.profile.setup.bedrooms')}</p>
+          <p>Bedrooms</p>
           <Counter
             onChange={handleBedroomsChange}
             defaultValue={bedrooms}
@@ -96,7 +96,7 @@ const Step: React.FC<Props> = ({ values, setValues, setEnableNext }) => {
         <hr className="border-solid dark:border-gray-700" />
 
         <div className="flex flex-row justify-between  items-center space-x-2 my-6">
-          <p>{t('common.profile.setup.beds')}</p>
+          <p>Beds</p>
           <Counter
             onChange={handleBedsChange}
             defaultValue={beds}

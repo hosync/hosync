@@ -116,7 +116,7 @@ const Step4: FC<Props> = ({ values, setValues, setEnableNext }) => {
         onChange={() => onChangeCheck('freeParking')}
       />
       <CheckCard
-        label={t('profile.setup.step4.towels')}
+        label="Towels"
         checked={amenities.towels}
         icon={
           <SVG.Towel
