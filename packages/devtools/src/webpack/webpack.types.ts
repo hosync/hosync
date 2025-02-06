@@ -1,5 +1,5 @@
 export type WebpackMode = 'production' | 'development'
-export type Package = 'api' | 'db' | 'design-system' | 'i18n' | 'utils'
+export type Package = 'api' | 'utils'
 export type ConfigArgs = {
   mode: WebpackMode
   packageName: Package

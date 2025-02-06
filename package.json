@@ -9,6 +9,7 @@
     "build:devtools": "cd ./packages/devtools && npm run build",
     "build:webpack": "tsc ./webpack.config.ts --outDir ./dist/config --skipLibCheck",
     "build:utils": "cd ./packages/utils && npm run build",
+    "build:api": "cd ./packages/api && npm run build",
     "lint": "eslint ./packages/**/src",
     "utils:webpack:development": "webpack --config ./dist/config/webpack.config.js --env mode=production --env packageName=utils",
     "utils:webpack:production": "webpack --config ./dist/config/webpack.config.js --env mode=production --env packageName=utils",

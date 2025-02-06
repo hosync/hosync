@@ -1,3 +1,6 @@
+import { Configuration } from 'webpack'
+import { merge } from 'webpack-merge'
+
 import {
   ConfigArgs,
   getWebpackCommonConfig,
@@ -5,8 +8,6 @@ import {
   getWebpackProductionConfig,
   log
 } from '@hosync/devtools'
-import { Configuration } from 'webpack'
-import { merge } from 'webpack-merge'
 
 // Mode Config
 const getModeConfig = {
@@ -24,7 +25,7 @@ const modeConfig: (args: ConfigArgs) => Configuration = ({ mode }) => {
 const webpackConfig: (args: ConfigArgs) => Promise<Configuration> = async (
   { mode, packageName } = {
     mode: 'production',
-    packageName: 'design-system'
+    packageName: 'utils'
   }
 ) => {
   const commonConfiguration = getWebpackCommonConfig({
@@ -39,7 +40,11 @@ const webpackConfig: (args: ConfigArgs) => Promise<Configuration> = async (
   const webpackConfiguration = merge(commonConfiguration, modeConfiguration)
 
   // Logging Webpack Configuration
-  log({ tag: 'Webpack Configuration', json: webpackConfiguration, type: 'warning' })
+  log({
+    tag: 'Webpack Configuration',
+    json: webpackConfiguration,
+    type: 'warning'
+  })
 
   return webpackConfiguration
 }
