@@ -72,7 +72,7 @@ export const profileSetupValidator = (
 
   return {
     isSuccess: Object.keys(errors).length === 0,
-    errors,
+    error: errors,
     safeValues: sanitizeValues(values)
   }
 }

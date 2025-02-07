@@ -59,7 +59,7 @@ function sanitizeValues<T>(values: T): T {
 
 export type ValidatorResult = {
   isSuccess: boolean
-  errors: Record<string, string>
+  error: Record<string, string>
   safeValues: Record<string, any>
 }
 

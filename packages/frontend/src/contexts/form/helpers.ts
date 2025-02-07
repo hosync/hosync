@@ -1,7 +1,5 @@
 import { useCallback } from 'react'
 
-import { is } from '@hosync/utils'
-
 import { ValidatorResult } from '@/lib/utils/validations'
 
 export type FormStep = number
@@ -93,7 +91,7 @@ export function createInitialState<T>(
     direction: 'forward',
     errors: {
       isSuccess: false,
-      errors: {},
+      error: {},
       safeValues: {}
     },
     isSubmitted: false,
@@ -119,7 +117,7 @@ export function createStepValidate<T>(
         type: 'SET_ERRORS',
         payload: {
           isSuccess: !hasErrors,
-          errors,
+          error: errors,
           safeValues: {}
         }
       })
@@ -141,13 +139,13 @@ export function createValidate<T>(
       }
 
       const errors = validator(values)
-      const hasErrors = Object.keys(errors).length > 0
+      const hasErrors = Object.keys(errors.error).length > 0
 
       dispatch({
         type: 'SET_ERRORS',
         payload: {
           isSuccess: !hasErrors,
-          errors: errors.errors,
+          error: errors.error,
           safeValues: errors.safeValues
         }
       })
@@ -185,7 +183,7 @@ export function createPreviousStep<T>(
         type: 'SET_ERRORS',
         payload: {
           isSuccess: false,
-          errors: {},
+          error: {},
           safeValues: {}
         }
       })
@@ -197,7 +195,7 @@ export function createSubmitForm<T>(
   state: FormState<T>,
   dispatch: React.Dispatch<FormAction<T>>,
   validate: (values: T) => boolean,
-  onSubmit?: (values: T) => Promise<boolean> | boolean
+  onSubmit?: (values: T) => Promise<any> | any
 ) {
   return useCallback(async () => {
     if (validate(state.values)) {
@@ -205,9 +203,23 @@ export function createSubmitForm<T>(
         dispatch({ type: 'SET_SUBMITTING' })
 
         try {
-          const success = await onSubmit(state.values)
+          const response = await onSubmit(state.values)
 
-          dispatch({ type: 'SET_SUBMITTED', payload: success })
+          if (response.ok) {
+            dispatch({ type: 'SET_SUBMITTED', payload: response })
+          } else {
+            dispatch({ type: 'SET_SUBMITTED', payload: false })
+            dispatch({
+              type: 'SET_ERRORS',
+              payload: {
+                isSuccess: false,
+                error: {
+                  responseError: response.error.message
+                },
+                safeValues: {}
+              }
+            })
+          }
         } catch (error) {
           console.error(error)
           dispatch({ type: 'SET_SUBMITTED', payload: false })

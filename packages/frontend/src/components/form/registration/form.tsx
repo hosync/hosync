@@ -14,6 +14,7 @@ interface RegistrationFormProps {
 const RegistrationForm: React.FC<RegistrationFormProps> = ({ columns = 2 }) => {
   const { state, onChange, submitForm } = useRegistrationForm()
   console.log('state', state)
+
   return (
     <>
       <div
@@ -28,7 +29,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ columns = 2 }) => {
             placeholder="e.g. John Smith"
             value={state.values.fullName}
             required
-            errorText={state.errors.errors.fullName}
+            errorText={state.errors.error.fullName}
             onChange={onChange}
           />
         </div>
@@ -43,7 +44,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ columns = 2 }) => {
             required
             onChange={onChange}
             value={state.values.businessName}
-            errorText={state.errors.errors.businessName}
+            errorText={state.errors.error.businessName}
           />
         </div>
 
@@ -57,8 +58,8 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ columns = 2 }) => {
             onChange={onChange}
             value={state.values.businessEmail}
             errorText={
-              state.errors.errors.businessEmail ||
-              state.errors.errors.responseError
+              state.errors.error.businessEmail ||
+              state.errors.error.responseError
             }
           />
         </div>
@@ -72,7 +73,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ columns = 2 }) => {
             required
             value={state.values.businessPhone}
             onChange={onChange}
-            errorText={state.errors.errors.businessPhone}
+            errorText={state.errors.error.businessPhone}
           />
         </div>
 
@@ -85,7 +86,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ columns = 2 }) => {
             required
             value={state.values.businessWebsite}
             onChange={onChange}
-            errorText={state.errors.errors.businessWebsite}
+            errorText={state.errors.error.businessWebsite}
           />
         </div>
 
@@ -99,7 +100,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ columns = 2 }) => {
             required
             value={state.values.country}
             onChange={onChange}
-            errorText={state.errors.errors.country}
+            errorText={state.errors.error.country}
           />
         </div>
       </div>

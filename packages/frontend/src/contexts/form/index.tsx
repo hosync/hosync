@@ -79,6 +79,7 @@ export function createFormProvider<T>() {
       submitForm
     }
 
+    // @ts-ignore
     return <FormContext.Provider value={value}>{children}</FormContext.Provider>
   }
 }
