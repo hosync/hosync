@@ -2,7 +2,7 @@
 
 import { LoginForm } from '@/components/form/login/form'
 import { Link } from '@/components/ui/link'
-import { useFormContext } from '@/contexts/form-context'
+import { useFormContext } from '@/contexts/form'
 import FormProvider from '@/hooks/forms/useLoginForm'
 
 const Content: React.FC = () => {

@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button'
 import { Dropdown } from '@/components/ui/dropdown'
 import { Link } from '@/components/ui/link'
 import { Logo } from '@/components/ui/logo'
-import { useTheme } from '@/contexts/theme-context'
+import { useTheme } from '@/contexts/theme'
 
 import { HamburgerMenu } from './header-hamburger-menu'
 import { ThemeSwitcher } from './header-theme-switcher'

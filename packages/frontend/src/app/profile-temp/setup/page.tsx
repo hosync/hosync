@@ -4,7 +4,7 @@ import * as UserActions from '@/actions/auth/user'
 import { NotFound } from '@/components/ui/not-found'
 import * as cookies from '@/lib/utils/cookies'
 
-import { StepsForm } from './steps'
+import ProfileSetupForm from './form'
 
 type Props = {
   params: {
@@ -27,7 +27,13 @@ const Page: NextPage<Props> = async ({ searchParams: { code } }) => {
     return <NotFound />
   }
 
-  return <StepsForm user={user} />
+  return (
+    <div className="min-h-screen flex justify-center bg-white dark:bg-gray-900 w-full">
+      <div className="p-6 dark:text-white w-full">
+        <ProfileSetupForm user={user} />
+      </div>
+    </div>
+  )
 }
 
 export default Page

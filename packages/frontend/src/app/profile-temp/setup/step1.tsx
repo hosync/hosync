@@ -1,9 +1,5 @@
 import { useEffect, useState } from 'react'
 
-import { cx, getCitiesByState, getStates } from '@hosync/utils'
-
-import { Input } from '@/components/ui/input'
-
 interface Step1Props {
   locale: string
   values: any

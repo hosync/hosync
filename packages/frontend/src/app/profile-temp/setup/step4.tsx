@@ -4,7 +4,7 @@ import React, { FC, useEffect } from 'react'
 
 import { SVG } from '@/components/svg'
 import { CheckCard } from '@/components/ui/check-card'
-import { useTheme } from '@/contexts/theme-context'
+import { useTheme } from '@/contexts/theme'
 
 type Props = {
   values: any

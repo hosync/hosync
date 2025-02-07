@@ -5,7 +5,7 @@ import { cx } from '@hosync/utils'
 import { RegistrationForm } from '@/components/form/registration/form'
 import { RenderBlockIf } from '@/components/helpers/render-block-if'
 import { Link } from '@/components/ui/link'
-import { useFormContext } from '@/contexts/form-context'
+import { useFormContext } from '@/contexts/form'
 import RegistrationFormProvider from '@/hooks/forms/useRegistrationForm'
 
 interface RegistrationFormProps {

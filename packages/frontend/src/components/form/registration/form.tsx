@@ -5,7 +5,7 @@ import { constants } from '@hosync/utils'
 import { SVG } from '@/components/svg'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { useFormContext } from '@/contexts/form-context'
+import { useFormContext } from '@/contexts/form'
 import { RegistrationValuesOrErrors } from '@/validations'
 
 interface RegistrationFormProps {

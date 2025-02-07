@@ -38,6 +38,11 @@ const isValidFullName = (name: string) => {
   )
 }
 
+const isEmpty = (value: string) => {
+  const v = value.trim()
+  return v !== '' && v !== null && v !== undefined
+}
+
 export {
   isValidEmail,
   isValidPhone,
@@ -45,5 +50,6 @@ export {
   isValidUrl,
   isValidDate,
   isValidGoogleMapsUrl,
-  isValidFullName
+  isValidFullName,
+  isEmpty
 }

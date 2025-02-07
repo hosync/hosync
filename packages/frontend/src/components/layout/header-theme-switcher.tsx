@@ -1,7 +1,7 @@
 'use client'
 
 import { SVG } from '@/components/svg'
-import { useTheme } from '@/contexts/theme-context'
+import { useTheme } from '@/contexts/theme'
 
 const ThemeSwitcher: React.FC = () => {
   const { darkMode, toggleDarkMode } = useTheme()

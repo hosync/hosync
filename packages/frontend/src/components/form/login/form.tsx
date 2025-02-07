@@ -6,8 +6,8 @@ import { FcGoogle } from 'react-icons/fc'
 import { SVG } from '@/components/svg'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { useFormContext } from '@/contexts/form-context'
-import { useTheme } from '@/contexts/theme-context'
+import { useFormContext } from '@/contexts/form'
+import { useTheme } from '@/contexts/theme'
 import { LoginValuesOrErrors } from '@/validations'
 
 const LoginForm: React.FC = () => {
