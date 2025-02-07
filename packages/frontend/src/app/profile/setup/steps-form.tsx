@@ -65,6 +65,7 @@ const StepsForm: React.FC<Props> = ({ user }) => {
   const { currentStep, values } = state
 
   initialFormValues.email = user.email
+  initialFormValues.location.country = 'Mexico'
 
   const handleNext = () => {
     nextStep()

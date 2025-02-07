@@ -3,13 +3,14 @@
 import { AuthError } from 'next-auth'
 
 import { signIn } from '@/auth'
+import { LoginFormValues } from '@/providers/login'
 import { DEFAULT_LOGIN_REDIRECT } from '@/routes'
-import validation, { LoginValuesOrErrors } from '@/validations'
+import { loginValidator } from '@/validators/login'
 
-export const login = async (values: LoginValuesOrErrors) => {
-  const validatedFields = validation.login(values)
+export const login = async (values: LoginFormValues) => {
+  const validatedFields = loginValidator(values)
 
-  if (!validatedFields.success) {
+  if (!validatedFields.isSuccess) {
     return {
       ok: false,
       error: {

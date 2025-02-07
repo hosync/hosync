@@ -4,7 +4,9 @@ import GoogleProvider from 'next-auth/providers/google'
 
 import { api, security } from '@hosync/utils'
 
-import validation, { LoginValues } from '@/validations'
+import { loginValidator } from '@/validators/login'
+
+import { LoginFormValues } from './providers/login'
 
 export const BASE_PATH = '/api/auth'
 
@@ -47,7 +49,9 @@ const authOptions: NextAuthConfig = {
   providers: [
     CredentialsProvider({
       async authorize(credentials): Promise<any> {
-        const validatedFields = validation.login(credentials as LoginValues)
+        const validatedFields = loginValidator(
+          credentials as unknown as LoginFormValues
+        )
 
         if (validatedFields.success) {
           const { email, password } = validatedFields.safeValues

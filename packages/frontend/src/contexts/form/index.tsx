@@ -1,10 +1,14 @@
 import React, { createContext, useCallback, useReducer } from 'react'
 
+import { ValidatorResult } from '@/lib/utils/validations'
+
 import {
   createFormReducer,
   createInitialState,
   createNextStep,
   createPreviousStep,
+  createStepValidate,
+  createSubmitForm,
   createValidate,
   FormContextType
 } from './helpers'
@@ -18,25 +22,51 @@ export function createFormProvider<T>() {
     children,
     initialValues,
     totalSteps,
-    validator
+    validator,
+    singleValidator,
+    onSubmit
   }: {
     children: React.ReactNode
     initialValues: T
-    totalSteps: number
-    validator?: (values: T, step: number) => Record<string, string>
+    totalSteps?: number
+    validator?: (values: T, step?: number) => Record<string, string>
+    singleValidator?: (values: T) => ValidatorResult
+    onSubmit?: (values: T) => Promise<any>
   }) {
     const [state, dispatch] = useReducer(
       createFormReducer<T>(),
-      createInitialState(initialValues)
+      createInitialState(initialValues, totalSteps ?? 1)
     )
 
-    const validate = createValidate(state, dispatch, validator)
-    const nextStep = createNextStep(state, dispatch, totalSteps, validate)
+    const validateStep = createStepValidate(state, dispatch, validator)
+    const validate = createValidate(state, dispatch, singleValidator)
+
+    const nextStep = createNextStep(state, dispatch, totalSteps, validateStep)
     const previousStep = createPreviousStep(state, dispatch)
+    const submitForm = createSubmitForm(state, dispatch, validate, onSubmit)
 
     const setFormValues = useCallback((values: Partial<T>) => {
       dispatch({ type: 'SET_VALUES', payload: values })
     }, [])
+
+    const onChange = (
+      e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    ) => {
+      const { name, value } = e.target
+
+      if (name.includes('.')) {
+        const [parent, child] = name.split('.')
+
+        setFormValues({
+          [parent]: {
+            ...(state.values[parent as keyof T] as any),
+            [child]: value
+          }
+        } as Partial<T>)
+      } else {
+        setFormValues({ [name]: value } as Partial<T>)
+      }
+    }
 
     const value = {
       state,
@@ -44,7 +74,9 @@ export function createFormProvider<T>() {
       nextStep,
       previousStep,
       setFormValues,
-      validate
+      validate,
+      onChange,
+      submitForm
     }
 
     return <FormContext.Provider value={value}>{children}</FormContext.Provider>

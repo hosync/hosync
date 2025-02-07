@@ -6,13 +6,12 @@ import { FcGoogle } from 'react-icons/fc'
 import { SVG } from '@/components/svg'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { useFormContext } from '@/contexts/form'
 import { useTheme } from '@/contexts/theme'
-import { LoginValuesOrErrors } from '@/validations'
+import { useLoginForm } from '@/hooks/forms/useLoginForm'
 
 const LoginForm: React.FC = () => {
   const { darkMode } = useTheme()
-  const { state, onChange, onSubmit } = useFormContext<LoginValuesOrErrors>()
+  const { state, onChange, submitForm } = useLoginForm()
 
   return (
     <>
@@ -58,12 +57,7 @@ const LoginForm: React.FC = () => {
       </div>
 
       <div className="m-auto">
-        <Button
-          color="primary"
-          onClick={(e: any) => onSubmit(e)}
-          fullWidth
-          type="submit"
-        >
+        <Button color="primary" onClick={submitForm} fullWidth type="submit">
           Login
         </Button>
       </div>

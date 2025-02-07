@@ -3,14 +3,16 @@ import {
   isValidEmail,
   isValidGoogleMapsUrl,
   isValidUrl,
-  isValidZipCode
+  isValidZipCode,
+  sanitizeValues,
+  ValidatorResult
 } from '@/lib/utils/validations'
 import { ProfileSetupFormValues } from '@/providers/profile-setup'
 
 export const profileSetupValidator = (
   values: ProfileSetupFormValues,
   step: number
-): Record<string, string> => {
+): ValidatorResult => {
   const errors: Record<string, string> = {}
 
   switch (step) {
@@ -68,5 +70,9 @@ export const profileSetupValidator = (
     }
   }
 
-  return errors
+  return {
+    isSuccess: Object.keys(errors).length === 0,
+    errors,
+    safeValues: sanitizeValues(values)
+  }
 }

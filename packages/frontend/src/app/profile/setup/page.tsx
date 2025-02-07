@@ -4,7 +4,7 @@ import * as UserActions from '@/actions/auth/user'
 import { NotFound } from '@/components/ui/not-found'
 import * as cookies from '@/lib/utils/cookies'
 
-import { StepsForm } from './steps'
+import { StepsForm } from './steps-form'
 
 type Props = {
   params: {

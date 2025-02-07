@@ -40,7 +40,27 @@ const isValidFullName = (name: string) => {
 
 const isEmpty = (value: string) => {
   const v = value.trim()
-  return v !== '' && v !== null && v !== undefined
+  return v === '' || v === null || v === undefined
+}
+
+function sanitizeValues<T>(values: T): T {
+  const sanitized: any = {}
+
+  Object.entries(values as Record<string, any>).forEach(([key, value]) => {
+    if (typeof value === 'string') {
+      sanitized[key] = value.trim().replace(/(<([^>]+)>)/gi, '')
+    } else {
+      sanitized[key] = value
+    }
+  })
+
+  return sanitized as T
+}
+
+export type ValidatorResult = {
+  isSuccess: boolean
+  errors: Record<string, string>
+  safeValues: Record<string, any>
 }
 
 export {
@@ -51,5 +71,6 @@ export {
   isValidDate,
   isValidGoogleMapsUrl,
   isValidFullName,
-  isEmpty
+  isEmpty,
+  sanitizeValues
 }
