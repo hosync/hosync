@@ -103,11 +103,21 @@ const Step1: React.FC = () => {
 
         <Input
           autoComplete="new-password"
-          name="address1"
-          label="Address"
-          value={values.location.address}
+          name="location.address1"
+          label="Address 1"
+          value={values.location.address1}
           onChange={onChange}
-          placeholder="profile.setup.step1.streetAddress"
+          placeholder="Street Address"
+          required
+          errorText={errors.error.address1}
+        />
+
+        <Input
+          autoComplete="new-password"
+          name="location.address2"
+          value={values.location.address2}
+          onChange={onChange}
+          placeholder="Apartment, suite, unit, building, floor, etc."
           required
           errorText={errors.error.address1}
           className="mb-4"

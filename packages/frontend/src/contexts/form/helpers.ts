@@ -12,7 +12,10 @@ export interface FormContextType<T> {
   previousStep: () => void
   setFormValues: (values: Partial<T>) => void
   validate: (step: number) => boolean
-  onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void
+  onChange: (
+    e?: React.ChangeEvent<HTMLInputElement | HTMLSelectElement> | null,
+    manual?: { name: string; value: any }
+  ) => void
   submitForm: () => Promise<void>
 }
 

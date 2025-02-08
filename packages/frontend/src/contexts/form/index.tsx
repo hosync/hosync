@@ -45,29 +45,54 @@ export function createFormProvider<T>() {
     const previousStep = createPreviousStep(state, dispatch)
     const submitForm = createSubmitForm(state, dispatch, validate, onSubmit)
 
-    const setFormValues = useCallback((values: Partial<T>) => {
-      dispatch({ type: 'SET_VALUES', payload: values })
-    }, [])
+    const setFormValues = useCallback(
+      (values: Partial<T> | ((prevValues: T) => Partial<T>)) => {
+        if (typeof values === 'function') {
+          dispatch({ type: 'SET_VALUES', payload: values(state.values) })
+        } else {
+          dispatch({ type: 'SET_VALUES', payload: values })
+        }
+      },
+      [state.values]
+    )
 
     const onChange = (
-      e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+      event?: React.ChangeEvent<HTMLInputElement | HTMLSelectElement> | null,
+      manual?: { name: string; value: any }
     ) => {
-      const { name, value } = e.target
+      let name: string
+      let value: any
+
+      if (manual) {
+        // Handle manual object case
+        name = manual.name
+        value = manual.value
+      } else if (event) {
+        // Handle event case
+        name = event.target.name
+        value = event.target.value
+      } else {
+        return
+      }
 
       console.log('onChange', name, value)
 
-      if (name.includes('.')) {
-        const [parent, child] = name.split('.')
-        console.log('parent', parent, 'child', child)
-        setFormValues({
-          [parent]: {
-            ...(state.values[parent as keyof T] as any),
+      setFormValues((prevValues: T) => {
+        const newValues = { ...prevValues }
+
+        if (name.includes('.')) {
+          const [parent, child] = name.split('.')
+
+          newValues[parent as keyof T] = {
+            ...(newValues[parent as keyof T] || {}),
             [child]: value
-          }
-        } as Partial<T>)
-      } else {
-        setFormValues({ [name]: value } as Partial<T>)
-      }
+          } as any
+        } else {
+          newValues[name as keyof T] = value
+        }
+
+        return newValues
+      })
     }
 
     const value = {
