@@ -13,7 +13,6 @@ interface RegistrationFormProps {
 
 const RegistrationForm: React.FC<RegistrationFormProps> = ({ columns = 2 }) => {
   const { state, onChange, submitForm } = useRegistrationForm()
-  console.log('state', state)
 
   return (
     <>

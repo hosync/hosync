@@ -53,7 +53,7 @@ const authOptions: NextAuthConfig = {
           credentials as unknown as LoginFormValues
         )
 
-        if (validatedFields.success) {
+        if (validatedFields.isSuccess) {
           const { email, password } = validatedFields.safeValues
 
           const body = {
@@ -137,28 +137,29 @@ const authOptions: NextAuthConfig = {
     async signIn(allData: any) {
       console.log('ALL DATA ===>', allData)
 
-      try {
-        const response = await api.fetch<any>(
-          `${process.env.API_URL}/api/v1/account/link`,
-          {
-            method: 'POST',
-            body: {
-              ...allData,
-              scope
-            }
-          }
-        )
+      return true
+      // try {
+      //   const response = await api.fetch<any>(
+      //     `${process.env.API_URL}/api/v1/account/link`,
+      //     {
+      //       method: 'POST',
+      //       body: {
+      //         ...allData,
+      //         scope
+      //       }
+      //     }
+      //   )
 
-        // const connectedUser = response.items[0]
-        // const isActive = connectedUser.active
-        // const isLinked =
-        //   connectedUser.providerAccountId === allData.account.providerAccountId
+      //   // const connectedUser = response.items[0]
+      //   // const isActive = connectedUser.active
+      //   // const isLinked =
+      //   //   connectedUser.providerAccountId === allData.account.providerAccountId
 
-        return true
-      } catch (error) {
-        console.error('Error linking account:', error)
-        return true
-      }
+      //   return true
+      // } catch (error) {
+      //   console.error('Error linking account:', error)
+      //   return true
+      // }
     }
   },
   basePath: BASE_PATH,

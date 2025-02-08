@@ -21,7 +21,7 @@ export type FormAction<T> =
   | { type: 'SET_ERRORS'; payload: ValidatorResult }
   | { type: 'NEXT_STEP' }
   | { type: 'PREVIOUS_STEP' }
-  | { type: 'SET_SUBMITTED'; payload: boolean }
+  | { type: 'SET_SUBMITTED'; payload: any }
   | { type: 'SET_SUBMITTING' }
 
 export interface FormState<T> {
@@ -34,6 +34,7 @@ export interface FormState<T> {
   isSubmitting: boolean
   isSuccess: boolean
   isSingleForm?: boolean
+  responseData?: any
 }
 
 export function createFormReducer<T>() {
@@ -66,8 +67,7 @@ export function createFormReducer<T>() {
       case 'SET_SUBMITTED':
         return {
           ...state,
-          isSubmitted: true,
-          isSuccess: action.payload
+          ...action.payload
         }
       case 'SET_SUBMITTING':
         return {
@@ -206,9 +206,31 @@ export function createSubmitForm<T>(
           const response = await onSubmit(state.values)
 
           if (response.ok) {
-            dispatch({ type: 'SET_SUBMITTED', payload: response })
+            if (response.redirectTo) {
+              dispatch({
+                type: 'SET_SUBMITTED',
+                payload: {
+                  isSubmitted: true,
+                  responseData: response
+                }
+              })
+            } else {
+              dispatch({
+                type: 'SET_SUBMITTED',
+                payload: {
+                  isSubmitted: true,
+                  responseData: response
+                }
+              })
+            }
           } else {
-            dispatch({ type: 'SET_SUBMITTED', payload: false })
+            dispatch({
+              type: 'SET_SUBMITTED',
+              payload: {
+                isSubmitted: false,
+                responseData: null
+              }
+            })
             dispatch({
               type: 'SET_ERRORS',
               payload: {
@@ -222,10 +244,22 @@ export function createSubmitForm<T>(
           }
         } catch (error) {
           console.error(error)
-          dispatch({ type: 'SET_SUBMITTED', payload: false })
+          dispatch({
+            type: 'SET_SUBMITTED',
+            payload: {
+              isSubmitted: false,
+              responseData: null
+            }
+          })
         }
       } else {
-        dispatch({ type: 'SET_SUBMITTED', payload: true })
+        dispatch({
+          type: 'SET_SUBMITTED',
+          payload: {
+            isSubmitted: false,
+            responseData: null
+          }
+        })
       }
     }
   }, [

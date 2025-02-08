@@ -36,7 +36,7 @@ const Content: React.FC = () => {
         </h2>
 
         <p className="text-red-500 mb-4 text-xs text-center">
-          {state.errors.responseError}
+          {state.errors.error.responseError}
         </p>
 
         <LoginForm />

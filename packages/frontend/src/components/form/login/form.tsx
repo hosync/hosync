@@ -12,6 +12,11 @@ import { useLoginForm } from '@/hooks/forms/useLoginForm'
 const LoginForm: React.FC = () => {
   const { darkMode } = useTheme()
   const { state, onChange, submitForm } = useLoginForm()
+  const { redirectTo = '' } = state.responseData || {}
+
+  if (redirectTo) {
+    window.location.href = redirectTo
+  }
 
   return (
     <>
@@ -27,10 +32,11 @@ const LoginForm: React.FC = () => {
             required
             onChange={onChange}
             value={state.values.email}
-            errorText={state.errors.email}
+            errorText={state.errors.error.email}
           />
         </div>
       </div>
+
       <div className="relative">
         <div className="relative">
           <Input
@@ -42,7 +48,7 @@ const LoginForm: React.FC = () => {
             required
             onChange={onChange}
             value={state.values.password}
-            errorText={state.errors.password}
+            errorText={state.errors.error.password}
           />
         </div>
       </div>

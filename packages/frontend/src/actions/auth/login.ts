@@ -25,12 +25,12 @@ export const login = async (values: LoginFormValues) => {
   try {
     await signIn('credentials', {
       email,
-      password,
-      redirectTo: DEFAULT_LOGIN_REDIRECT
+      password
     })
 
     return {
-      ok: true
+      ok: true,
+      redirectTo: DEFAULT_LOGIN_REDIRECT
     }
   } catch (error) {
     if (error instanceof AuthError) {
@@ -60,11 +60,8 @@ export const login = async (values: LoginFormValues) => {
     }
 
     return {
-      ok: false,
-      error: {
-        code: 'UNEXPECTED_ERROR',
-        message: 'An unexpected error occurred'
-      }
+      ok: true,
+      redirectTo: DEFAULT_LOGIN_REDIRECT
     }
   }
 }
