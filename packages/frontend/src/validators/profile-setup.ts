@@ -2,6 +2,7 @@ import {
   isEmpty,
   isValidEmail,
   isValidGoogleMapsUrl,
+  isValidPassword,
   isValidUrl,
   isValidZipCode
 } from '@/lib/utils/validations'
@@ -16,6 +17,24 @@ export const profileSetupValidator = (
 
   switch (newStep) {
     case 1: {
+      errors.password = isValidPassword(values.password, {
+        min: 'Password must be at least 8 characters long',
+        lowercase: 'Password must contain at least one lowercase letter',
+        uppercase: 'Password must contain at least one uppercase letter',
+        digit: 'Password must contain at least one digit',
+        special: 'Password must contain at least one special character'
+      })
+        .min(8)
+        .lowercase()
+        .uppercase()
+        .digit()
+        .special()
+        .getMessage()
+
+      if (isEmpty(values.password)) {
+        errors.password = 'Password is required'
+      }
+
       if (isEmpty(values.propertyName)) {
         errors.propertyName = 'Property name is required'
       }
@@ -36,27 +55,27 @@ export const profileSetupValidator = (
       }
 
       if (isEmpty(values.location.country)) {
-        errors['location.country'] = 'Country is required'
+        errors.country = 'Country is required'
       }
 
       if (isEmpty(values.location.state)) {
-        errors['location.state'] = 'State is required'
+        errors.state = 'State is required'
       }
 
       if (isEmpty(values.location.city)) {
-        errors['location.city'] = 'City is required'
+        errors.city = 'City is required'
       }
 
       if (isEmpty(values.location.address1)) {
-        errors['location.address1'] = 'Address is required'
+        errors.address1 = 'Address is required'
       }
 
       if (isEmpty(values.location.zipCode)) {
-        errors['location.zipCode'] = 'Zip code is required'
+        errors.zipCode = 'Zip code is required'
       }
 
       if (!isValidZipCode(values.location.zipCode)) {
-        errors['location.zipCode'] = 'Please enter a valid Zip code'
+        errors.zipCode = 'Please enter a valid Zip code'
       }
 
       break

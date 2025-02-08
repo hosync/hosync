@@ -43,6 +43,48 @@ const isEmpty = (value: string) => {
   return v === '' || v === null || v === undefined
 }
 
+type PasswordValidation = {
+  min: (length: number) => PasswordValidation
+  lowercase: () => PasswordValidation
+  uppercase: () => PasswordValidation
+  digit: () => PasswordValidation
+  special: () => PasswordValidation
+  getMessage: () => string
+}
+
+function isValidPassword(
+  value: string,
+  messages: Record<string, string>
+): PasswordValidation {
+  let lastError: string = ''
+
+  return {
+    min(length: number): PasswordValidation {
+      if (value.length < length) lastError = messages.min
+      return this
+    },
+    lowercase(): PasswordValidation {
+      if (!/[a-z]/.test(value)) lastError = messages.lowercase
+      return this
+    },
+    uppercase(): PasswordValidation {
+      if (!/[A-Z]/.test(value)) lastError = messages.uppercase
+      return this
+    },
+    digit(): PasswordValidation {
+      if (!/\d/.test(value)) lastError = messages.digit
+      return this
+    },
+    special(): PasswordValidation {
+      if (!/[!@#$%^&*(),.?":{}|<>]/.test(value)) lastError = messages.special
+      return this
+    },
+    getMessage(): string {
+      return lastError || ''
+    }
+  }
+}
+
 function sanitizeValues<T>(values: T): T {
   const sanitized: any = {}
 
@@ -64,13 +106,14 @@ export type ValidatorResult = {
 }
 
 export {
-  isValidEmail,
-  isValidPhone,
-  isValidZipCode,
-  isValidUrl,
-  isValidDate,
-  isValidGoogleMapsUrl,
-  isValidFullName,
   isEmpty,
+  isValidDate,
+  isValidEmail,
+  isValidFullName,
+  isValidGoogleMapsUrl,
+  isValidPassword,
+  isValidPhone,
+  isValidUrl,
+  isValidZipCode,
   sanitizeValues
 }
