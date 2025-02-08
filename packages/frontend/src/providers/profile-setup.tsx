@@ -3,6 +3,7 @@ import { createFormProvider } from '../contexts/form'
 export interface ProfileSetupFormValues {
   propertyName: string
   email: string
+  password: string
   googleMapsUrl: string
   location: {
     country: string

@@ -55,13 +55,13 @@ export function createFormReducer<T>() {
       case 'NEXT_STEP':
         return {
           ...state,
-          currentStep: (state.currentStep ?? 1) + 1,
+          currentStep: (state.currentStep ?? 0) + 1,
           direction: 'forward'
         }
       case 'PREVIOUS_STEP':
         return {
           ...state,
-          currentStep: Math.max(1, (state.currentStep ?? 1) - 1),
+          currentStep: Math.max(1, (state.currentStep ?? 0) - 1),
           direction: 'back'
         }
       case 'SET_SUBMITTED':
@@ -87,7 +87,7 @@ export function createInitialState<T>(
   return {
     values: initialValues,
     initialValues,
-    currentStep: 1,
+    currentStep: 0,
     direction: 'forward',
     errors: {
       isSuccess: false,
@@ -104,7 +104,7 @@ export function createInitialState<T>(
 export function createStepValidate<T>(
   state: FormState<T>,
   dispatch: React.Dispatch<FormAction<T>>,
-  validator?: (values: T, step: number) => Record<string, string>
+  validator?: (values: T, step: number) => any
 ) {
   return useCallback(
     (step: number): boolean => {

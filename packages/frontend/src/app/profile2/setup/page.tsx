@@ -1,9 +1,10 @@
 import { NextPage } from 'next'
 
 import * as UserActions from '@/actions/auth/user'
-import { ProfileSetupFormWrapper } from '@/components/form/profile-setup/form-wrapper'
 import { NotFound } from '@/components/ui/not-found'
 import * as cookies from '@/lib/utils/cookies'
+
+import { StepsForm } from './steps-form'
 
 type Props = {
   params: {
@@ -26,7 +27,7 @@ const Page: NextPage<Props> = async ({ searchParams: { code } }) => {
     return <NotFound />
   }
 
-  return <ProfileSetupFormWrapper user={user} />
+  return <StepsForm user={user} />
 }
 
 export default Page

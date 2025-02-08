@@ -54,9 +54,11 @@ export function createFormProvider<T>() {
     ) => {
       const { name, value } = e.target
 
+      console.log('onChange', name, value)
+
       if (name.includes('.')) {
         const [parent, child] = name.split('.')
-
+        console.log('parent', parent, 'child', child)
         setFormValues({
           [parent]: {
             ...(state.values[parent as keyof T] as any),
