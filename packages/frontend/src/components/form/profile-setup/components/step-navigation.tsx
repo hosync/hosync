@@ -12,14 +12,15 @@ const StepNavigation = ({
   nextStep: () => void
   currentStep: number
 }) => {
-  console.log('currentStep', currentStep)
   return (
     <div className="sticky h-20 mt-3 bg-white dark:bg-black z-50 pt-4 border-t border-gray-100 dark:border-gray-800">
       <div className="flex items-center h-full">
         <div className="flex w-full justify-between items-center">
-          <Button color="dark" onClick={previousStep} className="mr-4 h-12">
-            Back
-          </Button>
+          <RenderBlockIf isTrue={currentStep > 0}>
+            <Button color="dark" onClick={previousStep} className="mr-4 h-12">
+              Back
+            </Button>
+          </RenderBlockIf>
 
           <StepIndicator steps={8} currentStep={currentStep + 1} />
 
