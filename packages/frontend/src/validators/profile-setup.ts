@@ -3,19 +3,18 @@ import {
   isValidEmail,
   isValidGoogleMapsUrl,
   isValidUrl,
-  isValidZipCode,
-  sanitizeValues,
-  ValidatorResult
+  isValidZipCode
 } from '@/lib/utils/validations'
 import { ProfileSetupFormValues } from '@/providers/profile-setup'
 
 export const profileSetupValidator = (
   values: ProfileSetupFormValues,
-  step?: number
-): ValidatorResult => {
+  step: number = 0
+): any => {
   const errors: Record<string, string> = {}
+  const newStep = step + 1
 
-  switch (step) {
+  switch (newStep) {
     case 1: {
       if (isEmpty(values.propertyName)) {
         errors.propertyName = 'Property name is required'
@@ -48,8 +47,8 @@ export const profileSetupValidator = (
         errors['location.city'] = 'City is required'
       }
 
-      if (isEmpty(values.location.address.trim())) {
-        errors['location.address'] = 'Address is required'
+      if (isEmpty(values.location.address1)) {
+        errors['location.address1'] = 'Address is required'
       }
 
       if (isEmpty(values.location.zipCode)) {
@@ -71,8 +70,6 @@ export const profileSetupValidator = (
   }
 
   return {
-    isSuccess: Object.keys(errors).length === 0,
-    error: errors,
-    safeValues: sanitizeValues(values)
+    ...errors
   }
 }

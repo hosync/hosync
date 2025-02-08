@@ -10,7 +10,7 @@ export interface ProfileSetupFormValues {
     state: string
     city: string
     address1: string
-    address2: string
+    address2?: string
     zipCode: string
   }
   propertyType: 'cabin' | 'hotel' | ''

@@ -27,13 +27,9 @@ const Step1: React.FC = () => {
   return (
     <div className="mx-auto p-6 lg:w-[600px] flex flex-col md:flex-row md:flex-wrap bg-white dark:bg-black w-full">
       <div className="w-full md:w-1/2 md:pr-4">
-        <Input
-          name="email"
-          label="Email"
-          value={values.email}
-          disabled
-          className="mb-4"
-        />
+        <Input name="email" label="Email" value={values.email} disabled />
+
+        <div className="mt-4" />
 
         <Input
           name="password"
@@ -52,8 +48,9 @@ const Step1: React.FC = () => {
           value={values.propertyName}
           onChange={onChange}
           errorText={errors.error.propertyName}
-          className="mb-4"
         />
+
+        <div className="mt-4" />
 
         <Input
           name="googleMaps"
@@ -63,8 +60,9 @@ const Step1: React.FC = () => {
           errorText={errors.error.googleMapsUrl}
           placeholder="https://www.google.com/maps/place/..."
           required
-          className="mb-4"
         />
+
+        <div className="mt-4" />
       </div>
 
       <div className="w-full md:w-1/2 md:pl-4">
@@ -75,9 +73,9 @@ const Step1: React.FC = () => {
           onChange={onChange}
           disabled
           required
-          errorText={errors.error.googleMapsUrl}
-          className="mb-4"
         />
+
+        <div className="mt-4" />
 
         <Dropdown
           label="State"
@@ -86,9 +84,10 @@ const Step1: React.FC = () => {
           placeholder="Pick a state..."
           value={values.location.state}
           onChange={onChange}
-          className="mb-4"
           errorText={errors.error.state}
         />
+
+        <div className="mt-4" />
 
         <Dropdown
           label="City"
@@ -97,14 +96,15 @@ const Step1: React.FC = () => {
           placeholder="Pick a city..."
           value={values.location.city}
           onChange={onChange}
-          className="mb-4"
           errorText={errors.error.city}
         />
+
+        <div className="mt-4" />
 
         <Input
           autoComplete="new-password"
           name="location.address1"
-          label="Address 1"
+          label="Address"
           value={values.location.address1}
           onChange={onChange}
           placeholder="Street Address"
@@ -120,8 +120,9 @@ const Step1: React.FC = () => {
           placeholder="Apartment, suite, unit, building, floor, etc."
           required
           errorText={errors.error.address1}
-          className="mb-4"
         />
+
+        <div className="mt-4" />
 
         <Input
           autoComplete="new-password"
@@ -131,7 +132,6 @@ const Step1: React.FC = () => {
           onChange={onChange}
           required
           errorText={errors.error.zipCode}
-          className="mb-4"
         />
       </div>
     </div>

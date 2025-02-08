@@ -21,7 +21,7 @@ export function createFormProvider<T>() {
   return function FormProvider({
     children,
     initialValues,
-    totalSteps,
+    totalSteps = 1,
     validator,
     singleValidator,
     onSubmit
@@ -98,8 +98,8 @@ export function createFormProvider<T>() {
     const value = {
       state,
       dispatch,
-      nextStep,
-      previousStep,
+      nextStep: totalSteps > 1 ? nextStep : undefined,
+      previousStep: totalSteps > 1 ? previousStep : undefined,
       setFormValues,
       validate,
       onChange,

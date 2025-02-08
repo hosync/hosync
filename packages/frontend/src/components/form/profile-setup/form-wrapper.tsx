@@ -20,7 +20,8 @@ const initialValues = {
     country: '',
     state: '',
     city: '',
-    address: '',
+    address1: '',
+    address2: '',
     zipCode: ''
   },
   propertyType: '' as '' | 'cabin' | 'hotel',
