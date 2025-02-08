@@ -11,7 +11,7 @@ export interface FormContextType<T> {
   nextStep: () => void
   previousStep: () => void
   setFormValues: (values: Partial<T>) => void
-  validate: (step: number) => boolean
+  validate: (step: number) => ValidatorResult
   onChange: (
     e?: React.ChangeEvent<HTMLInputElement | HTMLSelectElement> | null,
     manual?: { name: string; value: any }
@@ -110,8 +110,14 @@ export function createStepValidate<T>(
   validator?: (values: T, step: number) => any
 ) {
   return useCallback(
-    (step: number): boolean => {
-      if (!validator) return true
+    (step: number): ValidatorResult => {
+      if (!validator) {
+        return {
+          isSuccess: true,
+          error: {},
+          safeValues: {}
+        }
+      }
 
       const errors = validator(state.values, step)
       const hasErrors = Object.keys(errors).length > 0
@@ -124,7 +130,12 @@ export function createStepValidate<T>(
           safeValues: {}
         }
       })
-      return !hasErrors
+
+      return {
+        isSuccess: !hasErrors,
+        error: errors,
+        safeValues: {}
+      }
     },
     [state.values, validator, dispatch]
   )
@@ -136,9 +147,13 @@ export function createValidate<T>(
   validator?: (values: T) => ValidatorResult
 ) {
   return useCallback(
-    (values: T): boolean => {
+    (values: T): ValidatorResult => {
       if (!validator) {
-        return true
+        return {
+          isSuccess: true,
+          error: {},
+          safeValues: {}
+        }
       }
 
       const errors = validator(values)
@@ -153,7 +168,11 @@ export function createValidate<T>(
         }
       })
 
-      return !hasErrors
+      return {
+        isSuccess: !hasErrors,
+        error: errors.error,
+        safeValues: errors.safeValues
+      }
     },
     [state.values, validator, dispatch]
   )
@@ -163,13 +182,12 @@ export function createNextStep<T>(
   state: FormState<T>,
   dispatch: React.Dispatch<FormAction<T>>,
   totalSteps?: number,
-  validate?: (step: number) => boolean
+  validate?: (step: number) => ValidatorResult
 ) {
   return useCallback(() => {
-    if (
-      (state.currentStep ?? 1) < (totalSteps ?? Infinity) &&
-      (validate ? validate(state.currentStep ?? 1) : true)
-    ) {
+    const validation = validate?.(state.currentStep ?? 1)
+
+    if ((state.currentStep ?? 1) < (totalSteps ?? Infinity) && validation) {
       dispatch({ type: 'NEXT_STEP' })
     }
   }, [state.currentStep, totalSteps, validate, dispatch])
@@ -197,7 +215,7 @@ export function createPreviousStep<T>(
 export function createSubmitForm<T>(
   state: FormState<T>,
   dispatch: React.Dispatch<FormAction<T>>,
-  validate: (values: T) => boolean,
+  validate: (values: T) => ValidatorResult,
   onSubmit?: (values: T) => Promise<any> | any
 ) {
   return useCallback(async () => {
