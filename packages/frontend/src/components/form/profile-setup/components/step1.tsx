@@ -53,7 +53,7 @@ const Step1: React.FC = () => {
         <div className="mt-4" />
 
         <Input
-          name="googleMaps"
+          name="googleMapsUrl"
           label="Google Maps"
           value={values.googleMapsUrl}
           onChange={onChange}
@@ -126,7 +126,7 @@ const Step1: React.FC = () => {
 
         <Input
           autoComplete="new-password"
-          name="zipCode"
+          name="location.zipCode"
           label="Zip Code"
           value={values.location.zipCode}
           onChange={onChange}

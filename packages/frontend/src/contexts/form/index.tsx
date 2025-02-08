@@ -64,18 +64,14 @@ export function createFormProvider<T>() {
       let value: any
 
       if (manual) {
-        // Handle manual object case
         name = manual.name
         value = manual.value
       } else if (event) {
-        // Handle event case
         name = event.target.name
         value = event.target.value
       } else {
         return
       }
-
-      console.log('onChange', name, value)
 
       setFormValues((prevValues: T) => {
         const newValues = { ...prevValues }
