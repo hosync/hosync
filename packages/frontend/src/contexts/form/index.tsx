@@ -29,7 +29,7 @@ export function createFormProvider<T>() {
     children: React.ReactNode
     initialValues: T
     totalSteps?: number
-    validator?: (values: T, step?: number) => Record<string, string>
+    validator?: (values: T, step?: number) => ValidatorResult
     singleValidator?: (values: T) => ValidatorResult
     onSubmit?: (values: T) => Promise<any>
   }) {

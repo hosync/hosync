@@ -8,7 +8,7 @@ import { Step1 } from './step1'
 // import Step7 from './step7'
 // import Step8 from './step8'
 
-const StepRenderer = ({ currentStep }: { currentStep: number }) => {
+const StepRenderer = ({ currentStep }: { currentStep?: number }) => {
   switch (currentStep) {
     case 1:
       return <Step1 />

@@ -2,7 +2,7 @@ const StepTitle = ({
   currentStep,
   propertyType
 }: {
-  currentStep: number
+  currentStep?: number
   propertyType: string
 }) => {
   return (

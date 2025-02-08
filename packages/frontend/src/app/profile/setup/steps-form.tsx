@@ -62,7 +62,7 @@ type Props = {
 
 const StepsForm: React.FC<Props> = ({ user }) => {
   const { state, previousStep, nextStep } = useProfileSetupForm()
-  const { currentStep, values } = state
+  const { currentStep = 1, values } = state
 
   initialFormValues.email = user.email
   initialFormValues.location.country = 'Mexico'

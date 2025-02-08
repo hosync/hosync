@@ -49,9 +49,6 @@ export const registrationValidator = (
     errors.country = 'Country is required'
   }
 
-  console.log('errors', errors)
-  console.log('values', values)
-
   return {
     isSuccess: Object.keys(errors).length === 0,
     error: errors,

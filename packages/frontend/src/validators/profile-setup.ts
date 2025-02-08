@@ -11,7 +11,7 @@ import { ProfileSetupFormValues } from '@/providers/profile-setup'
 
 export const profileSetupValidator = (
   values: ProfileSetupFormValues,
-  step: number
+  step?: number
 ): ValidatorResult => {
   const errors: Record<string, string> = {}
 
