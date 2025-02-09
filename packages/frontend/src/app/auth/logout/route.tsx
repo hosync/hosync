@@ -1,9 +1,9 @@
 import { redirect } from 'next/navigation'
 
-import { signOut } from '@/auth'
+import * as cookies from '@/lib/utils/cookies'
 
 export async function GET() {
-  await signOut()
+  await cookies.del('authjs.session-token')
 
   redirect('/')
 }
