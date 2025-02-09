@@ -128,7 +128,7 @@ const Dropdown: React.FC<DropdownProps> = ({
     >
       {/* Optional Label */}
       {label && (
-        <label className="mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">
+        <label className="block text-gray-700 text-sm font-bold text-left dark:text-gray-300">
           {label}
         </label>
       )}
