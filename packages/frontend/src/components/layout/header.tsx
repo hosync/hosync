@@ -1,14 +1,16 @@
 'use client'
 
+import { useSession } from 'next-auth/react'
+
 import { cx } from '@hosync/utils'
 
 import { RenderBlockIf } from '@/components/helpers/render-block-if'
 import { Nav } from '@/components/layout/nav'
 import { Avatar } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
-import { Dropdown } from '@/components/ui/dropdown'
 import { Link } from '@/components/ui/link'
 import { Logo } from '@/components/ui/logo'
+import { Menu } from '@/components/ui/menu'
 import { useTheme } from '@/contexts/theme'
 
 import { HamburgerMenu } from './header-hamburger-menu'
@@ -20,7 +22,9 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ connectedUser = {}, page }) => {
-  const isLogged = connectedUser?.active
+  const { data: session } = useSession()
+
+  const isLogged = !!session
   const showLogin = !isLogged && page !== 'dashboard'
   const showTryForFree = !isLogged && page !== 'dashboard'
   const showSecondaryNav = page !== 'dashboard'
@@ -52,9 +56,8 @@ const Header: React.FC<HeaderProps> = ({ connectedUser = {}, page }) => {
     ''
   )
 
-  const fullName = connectedUser?.fullName
-    ? connectedUser?.fullName
-    : 'common.user.guestUser'
+  const fullName = session?.user?.name || ''
+
   const name = fullName.split(' ')[0]
   const lastName = fullName.split(' ')[1]
 
@@ -78,7 +81,7 @@ const Header: React.FC<HeaderProps> = ({ connectedUser = {}, page }) => {
 
         {isLogged && (
           <div className="flex items-center space-x-2 mr-2">
-            <Dropdown
+            <Menu
               trigger={
                 <div className="cursor-pointer rounded-md text-sm hidden text-gray-600 dark:text-white md:flex outline-none focus:outline-none user-select-none">
                   {name} {lastName}
@@ -103,7 +106,7 @@ const Header: React.FC<HeaderProps> = ({ connectedUser = {}, page }) => {
               >
                 Logout
               </a>
-            </Dropdown>
+            </Menu>
           </div>
         )}
 
