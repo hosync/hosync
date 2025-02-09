@@ -130,6 +130,7 @@ const Input: React.FC<InputProps> = ({
             aria-label={showPassword ? 'Hide password' : 'Show password'}
             title={showPassword ? 'Hide password' : 'Show password'}
             style={{ top: '3px' }}
+            tabIndex={-1}
           >
             {showPassword ? <EyeOffIcon /> : <EyeIcon />}
           </button>
