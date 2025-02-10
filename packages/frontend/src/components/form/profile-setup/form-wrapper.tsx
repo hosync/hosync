@@ -52,10 +52,14 @@ const initialValues = {
     wifi: false
   },
   pricing: {
-    pricePerNight: 0,
+    price: 0,
     currency: 'USD' as const,
-    checkInTime: '',
-    checkOutTime: ''
+    checkInHour: 4,
+    checkInMinute: 0,
+    checkInPeriod: 'PM' as const,
+    checkOutHour: 12,
+    checkOutMinute: 0,
+    checkOutPeriod: 'PM' as const
   },
   images: []
 }
@@ -63,11 +67,6 @@ const initialValues = {
 const ProfileSetupFormContent: React.FC = () => {
   const { state, previousStep, nextStep } = useProfileSetupForm()
   const { currentStep = 1, values } = state
-  console.log('CURRENT STEP===>', currentStep)
-  console.log('VALUES===>', values)
-  const handleNext = () => {
-    nextStep()
-  }
 
   return (
     <div className="min-h-screen flex justify-center bg-white dark:bg-black w-full">
@@ -99,7 +98,7 @@ const ProfileSetupFormContent: React.FC = () => {
         <RenderBlockIf isTrue={currentStep < 7}>
           <StepNavigation
             previousStep={previousStep}
-            nextStep={handleNext}
+            nextStep={() => nextStep()}
             currentStep={currentStep}
           />
         </RenderBlockIf>
@@ -115,6 +114,16 @@ type Props = {
 const ProfileSetupFormWrapper: React.FC<Props> = ({ user }) => {
   initialValues.email = user.email
   initialValues.location.country = 'Mexico'
+
+  // TODO: Remove this hardcoded values when the form is ready
+  initialValues.location.state = 'Jalisco'
+  initialValues.location.city = 'Guadalajara'
+  initialValues.location.address1 = 'Av. Revolución 123'
+  initialValues.location.address2 = 'Col. Centro'
+  initialValues.location.zipCode = '44100'
+  initialValues.propertyName = 'Casa de la Abuela'
+  initialValues.googleMapsUrl = 'https://www.google.com/maps/place/...'
+  initialValues.password = 'Abc123456$'
 
   return (
     <ProfileSetupFormProvider
