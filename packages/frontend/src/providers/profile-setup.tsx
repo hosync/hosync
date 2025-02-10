@@ -41,13 +41,13 @@ export interface ProfileSetupFormValues {
     wifi: boolean
   }
   pricing: {
-    pricePerNight: number
+    price: number
     currency: 'USD' | 'MXN'
-    checkInHour: string
-    checkInMinute: string
+    checkInHour: number
+    checkInMinute: number
     checkInPeriod: 'AM' | 'PM'
-    checkOutHour: string
-    checkOutMinute: string
+    checkOutHour: number
+    checkOutMinute: number
     checkOutPeriod: 'AM' | 'PM'
   }
   images: string[]
