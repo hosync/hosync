@@ -238,9 +238,15 @@ html.dark body.bg-login {
 
 @media (min-width: 1024px) {
   .desktop-height-80vh {
-    min-height: 82vh;
+    min-height: 80vh;
   }
   .desktop-overflow-visible {
     overflow: visible;
+  }
+}
+
+@media (min-width: 1793px) {
+  .desktop-height-80vh {
+    min-height: 82vh;
   }
 }

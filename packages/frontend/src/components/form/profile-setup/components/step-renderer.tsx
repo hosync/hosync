@@ -8,7 +8,7 @@ import { Step7 } from './step7'
 import { Step8 } from './step8'
 
 const StepRenderer = ({ currentStep }: { currentStep?: number }) => {
-  const step = (currentStep ?? 0) + 1
+  const step = currentStep
 
   switch (step) {
     case 1:

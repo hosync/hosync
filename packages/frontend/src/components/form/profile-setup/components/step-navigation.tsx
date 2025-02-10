@@ -16,7 +16,7 @@ const StepNavigation = ({
     <div className="sticky h-20 mt-3 bg-white dark:bg-black z-50 pt-4 border-t border-gray-100 dark:border-gray-800">
       <div className="flex items-center h-full">
         <div className="flex w-full justify-between items-center">
-          <RenderBlockIf isTrue={currentStep > 0}>
+          <RenderBlockIf isTrue={currentStep > 1}>
             <Button color="dark" onClick={previousStep} className="mr-4 h-12">
               Back
             </Button>
@@ -24,7 +24,7 @@ const StepNavigation = ({
 
           <StepIndicator steps={8} currentStep={currentStep} />
 
-          <RenderBlockIf isTrue={currentStep + 1 !== 2}>
+          <RenderBlockIf isTrue={currentStep !== 2}>
             <Button color="primary" onClick={nextStep} className="h-12">
               {currentStep < 6 ? 'Next' : 'Finish'}
             </Button>

@@ -7,7 +7,7 @@ const StepIndicator: React.FC<StepIndicatorProps> = ({
   steps,
   currentStep
 }) => {
-  const step = currentStep === 0 ? 1 : currentStep + 1
+  const step = currentStep
 
   return (
     <div className="flex justify-center items-center w-full flex-col mt-3">

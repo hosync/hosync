@@ -64,7 +64,7 @@ export function createFormReducer<T>() {
       case 'PREVIOUS_STEP':
         return {
           ...state,
-          currentStep: Math.max(1, (state.currentStep ?? 0) - 1),
+          currentStep: Math.max(1, state.currentStep - 1),
           direction: 'back'
         }
       case 'SET_SUBMITTED':
@@ -90,7 +90,7 @@ export function createInitialState<T>(
   return {
     values: initialValues,
     initialValues,
-    currentStep: 0,
+    currentStep: 1,
     direction: 'forward',
     errors: {
       isSuccess: false,
@@ -181,14 +181,13 @@ export function createValidate<T>(
 export function createNextStep<T>(
   state: FormState<T>,
   dispatch: React.Dispatch<FormAction<T>>,
-  totalSteps?: number,
+  totalSteps: number,
   validate?: (step: number) => ValidatorResult
 ) {
   return useCallback(() => {
-    const validation = validate?.(state.currentStep ?? 1)
-    console.log('VALIDATION===>', validation)
+    const validation = validate?.(state.currentStep)
 
-    if ((state.currentStep ?? 1) < (totalSteps ?? Infinity) && validation) {
+    if (state.currentStep < totalSteps && validation) {
       dispatch({ type: 'NEXT_STEP' })
     }
   }, [state.currentStep, totalSteps, validate, dispatch])
@@ -199,9 +198,9 @@ export function createPreviousStep<T>(
   dispatch: React.Dispatch<FormAction<T>>
 ) {
   return useCallback(() => {
-    const step = state.currentStep ?? 0
+    const step = state.currentStep
     console.log('STEP IN PREVIOUS====>', step)
-    if (step > 0) {
+    if (step > 1) {
       dispatch({ type: 'PREVIOUS_STEP' })
       dispatch({
         type: 'SET_ERRORS',
