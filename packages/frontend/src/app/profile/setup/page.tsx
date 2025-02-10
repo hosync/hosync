@@ -2,6 +2,7 @@ import { NextPage } from 'next'
 
 import * as UserActions from '@/actions/auth/user'
 import { ProfileSetupFormWrapper } from '@/components/form/profile-setup/form-wrapper'
+import { Header } from '@/components/layout/header'
 import { NotFound } from '@/components/ui/not-found'
 import * as cookies from '@/lib/utils/cookies'
 
@@ -26,7 +27,12 @@ const Page: NextPage<Props> = async ({ searchParams: { code } }) => {
     return <NotFound />
   }
 
-  return <ProfileSetupFormWrapper user={user} />
+  return (
+    <>
+      <Header page="profile" />
+      <ProfileSetupFormWrapper user={user} />
+    </>
+  )
 }
 
 export default Page

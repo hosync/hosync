@@ -25,8 +25,8 @@ const Header: React.FC<HeaderProps> = ({ connectedUser = {}, page }) => {
   const { data: session } = useSession()
 
   const isLogged = !!session
-  const showLogin = !isLogged && page !== 'dashboard'
-  const showTryForFree = !isLogged && page !== 'dashboard'
+  const showLogin = !isLogged && page !== 'dashboard' && page !== 'profile'
+  const showTryForFree = !isLogged && page !== 'dashboard' && page !== 'profile'
   const showSecondaryNav = page !== 'dashboard'
   const showHamburgerMenu = page !== 'dashboard'
 
