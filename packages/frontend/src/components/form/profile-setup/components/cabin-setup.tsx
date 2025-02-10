@@ -39,7 +39,7 @@ const CabinSetup: FC = () => {
 
   return (
     <div className="flex flex-col space-y-4 w-96">
-      <div className="bg-white dark:bg-gray-900 p-2 rounded-xl text-black dark:text-white">
+      <div className="bg-white dark:bg-black p-2 rounded-xl text-black dark:text-white">
         <div className="flex flex-row justify-between items-center space-x-2 my-6">
           <p>Guests</p>
 
@@ -52,7 +52,6 @@ const CabinSetup: FC = () => {
             data_testid="guests"
           />
         </div>
-        <hr className="border-solid dark:border-gray-700" />
 
         <div className="flex flex-row justify-between items-center space-x-2 my-6">
           <p>Bathrooms</p>
@@ -66,7 +65,6 @@ const CabinSetup: FC = () => {
             data_testid="bathrooms"
           />
         </div>
-        <hr className="border-solid dark:border-gray-700" />
 
         <div className="flex flex-row justify-between items-center space-x-2 my-6">
           <p>Bedrooms</p>
@@ -80,8 +78,6 @@ const CabinSetup: FC = () => {
             data_testid="bedrooms"
           />
         </div>
-
-        <hr className="border-solid dark:border-gray-700" />
 
         <div className="flex flex-row justify-between items-center space-x-2 my-6">
           <p>Beds</p>
