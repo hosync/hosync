@@ -7,15 +7,14 @@ import { NotFound } from '@/components/ui/not-found'
 import * as cookies from '@/lib/utils/cookies'
 
 type Props = {
-  params: {
-    code: string
-  }
   searchParams: {
     code: string
   }
 }
 
-const Page: NextPage<Props> = async ({ searchParams: { code } }) => {
+const Page: NextPage<Props> = async ({ searchParams }) => {
+  const { code } = await searchParams
+
   const loggedFromProfileSetup = await cookies.get(
     'loggedFromProfileSetup',
     false
