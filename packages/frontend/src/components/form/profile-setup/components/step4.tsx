@@ -45,7 +45,7 @@ const Step4: React.FC = () => {
         onChange={() => onChangeCheck('tv')}
       />
       <CheckCard
-        label={t('profile.setup.step4.kitchen')}
+        label="Kitchen"
         checked={amenities.kitchen}
         icon={
           <SVG.Kitchen
@@ -56,7 +56,7 @@ const Step4: React.FC = () => {
         onChange={() => onChangeCheck('kitchen')}
       />
       <CheckCard
-        label={t('profile.setup.step4.extraBed')}
+        label="Extra Bed"
         checked={amenities.extraBed}
         icon={
           <SVG.Bed
@@ -67,7 +67,7 @@ const Step4: React.FC = () => {
         onChange={() => onChangeCheck('extraBed')}
       />
       <CheckCard
-        label={t('profile.setup.step4.refrigerator')}
+        label="Refrigerator"
         checked={amenities.refrigerator}
         icon={
           <SVG.Refrigerator
@@ -78,7 +78,7 @@ const Step4: React.FC = () => {
         onChange={() => onChangeCheck('refrigerator')}
       />
       <CheckCard
-        label={t('profile.setup.step4.bedSheets')}
+        label="Bed Sheets"
         checked={amenities.bedSheets}
         icon={
           <SVG.Bed
@@ -89,7 +89,7 @@ const Step4: React.FC = () => {
         onChange={() => onChangeCheck('bedSheets')}
       />
       <CheckCard
-        label={t('profile.setup.step4.freeParking')}
+        label="Free Parking"
         checked={amenities.freeParking}
         icon={
           <SVG.Parking
@@ -100,7 +100,7 @@ const Step4: React.FC = () => {
         onChange={() => onChangeCheck('freeParking')}
       />
       <CheckCard
-        label={t('profile.setup.step4.towels')}
+        label="Towels"
         checked={amenities.towels}
         icon={
           <SVG.Towel
@@ -111,7 +111,7 @@ const Step4: React.FC = () => {
         onChange={() => onChangeCheck('towels')}
       />
       <CheckCard
-        label={t('profile.setup.step4.pool')}
+        label="Pool"
         checked={amenities.pool}
         icon={
           <SVG.Swim
@@ -122,7 +122,7 @@ const Step4: React.FC = () => {
         onChange={() => onChangeCheck('pool')}
       />
       <CheckCard
-        label={t('profile.setup.step4.coffeeMachine')}
+        label="Coffee Machine"
         checked={amenities.coffeeMachine}
         icon={
           <SVG.Coffee
@@ -134,7 +134,7 @@ const Step4: React.FC = () => {
       />
 
       <CheckCard
-        label={t('profile.setup.step4.hotWater')}
+        label="Hot Water"
         checked={amenities.hotWater}
         icon={
           <SVG.HotWater
@@ -145,7 +145,7 @@ const Step4: React.FC = () => {
         onChange={() => onChangeCheck('hotWater')}
       />
       <CheckCard
-        label={t('profile.setup.step4.oven')}
+        label="Oven"
         checked={amenities.oven}
         icon={
           <SVG.Oven
@@ -156,7 +156,7 @@ const Step4: React.FC = () => {
         onChange={() => onChangeCheck('oven')}
       />
       <CheckCard
-        label={t('profile.setup.step4.ac')}
+        label="AC"
         checked={amenities.ac}
         icon={
           <SVG.AC
@@ -167,7 +167,7 @@ const Step4: React.FC = () => {
         onChange={() => onChangeCheck('ac')}
       />
       <CheckCard
-        label={t('profile.setup.step4.garden')}
+        label="Garden"
         checked={amenities.garden}
         icon={
           <SVG.Garden
@@ -178,7 +178,7 @@ const Step4: React.FC = () => {
         onChange={() => onChangeCheck('garden')}
       />
       <CheckCard
-        label={t('profile.setup.step4.laundry')}
+        label="Laundry"
         checked={amenities.laundry}
         icon={
           <SVG.Laundry
@@ -200,7 +200,7 @@ const Step4: React.FC = () => {
         onChange={() => onChangeCheck('petFriendly')}
       />
       <CheckCard
-        label={t('profile.setup.step4.smokingArea')}
+        label="Smoking Area"
         checked={amenities.smoking}
         icon={
           <SVG.Smoke
