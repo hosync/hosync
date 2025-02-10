@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { useProfileSetupForm } from '@/hooks/forms/useProfileSetupForm'
 
 const Step2: React.FC = () => {
-  const { onChange } = useProfileSetupForm()
+  const { onChange, nextStep } = useProfileSetupForm()
 
   return (
     <>
@@ -14,6 +14,7 @@ const Step2: React.FC = () => {
           className="cursor-pointer w-48"
           onClick={() => {
             onChange(null, { name: 'propertyType', value: 'cabin' })
+            nextStep()
           }}
           title="Cabin"
         >
@@ -33,6 +34,7 @@ const Step2: React.FC = () => {
           className="cursor-pointer"
           onClick={() => {
             onChange(null, { name: 'propertyType', value: 'hotel' })
+            nextStep()
           }}
           title="Hotel"
         >

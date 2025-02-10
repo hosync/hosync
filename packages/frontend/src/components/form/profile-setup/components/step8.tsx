@@ -2,7 +2,7 @@
 
 import { Link } from '@/components/ui/link'
 
-const Step: React.FC = () => {
+const Step8: React.FC = () => {
   return (
     <div className="h-screen flex flex-row content-center">
       <div className="flex flex-col justify-center items-center text-center w-full">
@@ -23,4 +23,4 @@ const Step: React.FC = () => {
   )
 }
 
-export default Step
+export { Step8 }

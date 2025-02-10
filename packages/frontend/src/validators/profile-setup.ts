@@ -17,7 +17,7 @@ export const profileSetupValidator = (
 
   switch (newStep) {
     case 1: {
-      errors.password = isValidPassword(values.password, {
+      const passwordError = isValidPassword(values.password, {
         min: 'Password must be at least 8 characters long',
         lowercase: 'Password must contain at least one lowercase letter',
         uppercase: 'Password must contain at least one uppercase letter',
@@ -30,6 +30,10 @@ export const profileSetupValidator = (
         .digit()
         .special()
         .getMessage()
+
+      if (passwordError) {
+        errors.password = passwordError
+      }
 
       if (isEmpty(values.password)) {
         errors.password = 'Password is required'
@@ -87,6 +91,8 @@ export const profileSetupValidator = (
       break
     }
   }
+
+  console.log('ERRORS====>', errors)
 
   return {
     ...errors

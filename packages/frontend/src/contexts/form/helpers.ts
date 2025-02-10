@@ -30,7 +30,7 @@ export type FormAction<T> =
 export interface FormState<T> {
   values: T
   initialValues: T
-  currentStep?: FormStep
+  currentStep: FormStep
   direction?: FormDirection
   errors: ValidatorResult
   isSubmitted: boolean
@@ -58,7 +58,7 @@ export function createFormReducer<T>() {
       case 'NEXT_STEP':
         return {
           ...state,
-          currentStep: (state.currentStep ?? 0) + 1,
+          currentStep: state.currentStep + 1,
           direction: 'forward'
         }
       case 'PREVIOUS_STEP':
@@ -186,6 +186,7 @@ export function createNextStep<T>(
 ) {
   return useCallback(() => {
     const validation = validate?.(state.currentStep ?? 1)
+    console.log('VALIDATION===>', validation)
 
     if ((state.currentStep ?? 1) < (totalSteps ?? Infinity) && validation) {
       dispatch({ type: 'NEXT_STEP' })
@@ -198,7 +199,9 @@ export function createPreviousStep<T>(
   dispatch: React.Dispatch<FormAction<T>>
 ) {
   return useCallback(() => {
-    if ((state.currentStep ?? 1) > 1) {
+    const step = state.currentStep ?? 0
+    console.log('STEP IN PREVIOUS====>', step)
+    if (step > 0) {
       dispatch({ type: 'PREVIOUS_STEP' })
       dispatch({
         type: 'SET_ERRORS',

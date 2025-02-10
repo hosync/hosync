@@ -24,7 +24,7 @@ const StepNavigation = ({
 
           <StepIndicator steps={8} currentStep={currentStep} />
 
-          <RenderBlockIf isTrue={currentStep !== 2}>
+          <RenderBlockIf isTrue={currentStep + 1 !== 2}>
             <Button color="primary" onClick={nextStep} className="h-12">
               {currentStep < 6 ? 'Next' : 'Finish'}
             </Button>

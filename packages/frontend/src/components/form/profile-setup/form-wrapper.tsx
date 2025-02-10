@@ -62,8 +62,9 @@ const initialValues = {
 
 const ProfileSetupFormContent: React.FC = () => {
   const { state, previousStep, nextStep } = useProfileSetupForm()
-  const { currentStep = 0, values } = state
-
+  const { currentStep = 1, values } = state
+  console.log('CURRENT STEP===>', currentStep)
+  console.log('VALUES===>', values)
   const handleNext = () => {
     nextStep()
   }

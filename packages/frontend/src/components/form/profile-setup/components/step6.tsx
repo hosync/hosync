@@ -1,25 +1,20 @@
 'use client'
 
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC, useState } from 'react'
 
 import { File } from '@/components/ui/file'
 import { FilesPreviewer } from '@/components/ui/files-previewer'
 import { Modal } from '@/components/ui/modal'
 import config from '@/lib/config'
 
-type Props = {
-  uploadedFiles: any
-  setUploadedFiles: any
-}
-
-const Step6: FC<Props> = ({ uploadedFiles, setUploadedFiles }) => {
+const Step6: FC = () => {
   const [isUploadPhotosOpen, setIsUploadPhotosOpen] = useState(true)
 
-  useEffect(() => {
-    if (uploadedFiles.length > 0) {
-      setIsUploadPhotosOpen(false)
-    }
-  }, [uploadedFiles])
+  // useEffect(() => {
+  //   if (uploadedFiles.length > 0) {
+  //     setIsUploadPhotosOpen(false)
+  //   }
+  // }, [uploadedFiles])
 
   return (
     <div
