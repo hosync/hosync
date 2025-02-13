@@ -221,7 +221,9 @@ export function createSubmitForm<T>(
   onSubmit?: (values: T) => Promise<any> | any
 ) {
   return useCallback(async () => {
-    if (validate(state.values)) {
+    const validation = validate(state.values)
+
+    if (validation.isSuccess) {
       if (onSubmit) {
         dispatch({ type: 'SET_SUBMITTING' })
 
@@ -232,6 +234,7 @@ export function createSubmitForm<T>(
             dispatch({
               type: 'SET_SUBMITTED',
               payload: {
+                isSuccess: true,
                 isSubmitted: true,
                 responseData: response
               }
@@ -249,6 +252,7 @@ export function createSubmitForm<T>(
               payload: {
                 isSuccess: false,
                 error: {
+                  ...state.errors.error,
                   responseError: response.error.message
                 },
                 safeValues: {}
