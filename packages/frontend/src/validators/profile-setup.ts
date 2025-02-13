@@ -10,12 +10,11 @@ import { ProfileSetupFormValues } from '@/providers/profile-setup'
 
 export const profileSetupValidator = (
   values: ProfileSetupFormValues,
-  step: number = 0
+  step: number = 1
 ): any => {
   const errors: Record<string, string> = {}
-  const newStep = step + 1
 
-  switch (newStep) {
+  switch (step) {
     case 1: {
       const passwordError = isValidPassword(values.password, {
         min: 'Password must be at least 8 characters long',

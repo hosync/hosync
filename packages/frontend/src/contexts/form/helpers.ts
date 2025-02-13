@@ -187,7 +187,7 @@ export function createNextStep<T>(
   return useCallback(() => {
     const validation = validate?.(state.currentStep)
 
-    if (state.currentStep < totalSteps && validation) {
+    if (state.currentStep < totalSteps && validation?.isSuccess) {
       dispatch({ type: 'NEXT_STEP' })
     }
   }, [state.currentStep, totalSteps, validate, dispatch])
@@ -199,7 +199,7 @@ export function createPreviousStep<T>(
 ) {
   return useCallback(() => {
     const step = state.currentStep
-    console.log('STEP IN PREVIOUS====>', step)
+
     if (step > 1) {
       dispatch({ type: 'PREVIOUS_STEP' })
       dispatch({
