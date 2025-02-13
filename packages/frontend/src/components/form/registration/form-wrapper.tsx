@@ -23,7 +23,7 @@ const initialValues = {
   country: ''
 }
 
-const RegistrationFormContent: React.FC<RegistrationFormProps> = ({ area }) => {
+const FormContent: React.FC<RegistrationFormProps> = ({ area }) => {
   const { state } = useRegistrationForm()
 
   const SuccessMessage = () => (
@@ -83,7 +83,7 @@ const RegistrationFormWrapper: React.FC<RegistrationFormProps> = ({
       singleValidator={registrationValidator}
       onSubmit={initialSignup}
     >
-      <RegistrationFormContent area={area} />
+      <FormContent area={area} />
     </RegistrationFormProvider>
   )
 }
