@@ -1,4 +1,4 @@
-import { createFormProvider } from '../contexts/form'
+import { createFormProvider } from '@/contexts/form'
 
 export interface LoginFormValues {
   email: string

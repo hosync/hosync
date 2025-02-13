@@ -229,23 +229,13 @@ export function createSubmitForm<T>(
           const response = await onSubmit(state.values)
 
           if (response.ok) {
-            if (response.redirectTo) {
-              dispatch({
-                type: 'SET_SUBMITTED',
-                payload: {
-                  isSubmitted: true,
-                  responseData: response
-                }
-              })
-            } else {
-              dispatch({
-                type: 'SET_SUBMITTED',
-                payload: {
-                  isSubmitted: true,
-                  responseData: response
-                }
-              })
-            }
+            dispatch({
+              type: 'SET_SUBMITTED',
+              payload: {
+                isSubmitted: true,
+                responseData: response
+              }
+            })
           } else {
             dispatch({
               type: 'SET_SUBMITTED',

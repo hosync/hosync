@@ -38,11 +38,13 @@ export function createFormProvider<T>() {
       createInitialState(initialValues, totalSteps ?? 1)
     )
 
+    // Steps forms
     const validateStep = createStepValidate(state, dispatch, validator)
-    const validate = createValidate(state, dispatch, singleValidator)
-
     const nextStep = createNextStep(state, dispatch, totalSteps, validateStep)
     const previousStep = createPreviousStep(state, dispatch)
+
+    // Single form
+    const validate = createValidate(state, dispatch, singleValidator)
     const submitForm = createSubmitForm(state, dispatch, validate, onSubmit)
 
     const setFormValues = useCallback(
