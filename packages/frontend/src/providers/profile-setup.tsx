@@ -50,7 +50,7 @@ export interface ProfileSetupFormValues {
     checkOutMinute: string
     checkOutPeriod: 'AM' | 'PM'
   }
-  images: string[]
+  images: any[]
 }
 
 export const ProfileSetupFormProvider =

@@ -43,7 +43,7 @@ const StepNavigation = ({
               className="h-12"
               disabled={disabled}
             >
-              {currentStep < 6 ? 'Next' : 'Finish'}
+              {currentStep < 7 ? 'Next' : 'Finish'}
             </Button>
           </RenderBlockIf>
         </div>

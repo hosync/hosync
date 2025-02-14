@@ -67,7 +67,7 @@ const initialValues = {
 const ProfileSetupFormContent: React.FC = () => {
   const { state, previousStep, nextStep } = useProfileSetupForm()
   const { currentStep = 1, values } = state
-
+  console.log('STATE====>', state)
   return (
     <div className="min-h-screen flex justify-center bg-white dark:bg-black w-full">
       <div className="p-6 dark:text-white w-full">
@@ -95,7 +95,7 @@ const ProfileSetupFormContent: React.FC = () => {
           </div>
         </div>
 
-        <RenderBlockIf isTrue={currentStep < 7}>
+        <RenderBlockIf isTrue={currentStep < 8}>
           <StepNavigation
             previousStep={previousStep}
             nextStep={() => nextStep()}

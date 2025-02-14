@@ -12,7 +12,6 @@ type Props = {
 }
 
 const FilesPreviewer: React.FC<Props> = ({
-  locale,
   files,
   setFiles,
   isUploadPhotosOpen,
@@ -46,9 +45,7 @@ const FilesPreviewer: React.FC<Props> = ({
       >
         <div className="flex flex-col items-center">
           <SVG.Plus size="50px" />
-          <span className="mt-2 text-sm">
-            {t('profile.setup.step6.addMorePhotos')}
-          </span>
+          <span className="mt-2 text-sm">Add more photos</span>
         </div>
       </div>
     </RenderBlockIf>

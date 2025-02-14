@@ -137,7 +137,7 @@ const Step5: FC = () => {
             onBlur={handleBlur}
             onKeyDown={handleKeyDown}
             autoFocus
-            className={`text-5xl text-center border-none focus:ring-0 outline-none w-48 dark:bg-gray-900 ${error ? 'text-red-500' : ''}`}
+            className={`text-6xl text-center border-none focus:ring-0 outline-none w-48 dark:bg-gray-900 ${error ? 'text-red-500' : ''}`}
           />
         ) : (
           <span

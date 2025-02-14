@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 import { Step1 } from './step1'
 import { Step2 } from './step2'
 import { Step3 } from './step3'
@@ -8,6 +10,8 @@ import { Step7 } from './step7'
 import { Step8 } from './step8'
 
 const StepRenderer = ({ currentStep }: { currentStep?: number }) => {
+  const [uploadedFiles, setUploadedFiles] = useState<any>([])
+
   const step = currentStep
 
   switch (step) {
@@ -22,7 +26,12 @@ const StepRenderer = ({ currentStep }: { currentStep?: number }) => {
     case 5:
       return <Step5 />
     case 6:
-      return <Step6 />
+      return (
+        <Step6
+          uploadedFiles={uploadedFiles}
+          setUploadedFiles={setUploadedFiles}
+        />
+      )
     case 7:
       return <Step7 />
     case 8:

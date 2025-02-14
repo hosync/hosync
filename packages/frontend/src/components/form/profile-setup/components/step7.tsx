@@ -33,22 +33,26 @@ const Step7: React.FC = () => {
         </h1>
         <div className="flex flex-wrap md:flex-nowrap">
           {/* Property Image */}
-          <div className="w-full md:w-1/2 lg:w-1/3 p-2 lg:ml-64"></div>
+          <div className="w-full md:w-1/2 lg:w-1/3 p-2 lg:ml-64">
+            <img
+              src={values.images[0].base64}
+              alt={values.propertyName}
+              className="w-full h-auto rounded-lg"
+            />
+          </div>
           {/* Property Details */}
           <div className="w-full md:w-1/2 lg:w-1/3 p-4 lg:mr-2">
-            <p>
+            <div>
               <h3 className="font-semibold text-xl">Price</h3>$
-              {values.pricing.pricePerNight} {values.pricing.currency} Per night
-            </p>
-
-            <p className="mt-2">
+              {values.pricing.price} {values.pricing.currency} per night
+            </div>
+            <div className="mt-2">
               <h3 className="font-semibold text-xl">Location</h3>
               {values.location.address1} {values.location.address2} <br />
               {values.location.city}, {values.location.state},{' '}
               {values.location.zipCode} <br />
               {values.location.country}
-            </p>
-
+            </div>
             <div className="mt-2">
               <h3 className="font-semibold text-xl">Information:</h3>
               <RenderBlockIf isTrue={values.propertyType === 'cabin'}>
@@ -59,7 +63,16 @@ const Step7: React.FC = () => {
                   Beds: {values.capacity.beds}
                 </div>
               </RenderBlockIf>
+
+              {/* <RenderBlockIf isTrue={values.propertyType === 'hotel'}>
+                <div>
+                  {t('profile.setup.step7.rooms')}: {parentRooms.length} <br />
+                  {t('profile.setup.step7.floors')}: {parentFloors.length}{' '}
+                  <br />
+                </div>
+              </RenderBlockIf> */}
             </div>
+
             <div className="mt-4">
               <h3 className="font-semibold text-xl">Amenities</h3>
 
