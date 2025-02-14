@@ -9,7 +9,7 @@ const Step5: FC = () => {
   const { values } = state
   const { price: propertyPrice, currency: originalCurrency } = values.pricing
 
-  const [price, setPrice] = useState<number>(propertyPrice)
+  const [price, setPrice] = useState<string | number>(propertyPrice)
   const [isEditing, setIsEditing] = useState<boolean>(false)
   const [inputValue, setInputValue] = useState<string>(price.toString())
   const [error, setError] = useState<string | null>(null)
@@ -60,6 +60,7 @@ const Step5: FC = () => {
         currency
       }
 
+      // @ts-ignore
       setFormValues({ ...values, pricing })
     }
   }, [
@@ -91,8 +92,6 @@ const Step5: FC = () => {
 
     if (!isNaN(newValue) && newValue <= 100000) {
       setPrice(newValue)
-    } else {
-      setInputValue(price.toString()) // Reset to current price if invalid input
     }
 
     setIsEditing(false)
@@ -105,7 +104,9 @@ const Step5: FC = () => {
   }
 
   const formatNumber = (num: number) => {
-    return new Intl.NumberFormat('en-US').format(num)
+    const newPrice = new Intl.NumberFormat('en-US').format(num)
+
+    return newPrice
   }
 
   const getCurrencySymbol = () => {
@@ -125,7 +126,7 @@ const Step5: FC = () => {
 
   return (
     <div className="text-center mt-10">
-      <div className="text-7xl sm:text-8xl font-bold flex justify-center items-center">
+      <div className="text-6xl font-bold flex justify-center items-center w-full">
         <span className="mr-2">{getCurrencySymbol()}</span>
         {isEditing ? (
           <input
@@ -136,15 +137,18 @@ const Step5: FC = () => {
             onBlur={handleBlur}
             onKeyDown={handleKeyDown}
             autoFocus
-            className={`text-8xl text-center border-none focus:ring-0 outline-none w-48 dark:bg-gray-900 ${error ? 'text-red-500' : ''}`}
+            className={`text-5xl text-center border-none focus:ring-0 outline-none w-48 dark:bg-gray-900 ${error ? 'text-red-500' : ''}`}
           />
         ) : (
           <span
             data-testid="fixed-price"
-            onClick={() => setIsEditing(true)}
-            className={`${error ? 'text-red-500' : ''}`}
+            onClick={() => {
+              setIsEditing(true)
+              setPrice(price || '')
+            }}
+            className={`${error ? 'text-red-500' : ''} `}
           >
-            {formatNumber(price)}
+            {formatNumber(price as number)}
           </span>
         )}
       </div>

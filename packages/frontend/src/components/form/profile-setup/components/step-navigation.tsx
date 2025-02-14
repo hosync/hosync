@@ -20,7 +20,9 @@ const StepNavigation = ({
   const hasAmenities =
     ammenities.filter((amenity) => amenity === true).length > 0
 
-  const disabled = currentStep === 4 && !hasAmenities
+  const disabled =
+    (currentStep === 4 && !hasAmenities) ||
+    (currentStep === 5 && values.pricing.price === 0)
 
   return (
     <div className="sticky h-20 mt-3 bg-white dark:bg-black z-50 pt-4 border-t border-gray-100 dark:border-gray-800">
