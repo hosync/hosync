@@ -54,11 +54,11 @@ const initialValues = {
   pricing: {
     price: 0,
     currency: 'USD' as const,
-    checkInHour: 4,
-    checkInMinute: 0,
+    checkInHour: '03',
+    checkInMinute: '00',
     checkInPeriod: 'PM' as const,
-    checkOutHour: 12,
-    checkOutMinute: 0,
+    checkOutHour: '12',
+    checkOutMinute: '00',
     checkOutPeriod: 'PM' as const
   },
   images: []

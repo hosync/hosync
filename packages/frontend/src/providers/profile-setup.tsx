@@ -43,11 +43,11 @@ export interface ProfileSetupFormValues {
   pricing: {
     price: number
     currency: 'USD' | 'MXN'
-    checkInHour: number
-    checkInMinute: number
+    checkInHour: string
+    checkInMinute: string
     checkInPeriod: 'AM' | 'PM'
-    checkOutHour: number
-    checkOutMinute: number
+    checkOutHour: string
+    checkOutMinute: string
     checkOutPeriod: 'AM' | 'PM'
   }
   images: string[]

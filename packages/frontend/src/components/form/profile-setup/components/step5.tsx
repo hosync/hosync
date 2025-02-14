@@ -1,37 +1,98 @@
 'use client'
 
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 
 import { useProfileSetupForm } from '@/hooks/forms/useProfileSetupForm'
 
 const Step5: FC = () => {
-  const { state, setFormValues, onChange } = useProfileSetupForm()
+  const { state, setFormValues } = useProfileSetupForm()
   const { values } = state
+  const { price: propertyPrice, currency: originalCurrency } = values.pricing
 
-  const [isEditing, setIsEditing] = useState(false)
+  const [price, setPrice] = useState<number>(propertyPrice)
+  const [isEditing, setIsEditing] = useState<boolean>(false)
+  const [inputValue, setInputValue] = useState<string>(price.toString())
+  const [error, setError] = useState<string | null>(null)
+  const [currency, setCurrency] = useState<'USD' | 'MXN'>(originalCurrency)
 
-  const {
-    price,
-    currency,
+  const [checkInHour, setCheckInHour] = useState(
+    values.pricing.checkInHour || '03'
+  )
+  const [checkInMinute, setCheckInMinute] = useState(
+    values.pricing.checkInMinute || '00'
+  )
+  const [checkInPeriod, setCheckInPeriod] = useState(
+    values.pricing.checkInPeriod || 'PM'
+  )
+  const [checkOutHour, setCheckOutHour] = useState(
+    values.pricing.checkOutHour || '12'
+  )
+  const [checkOutMinute, setCheckOutMinute] = useState(
+    values.pricing.checkOutMinute || '00'
+  )
+  const [checkOutPeriod, setCheckOutPeriod] = useState(
+    values.pricing.checkOutPeriod || 'PM'
+  )
+
+  useEffect(() => {
+    setInputValue(price.toString())
+  }, [price, values])
+
+  useEffect(() => {
+    if (
+      values.pricing.checkInHour !== checkInHour ||
+      values.pricing.checkInMinute !== checkInMinute ||
+      values.pricing.checkInPeriod !== checkInPeriod ||
+      values.pricing.checkOutHour !== checkOutHour ||
+      values.pricing.checkOutMinute !== checkOutMinute ||
+      values.pricing.checkOutPeriod !== checkOutPeriod ||
+      values.pricing.price !== price ||
+      values.pricing.currency !== currency
+    ) {
+      const pricing = {
+        checkInHour,
+        checkInMinute,
+        checkInPeriod,
+        checkOutHour,
+        checkOutMinute,
+        checkOutPeriod,
+        price,
+        currency
+      }
+
+      setFormValues({ ...values, pricing })
+    }
+  }, [
     checkInHour,
     checkInMinute,
     checkInPeriod,
     checkOutHour,
     checkOutMinute,
-    checkOutPeriod
-  } = values.pricing
-  console.log('checkInHour==>', checkInHour)
-  console.log('checkOutHour===>', checkOutHour)
+    checkOutPeriod,
+    price
+  ])
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value
+
+    if (/^\d*$/.test(value)) {
+      setInputValue(value)
+
+      if (parseInt(value, 10) > 100000) {
+        setError('Value cannot exceed 100,000')
+      } else {
+        setError(null)
+      }
+    }
+  }
+
   const handleBlur = () => {
-    const newValue = price
+    const newValue = parseInt(inputValue, 10)
 
     if (!isNaN(newValue) && newValue <= 100000) {
-      setFormValues({
-        ...values,
-        pricing: { ...values.pricing, price: newValue }
-      })
+      setPrice(newValue)
     } else {
-      // setInputValue(price.toString()) // Reset to current price if invalid input
+      setInputValue(price.toString()) // Reset to current price if invalid input
     }
 
     setIsEditing(false)
@@ -44,9 +105,7 @@ const Step5: FC = () => {
   }
 
   const formatNumber = (num: number) => {
-    const newPrice = new Intl.NumberFormat('en-US').format(num)
-    console.log('NEW PRICE==>', num, newPrice)
-    return newPrice
+    return new Intl.NumberFormat('en-US').format(num)
   }
 
   const getCurrencySymbol = () => {
@@ -61,10 +120,7 @@ const Step5: FC = () => {
   }
 
   const handleCurrencyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setFormValues({
-      ...values,
-      pricing: { ...values.pricing, currency: e.target.value as 'USD' | 'MXN' }
-    })
+    setCurrency(e.target.value as 'USD' | 'MXN')
   }
 
   return (
@@ -75,25 +131,29 @@ const Step5: FC = () => {
           <input
             data-testid="price"
             type="text"
-            value={price}
-            onChange={onChange}
+            value={inputValue}
+            onChange={handleInputChange}
             onBlur={handleBlur}
             onKeyDown={handleKeyDown}
             autoFocus
-            className={`text-8xl text-center border-none focus:ring-0 outline-none w-48 dark:bg-gray-900`}
+            className={`text-8xl text-center border-none focus:ring-0 outline-none w-48 dark:bg-gray-900 ${error ? 'text-red-500' : ''}`}
           />
         ) : (
-          <span data-testid="fixed-price" onClick={() => setIsEditing(true)}>
+          <span
+            data-testid="fixed-price"
+            onClick={() => setIsEditing(true)}
+            className={`${error ? 'text-red-500' : ''}`}
+          >
             {formatNumber(price)}
           </span>
         )}
       </div>
+      {error && <div className="text-red-500 text-xl mt-2">{error}</div>}
 
       <div className="mt-4">
         <label htmlFor="currency" className="mr-2">
           Currency:
         </label>
-
         <select
           id="currency"
           value={currency}
@@ -114,15 +174,7 @@ const Step5: FC = () => {
             <select
               id="checkInHour"
               value={checkInHour}
-              onChange={(e) =>
-                setFormValues({
-                  ...values,
-                  pricing: {
-                    ...values.pricing,
-                    checkInHour: Number(e.target.value)
-                  }
-                })
-              }
+              onChange={(e) => setCheckInHour(e.target.value)}
               className="p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white dark:bg-gray-800 dark:border-gray-600"
             >
               {Array.from({ length: 12 }, (_, i) => (
@@ -135,15 +187,7 @@ const Step5: FC = () => {
             <select
               id="checkInMinute"
               value={checkInMinute}
-              onChange={(e) =>
-                setFormValues({
-                  ...values,
-                  pricing: {
-                    ...values.pricing,
-                    checkInMinute: Number(e.target.value)
-                  }
-                })
-              }
+              onChange={(e) => setCheckInMinute(e.target.value)}
               className="p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white dark:bg-gray-800 dark:border-gray-600"
             >
               {['00', '15', '30', '45'].map((min) => (
@@ -155,15 +199,7 @@ const Step5: FC = () => {
             <select
               id="checkInPeriod"
               value={checkInPeriod}
-              onChange={(e) =>
-                setFormValues({
-                  ...values,
-                  pricing: {
-                    ...values.pricing,
-                    checkInPeriod: e.target.value as 'AM' | 'PM'
-                  }
-                })
-              }
+              onChange={(e) => setCheckInPeriod(e.target.value as 'AM' | 'PM')}
               className="p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white dark:bg-gray-800 dark:border-gray-600"
             >
               <option value="AM">AM</option>
@@ -179,15 +215,7 @@ const Step5: FC = () => {
             <select
               id="checkOutHour"
               value={checkOutHour}
-              onChange={(e) =>
-                setFormValues({
-                  ...values,
-                  pricing: {
-                    ...values.pricing,
-                    checkOutHour: Number(e.target.value)
-                  }
-                })
-              }
+              onChange={(e) => setCheckOutHour(e.target.value)}
               className="p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white dark:bg-gray-800 dark:border-gray-600"
             >
               {Array.from({ length: 12 }, (_, i) => (
@@ -200,15 +228,7 @@ const Step5: FC = () => {
             <select
               id="checkOutMinute"
               value={checkOutMinute}
-              onChange={(e) =>
-                setFormValues({
-                  ...values,
-                  pricing: {
-                    ...values.pricing,
-                    checkOutMinute: Number(e.target.value)
-                  }
-                })
-              }
+              onChange={(e) => setCheckOutMinute(e.target.value)}
               className="p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white dark:bg-gray-800 dark:border-gray-600"
             >
               {['00', '15', '30', '45'].map((min) => (
@@ -220,15 +240,7 @@ const Step5: FC = () => {
             <select
               id="checkOutPeriod"
               value={checkOutPeriod}
-              onChange={(e) =>
-                setFormValues({
-                  ...values,
-                  pricing: {
-                    ...values.pricing,
-                    checkOutPeriod: e.target.value as 'AM' | 'PM'
-                  }
-                })
-              }
+              onChange={(e) => setCheckOutPeriod(e.target.value as 'AM' | 'PM')}
               className="p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white dark:bg-gray-800 dark:border-gray-600"
             >
               <option value="AM">AM</option>
