@@ -2,6 +2,7 @@
 
 import { cx } from '@hosync/utils'
 
+import { setupProfile } from '@/actions/profile/profile'
 import { RenderBlockIf } from '@/components/helpers/render-block-if'
 import { useProfileSetupForm } from '@/hooks/forms/useProfileSetupForm'
 import { ProfileSetupFormProvider } from '@/providers/profile-setup'
@@ -10,6 +11,10 @@ import { profileSetupValidator } from '@/validators/profile-setup'
 import { StepNavigation } from './components/step-navigation'
 import { StepRenderer } from './components/step-renderer'
 import { StepTitle } from './components/step-title'
+
+interface ProfileSetupFormProps {
+  user: any
+}
 
 const initialValues = {
   propertyName: '',
@@ -64,10 +69,9 @@ const initialValues = {
   images: []
 }
 
-const ProfileSetupFormContent: React.FC = () => {
+const ProfileSetupFormContent: React.FC<ProfileSetupFormProps> = ({ user }) => {
   const { state, previousStep, nextStep } = useProfileSetupForm()
   const { currentStep = 1, values } = state
-  console.log('STATE====>', state)
   return (
     <div className="min-h-screen flex justify-center bg-white dark:bg-black w-full">
       <div className="p-6 dark:text-white w-full">
@@ -99,7 +103,9 @@ const ProfileSetupFormContent: React.FC = () => {
           <StepNavigation
             previousStep={previousStep}
             nextStep={() => nextStep()}
+            onSubmit={setupProfile}
             currentStep={currentStep}
+            user={user}
           />
         </RenderBlockIf>
       </div>
@@ -114,7 +120,6 @@ type Props = {
 const ProfileSetupFormWrapper: React.FC<Props> = ({ user }) => {
   initialValues.email = user.email
   initialValues.location.country = 'Mexico'
-
   // TODO: Remove this hardcoded values when the form is ready
   initialValues.location.state = 'Jalisco'
   initialValues.location.city = 'Guadalajara'
@@ -131,7 +136,7 @@ const ProfileSetupFormWrapper: React.FC<Props> = ({ user }) => {
       validator={profileSetupValidator}
       totalSteps={8}
     >
-      <ProfileSetupFormContent />
+      <ProfileSetupFormContent user={user} />
     </ProfileSetupFormProvider>
   )
 }

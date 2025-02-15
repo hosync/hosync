@@ -20,6 +20,12 @@ class CRUD extends CRUDHandler<Business> {
       throw error
     }
   }
+
+  async update(id: string, data: any): Promise<any> {
+    data.updatedAt = new Date()
+    if (data.createdAt === '') delete data.createdAt
+    return super.update(id, data)
+  }
 }
 
 export default CRUD
