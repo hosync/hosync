@@ -1,5 +1,7 @@
 'use server'
 
+import { files } from '@hosync/utils'
+
 import { ASRDTO } from '@/dtos/asr-dto'
 import { ASRModelDTO, ASRTypeDTO, getASRDTO } from '@/dtos/asr-model-dto'
 import { BusinessDTO, getBusinessDTO } from '@/dtos/business-dto'
@@ -20,11 +22,6 @@ export const setupProfile = async (
   data: any,
   user: any
 ): Promise<APIResponse<any>> => {
-  console.log('values ====>', data)
-  console.log('user ====>', user)
-
-  //const rooms: any[] = data.rooms ? JSON.parse(data.rooms) : []
-  const images: string[] = data.images
   const businessId = user.businessId
 
   const businessItemData: BusinessDTO = getBusinessDTO(data, user.businessId)
@@ -64,7 +61,20 @@ export const setupProfile = async (
       const createdProperty = await PropertyService.create(propertyData)
 
       if (createdProperty.ok && createdFeeData.ok) {
-        const propertyCreated: PropertyDTO = createdProperty.data
+        const propertyCreated: any = createdProperty.data
+        const uploadedFiles = data.images
+        /* Upload images to server side */
+        const uploadFilesResponse = await files.uploadFiles(
+          uploadedFiles,
+          `/api/v1/uploader?setType=image&businessSlug=${user.businessSlug}`
+        )
+
+        let images = []
+
+        if (uploadFilesResponse.ok) {
+          images = uploadFilesResponse.data.map((data: any) => data.path)
+        }
+
         const imagesPayload = images.map((image: string) => {
           return {
             url: image,
