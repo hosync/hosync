@@ -1,8 +1,12 @@
 'use server'
 
-// import { ASRFields, ASRModel, PropertyFields } from '../../../db'
-import { core } from '@hosync/utils'
+import { files } from '@hosync/utils'
 
+import { ASRDTO } from '@/dtos/asr-dto'
+import { ASRModelDTO, ASRTypeDTO, getASRDTO } from '@/dtos/asr-model-dto'
+import { BusinessDTO, getBusinessDTO } from '@/dtos/business-dto'
+import { FeeDTO, getFeeDTO } from '@/dtos/fee-dto'
+import { getPropertyDTO, PropertyDTO } from '@/dtos/property-dto'
 import ASRService from '@/services/asr'
 import BusinessService from '@/services/business'
 import FeeService from '@/services/fee'
@@ -14,21 +18,13 @@ import UnitService from '@/services/unit'
 import UserService from '@/services/user'
 import { APIResponse } from '@/types/api'
 
-export const setupProfile = async (e: FormData): Promise<APIResponse<any>> => {
-  const data = core.formData.get(e)
-  const rooms: any[] = data.rooms ? JSON.parse(data.rooms) : []
-  const images: string[] = JSON.parse(data.images)
-  const businessId = data.businessId
-  const businessItemData = {
-    googleMapsUrl: data.googleMaps,
-    addressLine1: data.address1,
-    addressLine2: data.address2,
-    city: data.city,
-    state: data.state,
-    country: data.country,
-    zipCode: data.zipCode,
-    email: data.email
-  }
+export const setupProfile = async (
+  data: any,
+  user: any
+): Promise<APIResponse<any>> => {
+  const businessId = user.businessId
+
+  const businessItemData: BusinessDTO = getBusinessDTO(data, user.businessId)
   /* Updating business data by using business service class */
   const generalResponse: APIResponse<any> = await BusinessService.update(
     businessId,
@@ -36,92 +32,49 @@ export const setupProfile = async (e: FormData): Promise<APIResponse<any>> => {
   )
 
   if (generalResponse.ok) {
-    /* Creating new amenity by using amenity service class*/
-    const amenityData: Map<string, boolean> = new Map(
-      Object.entries(JSON.parse(data.amenities))
-    )
+    const asr: ASRTypeDTO = getASRDTO(data.amenities)
 
-    const asr: ASRModel = {
-      asr: {
-        amenity: {
-          ac: !!amenityData.get('ac'),
-          bedSheets: !!amenityData.get('bedSheets'),
-          coffeeMachine: !!amenityData.get('coffeeMachine'),
-          extraBed: !!amenityData.get('extraBed'),
-          garden: !!amenityData.get('garden'),
-          hotWater: !!amenityData.get('hotWater'),
-          kitchen: !!amenityData.get('kitchen'),
-          oven: !!amenityData.get('oven'),
-          refrigerator: !!amenityData.get('refrigerator'),
-          towels: !!amenityData.get('towels'),
-          tv: !!amenityData.get('tv')
-        },
-        service: {
-          freeParking: !!amenityData.get('freeParking'),
-          laundry: !!amenityData.get('laundry'),
-          pool: !!amenityData.get('pool'),
-          wifi: !!amenityData.get('wifi')
-        },
-        rule: {
-          smoking: !!amenityData.get('smoking'),
-          petFriendly: !!amenityData.get('petFriendly')
-        }
-      }
-    }
-
-    const propertyObj = new ASRModel(asr)
+    const propertyObj = new ASRModelDTO(asr)
 
     // Change to createdASR
     const createdASR = await ASRService.create(propertyObj)
 
     if (createdASR.ok) {
-      const amenityCreated: ASRFields = createdASR.data
-      let roomsCount = 0
-      let floorsCount = 0
-
-      if (rooms.length > 0) {
-        const floorsItems = rooms.reduce((acc, obj) => {
-          const floor = obj.floor
-          acc[floor] = (acc[floor] || 0) + 1
-          return acc
-        }, [])
-
-        floorsCount = floorsItems.length - 1
-        roomsCount = floorsItems.reduce(
-          (sum: number, num: number) => (num > 0 ? sum + num : sum),
-          0
-        )
-      } else {
-        floorsCount = 1
-        roomsCount = data.bedrooms
-      }
-
-      const propertyData = {
-        businessId: businessId,
-        asrId: amenityCreated.id,
-        name: data.propertyName,
-        slug: '',
-        description: '',
-        floors: floorsCount,
-        rooms: roomsCount,
-        generalRules: '',
-        safetyRules: '',
-        cancellationPolicy: '',
-        checkIn: `${data.checkInHour}:${data.checkInMinute} ${data.checkInPeriod}`,
-        checkOut: `${data.checkOutHour}:${data.checkOutMinute} ${data.checkOutPeriod}`,
-        active: true
-      }
+      const amenityCreated: ASRDTO = createdASR.data
 
       const feeData = {
-        weekdayFee: data.price
+        weekdayFee: data.pricing.price
       }
+      const feeDTO: FeeDTO = getFeeDTO(feeData)
 
-      const createdFeeData = await FeeService.create(feeData)
+      const createdFeeData = await FeeService.create(feeDTO)
+
+      const propertyData = getPropertyDTO(
+        businessId,
+        amenityCreated.id,
+        data.propertyType,
+        data.propertyName,
+        data.capacity,
+        data.pricing
+      )
 
       const createdProperty = await PropertyService.create(propertyData)
 
       if (createdProperty.ok && createdFeeData.ok) {
-        const propertyCreated: PropertyFields = createdProperty.data
+        const propertyCreated: any = createdProperty.data
+        const uploadedFiles = data.images
+        /* Upload images to server side */
+        const uploadFilesResponse = await files.uploadFiles(
+          uploadedFiles,
+          `/api/v1/uploader?setType=image&businessSlug=${user.businessSlug}`
+        )
+
+        let images = []
+
+        if (uploadFilesResponse.ok) {
+          images = uploadFilesResponse.data.map((data: any) => data.path)
+        }
+
         const imagesPayload = images.map((image: string) => {
           return {
             url: image,
@@ -131,32 +84,17 @@ export const setupProfile = async (e: FormData): Promise<APIResponse<any>> => {
 
         await PhotoService.create(imagesPayload)
 
-        if (rooms.length > 0) {
-          const roomsPayload = rooms.map((room: any) => {
-            return {
-              propertyId: createdProperty.data.id,
-              feeId: createdFeeData.data.id,
-              asrId: amenityCreated.id,
-              floor: room.floor,
-              roomNumber: room.roomNumber,
-              roomType: room.type
-            }
-          })
-
-          await RoomService.create(roomsPayload)
-        } else {
-          const unitData = {
-            propertyId: createdProperty.data.id,
-            feeId: createdFeeData.data.id,
-            asrId: amenityCreated.id,
-            maxGuests: data.guests,
-            bedrooms: data.bathrooms,
-            bathrooms: data.bathrooms,
-            queenSizeBeds: data.beds
-          }
-
-          await UnitService.create(unitData)
+        const unitData = {
+          propertyId: createdProperty.data.id,
+          feeId: createdFeeData.data.id,
+          asrId: amenityCreated.id,
+          maxGuests: data.capacity.guests,
+          bedrooms: data.capacity.bathrooms,
+          bathrooms: data.capacity.bathrooms,
+          queenSizeBeds: data.capacity.beds
         }
+
+        await UnitService.create(unitData)
 
         const timezone =
           data.country === 'Mexico'
@@ -174,7 +112,7 @@ export const setupProfile = async (e: FormData): Promise<APIResponse<any>> => {
         await SettingsService.create(settingsData)
 
         const userData = {
-          id: data.userId,
+          id: user.id,
           password: data.password,
           active: true
         }

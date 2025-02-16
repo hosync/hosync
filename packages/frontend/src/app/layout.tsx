@@ -4,7 +4,7 @@ import { Inter } from 'next/font/google'
 
 import { cx } from '@hosync/utils'
 
-import { ThemeProvider } from '@/contexts/theme-context'
+import { ThemeProvider } from '@/contexts/theme'
 import config from '@/lib/config'
 import * as cookies from '@/lib/utils/cookies'
 

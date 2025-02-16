@@ -1,12 +1,18 @@
 'use client'
 
+import { login } from '@/actions/auth/login'
 import { LoginForm } from '@/components/form/login/form'
 import { Link } from '@/components/ui/link'
-import { useFormContext } from '@/contexts/form-context'
-import FormProvider from '@/hooks/forms/useLoginForm'
+import { useLoginForm } from '@/hooks/forms/useLoginForm'
+import { LoginFormProvider } from '@/providers/login'
+
+const initialFormValues = {
+  email: '',
+  password: ''
+}
 
 const Content: React.FC = () => {
-  const { state } = useFormContext()
+  const { state } = useLoginForm()
 
   return (
     <div className="flex justify-center items-center min-h-screen">
@@ -30,7 +36,7 @@ const Content: React.FC = () => {
         </h2>
 
         <p className="text-red-500 mb-4 text-xs text-center">
-          {state.errors.responseError}
+          {state.errors.error.responseError}
         </p>
 
         <LoginForm />
@@ -54,9 +60,9 @@ const Content: React.FC = () => {
 
 const LoginFormWrapper: React.FC = () => {
   return (
-    <FormProvider>
+    <LoginFormProvider initialValues={initialFormValues} onSubmit={login}>
       <Content />
-    </FormProvider>
+    </LoginFormProvider>
   )
 }
 

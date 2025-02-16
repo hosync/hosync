@@ -4,9 +4,10 @@ import localFont from 'next/font/local'
 import Link from 'next/link'
 import { FC } from 'react'
 
-import { RenderBlockIf } from '@/components/helpers/render-block-if'
-import { useTheme } from '@/contexts/theme-context'
 import { cx } from '@hosync/utils'
+
+import { RenderBlockIf } from '@/components/helpers/render-block-if'
+import { useTheme } from '@/contexts/theme'
 
 type Props = {
   style?: 'light' | 'dark'

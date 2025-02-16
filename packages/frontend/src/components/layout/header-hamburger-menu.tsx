@@ -5,7 +5,7 @@ import React, { FC, useState } from 'react'
 import { RenderBlockIf } from '@/components/helpers/render-block-if'
 import { SVG } from '@/components/svg'
 import { Link } from '@/components/ui/link'
-import { useTheme } from '@/contexts/theme-context'
+import { useTheme } from '@/contexts/theme'
 
 type Props = {
   isLogged: boolean

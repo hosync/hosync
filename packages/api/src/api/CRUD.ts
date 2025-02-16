@@ -1,5 +1,6 @@
 import { Column, TableConfig } from 'drizzle-orm'
 import { PgTable } from 'drizzle-orm/pg-core'
+
 import { is, security } from '@hosync/utils'
 
 import { DB, sql, SQL } from '..'
@@ -164,6 +165,8 @@ class CRUD<T extends PgTable<TableConfig>> {
 
     if (is(itemData).array()) {
       itemData.forEach(async (item: any) => {
+        item.createdAt = new Date()
+        item.updatedAt = new Date()
         const itemSaved = await this.db
           .insert(this.table)
           .values(item)
@@ -171,6 +174,8 @@ class CRUD<T extends PgTable<TableConfig>> {
         data.push(itemSaved)
       })
     } else {
+      itemData.createdAt = new Date()
+      itemData.updatedAt = new Date()
       data = await this.db.insert(this.table).values(itemData).returning()
     }
 
@@ -180,6 +185,7 @@ class CRUD<T extends PgTable<TableConfig>> {
   }
 
   async update(id: string, itemData: any): Promise<DataResponse<ItemData>> {
+    itemData.updatedAt = new Date()
     const data = await this.db
       .update(this.table)
       .set(itemData)

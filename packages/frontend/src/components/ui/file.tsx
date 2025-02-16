@@ -47,7 +47,7 @@ const File: FC<Props> = ({
   const readFile = (file: File) => {
     const fileReader = new FileReader()
 
-    const handleFileReaderLoad = (e: ProgressEvent<FileReader>) => {
+    const handleFileReaderLoad = () => {
       const base64 = fileReader.result
 
       if (is(base64).string()) {
@@ -108,7 +108,7 @@ const File: FC<Props> = ({
     }
   }
 
-  const handleDragLeave = (e: DragEvent<HTMLDivElement>) => {
+  const handleDragLeave = () => {
     styleControl.current--
 
     if (styleControl.current == 0) {
@@ -194,7 +194,7 @@ const File: FC<Props> = ({
               }
             )}
           >
-            {t('profile.setup.step6.uploadFromDevice')}
+            Upload from device
           </label>
 
           <input

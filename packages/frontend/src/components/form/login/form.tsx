@@ -6,13 +6,17 @@ import { FcGoogle } from 'react-icons/fc'
 import { SVG } from '@/components/svg'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { useFormContext } from '@/contexts/form-context'
-import { useTheme } from '@/contexts/theme-context'
-import { LoginValuesOrErrors } from '@/validations'
+import { useTheme } from '@/contexts/theme'
+import { useLoginForm } from '@/hooks/forms/useLoginForm'
 
 const LoginForm: React.FC = () => {
   const { darkMode } = useTheme()
-  const { state, onChange, onSubmit } = useFormContext<LoginValuesOrErrors>()
+  const { state, onChange, submitForm } = useLoginForm()
+  const { redirectTo = '' } = state.responseData || {}
+
+  if (redirectTo) {
+    window.location.href = redirectTo
+  }
 
   return (
     <>
@@ -28,10 +32,11 @@ const LoginForm: React.FC = () => {
             required
             onChange={onChange}
             value={state.values.email}
-            errorText={state.errors.email}
+            errorText={state.errors.error.email}
           />
         </div>
       </div>
+
       <div className="relative">
         <div className="relative">
           <Input
@@ -43,7 +48,7 @@ const LoginForm: React.FC = () => {
             required
             onChange={onChange}
             value={state.values.password}
-            errorText={state.errors.password}
+            errorText={state.errors.error.password}
           />
         </div>
       </div>
@@ -58,12 +63,7 @@ const LoginForm: React.FC = () => {
       </div>
 
       <div className="m-auto">
-        <Button
-          color="primary"
-          onClick={(e: any) => onSubmit(e)}
-          fullWidth
-          type="submit"
-        >
+        <Button color="primary" onClick={submitForm} fullWidth type="submit">
           Login
         </Button>
       </div>

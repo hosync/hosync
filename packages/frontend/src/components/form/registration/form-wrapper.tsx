@@ -2,18 +2,29 @@
 
 import { cx } from '@hosync/utils'
 
+import { initialSignup } from '@/actions/auth/user'
 import { RegistrationForm } from '@/components/form/registration/form'
 import { RenderBlockIf } from '@/components/helpers/render-block-if'
 import { Link } from '@/components/ui/link'
-import { useFormContext } from '@/contexts/form-context'
-import RegistrationFormProvider from '@/hooks/forms/useRegistrationForm'
+import { useRegistrationForm } from '@/hooks/forms/useRegistrationForm'
+import { RegistrationFormProvider } from '@/providers/registration'
+import { registrationValidator } from '@/validators/registration'
 
 interface RegistrationFormProps {
   area: string
 }
 
-const RegistrationFormContent: React.FC<RegistrationFormProps> = ({ area }) => {
-  const { state } = useFormContext()
+const initialValues = {
+  businessEmail: '',
+  fullName: '',
+  businessName: '',
+  businessPhone: '',
+  businessWebsite: '',
+  country: ''
+}
+
+const FormContent: React.FC<RegistrationFormProps> = ({ area }) => {
+  const { state } = useRegistrationForm()
 
   const SuccessMessage = () => (
     <div className="flex min-h-[519px] flex-col text-black dark:text-white justify-center m-auto p-1 text-center">
@@ -67,8 +78,12 @@ const RegistrationFormWrapper: React.FC<RegistrationFormProps> = ({
   area = 'hero'
 }) => {
   return (
-    <RegistrationFormProvider>
-      <RegistrationFormContent area={area} />
+    <RegistrationFormProvider
+      initialValues={initialValues}
+      singleValidator={registrationValidator}
+      onSubmit={initialSignup}
+    >
+      <FormContent area={area} />
     </RegistrationFormProvider>
   )
 }

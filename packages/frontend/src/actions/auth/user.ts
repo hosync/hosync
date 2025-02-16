@@ -2,9 +2,9 @@
 
 import { core, security } from '@hosync/utils'
 
+import { RegistrationFormValues } from '@/providers/registration'
 import UserService from '@/services/user'
 import { APIResponse, CreatedItem } from '@/types/api'
-import { RegistrationValuesOrErrors } from '@/validations'
 
 export const getAll = async () => {
   const response = await UserService.getAll({ endpoint: 'user/' })
@@ -20,7 +20,7 @@ export const del = async (e: FormData): Promise<APIResponse<any>> => {
 }
 
 export const initialSignup = async (
-  values: RegistrationValuesOrErrors
+  values: RegistrationFormValues
 ): Promise<APIResponse<CreatedItem>> => {
   const {
     fullName,
