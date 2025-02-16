@@ -2,7 +2,7 @@ import ServiceHandler from './Service'
 
 class Service extends ServiceHandler {
   constructor() {
-    super('setting')
+    super('settings')
   }
 }
 

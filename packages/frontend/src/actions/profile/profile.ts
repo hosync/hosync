@@ -7,13 +7,13 @@ import { ASRModelDTO, ASRTypeDTO, getASRDTO } from '@/dtos/asr-model-dto'
 import { BusinessDTO, getBusinessDTO } from '@/dtos/business-dto'
 import { FeeDTO, getFeeDTO } from '@/dtos/fee-dto'
 import { getPropertyDTO, PropertyDTO } from '@/dtos/property-dto'
+import { SettingDTO } from '@/dtos/setting-dto'
 import ASRService from '@/services/asr'
 import BusinessService from '@/services/business'
 import FeeService from '@/services/fee'
 import PhotoService from '@/services/photo'
 import PropertyService from '@/services/property'
-import RoomService from '@/services/room'
-import SettingsService from '@/services/setting'
+import SettingsService from '@/services/settings'
 import UnitService from '@/services/unit'
 import UserService from '@/services/user'
 import { APIResponse } from '@/types/api'
@@ -97,17 +97,17 @@ export const setupProfile = async (
         await UnitService.create(unitData)
 
         const timezone =
-          data.country === 'Mexico'
+          data.location.country === 'Mexico'
             ? 'GMT-6'
-            : data.country === 'Canada'
+            : data.location.country === 'Canada'
               ? 'GTM-4'
               : 'GTM-4'
 
-        const settingsData = {
-          userId: data.userId,
-          currency: data.currency,
-          language: data.country,
-          timezone
+        const settingsData: SettingDTO = {
+          userId: user.id,
+          language: data.location.country === 'Mexico' ? 'es-mx' : 'en-us',
+          timezone: timezone,
+          theme: 'light'
         }
         await SettingsService.create(settingsData)
 

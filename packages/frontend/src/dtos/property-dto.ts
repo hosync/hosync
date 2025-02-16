@@ -35,8 +35,8 @@ export const getPropertyDTO = (
     generalRules: '',
     safetyRules: '',
     cancellationPolicy: '',
-    checkIn: `${pricing.checkInHour} : ${pricing.checkInMinute} ${pricing.checkInPeriod}`,
-    checkOut: `${pricing.checkOutHour} : ${pricing.checkOutMinute} ${pricing.checkOutPeriod}`,
+    checkIn: `${pricing.checkInHour}:${pricing.checkInMinute} ${pricing.checkInPeriod}`,
+    checkOut: `${pricing.checkOutHour}:${pricing.checkOutMinute} ${pricing.checkOutPeriod}`,
     active: true
   }
 }
