@@ -1,7 +1,5 @@
 'use server'
 
-import { core } from '@hosync/utils'
-
 import { ASRDTO } from '@/dtos/asr-dto'
 import { ASRModelDTO, ASRTypeDTO, getASRDTO } from '@/dtos/asr-model-dto'
 import { BusinessDTO, getBusinessDTO } from '@/dtos/business-dto'
@@ -80,10 +78,10 @@ export const setupProfile = async (
           propertyId: createdProperty.data.id,
           feeId: createdFeeData.data.id,
           asrId: amenityCreated.id,
-          maxGuests: data.guests,
-          bedrooms: data.bathrooms,
-          bathrooms: data.bathrooms,
-          queenSizeBeds: data.beds
+          maxGuests: data.capacity.guests,
+          bedrooms: data.capacity.bathrooms,
+          bathrooms: data.capacity.bathrooms,
+          queenSizeBeds: data.capacity.beds
         }
 
         await UnitService.create(unitData)
@@ -104,7 +102,7 @@ export const setupProfile = async (
         await SettingsService.create(settingsData)
 
         const userData = {
-          id: data.userId,
+          id: user.id,
           password: data.password,
           active: true
         }

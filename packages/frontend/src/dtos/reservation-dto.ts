@@ -1,5 +1,4 @@
 export interface ReservationDTO {
-  id: string
   guestId: string
   assetId: string
   startDate: string
@@ -26,6 +25,4 @@ export interface ReservationDTO {
   isOffer: boolean
   offerDetails: string
   notes: string
-  createdAt: Date
-  updatedAt: Date
 }

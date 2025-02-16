@@ -11,6 +11,4 @@ export interface UnitDTO {
   queenSizeBeds: number
   singleSizeBeds: number
   sofaBeds: number
-  createdAt: Date
-  updatedAt: Date
 }

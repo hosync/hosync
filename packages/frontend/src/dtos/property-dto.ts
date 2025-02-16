@@ -1,5 +1,4 @@
 export interface PropertyDTO {
-  id: string
   businessId: string
   asrId: string
   typeOfBuilding?: string // cabin, house, apartment, hotel, etc
@@ -14,8 +13,6 @@ export interface PropertyDTO {
   checkIn?: string
   checkOut?: string
   active: boolean
-  createdAt: Date
-  updatedAt: Date
 }
 
 export const getPropertyDTO = (
@@ -27,7 +24,6 @@ export const getPropertyDTO = (
   pricing: any
 ): PropertyDTO => {
   return {
-    id: '',
     businessId: businessId,
     asrId: amenityId,
     typeOfBuilding: typeOfBuilding,
@@ -41,8 +37,6 @@ export const getPropertyDTO = (
     cancellationPolicy: '',
     checkIn: `${pricing.checkInHour} : ${pricing.checkInMinute} ${pricing.checkInPeriod}`,
     checkOut: `${pricing.checkOutHour} : ${pricing.checkOutMinute} ${pricing.checkOutPeriod}`,
-    active: true,
-    createdAt: new Date(),
-    updatedAt: new Date()
+    active: true
   }
 }

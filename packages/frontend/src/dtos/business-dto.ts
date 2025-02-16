@@ -22,12 +22,9 @@ export interface BusinessDTO {
   zipCode: string
   googleMapsUrl: string
   active: boolean
-  createdAt: string
-  updatedAt: string
 }
 
 export const getBusinessDTO = (data: any, businessId: string): BusinessDTO => {
-  const currentDate = new Date().toJSON()
   return {
     id: businessId,
     userId: data.userId,
@@ -51,8 +48,6 @@ export const getBusinessDTO = (data: any, businessId: string): BusinessDTO => {
     minimumBooking: 1,
     zipCode: data.location.zipCode,
     googleMapsUrl: data.googleMapsUrl,
-    active: true,
-    createdAt: '',
-    updatedAt: currentDate
+    active: true
   }
 }

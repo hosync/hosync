@@ -1,5 +1,4 @@
 export interface AgentDTO {
-  id: string
   businessId: string
   userId: string
   isCompany: boolean
@@ -8,6 +7,4 @@ export interface AgentDTO {
   highestCommissionWithOffer: number
   lowestCommissionWithoutOffer: number
   lowestCommissionWithOffer: number
-  createdAt: string
-  updatedAt: string
 }

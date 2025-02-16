@@ -1,5 +1,4 @@
 export interface RoomDTO {
-  id: string
   propertyId: string
   feeId: string
   asrId: string
@@ -12,6 +11,4 @@ export interface RoomDTO {
   kingSizeBeds: number
   queenSizeBeds: number
   singleSizeBeds: number
-  createdAt: string
-  updatedAt: string
 }

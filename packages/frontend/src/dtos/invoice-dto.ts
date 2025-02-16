@@ -1,5 +1,4 @@
 export interface InvoiceDto {
-  id: string
   businessId: string
   reservationId: string
   invoiceNumber: number
@@ -19,6 +18,4 @@ export interface InvoiceDto {
   currency: string
   checkIn: string
   checkOut: string
-  createdAt: Date
-  updatedAt: Date
 }

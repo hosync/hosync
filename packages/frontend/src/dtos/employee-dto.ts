@@ -1,5 +1,4 @@
 export interface EmployeeDTO {
-  id: string
   businessId: string
   designation?: string
   fullName?: string
@@ -14,6 +13,4 @@ export interface EmployeeDTO {
   state?: string
   country?: string
   zipCode?: string
-  createdAt: Date
-  updatedAt: Date
 }

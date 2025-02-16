@@ -166,6 +166,7 @@ class CRUD<T extends PgTable<TableConfig>> {
     if (is(itemData).array()) {
       itemData.forEach(async (item: any) => {
         item.createdAt = new Date()
+        item.updatedAt = new Date()
         const itemSaved = await this.db
           .insert(this.table)
           .values(item)
@@ -173,6 +174,8 @@ class CRUD<T extends PgTable<TableConfig>> {
         data.push(itemSaved)
       })
     } else {
+      itemData.createdAt = new Date()
+      itemData.updatedAt = new Date()
       data = await this.db.insert(this.table).values(itemData).returning()
     }
 
@@ -183,7 +186,6 @@ class CRUD<T extends PgTable<TableConfig>> {
 
   async update(id: string, itemData: any): Promise<DataResponse<ItemData>> {
     itemData.updatedAt = new Date()
-    if (itemData.createdAt === '') delete itemData.createdAt
     const data = await this.db
       .update(this.table)
       .set(itemData)

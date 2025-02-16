@@ -1,5 +1,4 @@
 export interface GuestDTO {
-  id: string
   businessId: string
   fullName?: string
   email?: string
@@ -12,6 +11,4 @@ export interface GuestDTO {
   organization?: string
   taxIdentifier?: string
   photo?: string
-  createdAt: Date
-  updatedAt: Date
 }

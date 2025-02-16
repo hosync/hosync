@@ -11,6 +11,4 @@ export interface UserDTO {
   website: string
   code: string
   active: boolean
-  createdAt: Date
-  updatedAt: Date
 }
