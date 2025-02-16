@@ -3,9 +3,10 @@
 import { core } from '@hosync/utils'
 
 import { ASRDTO } from '@/dtos/asr-dto'
-import { ASRModelDTO, ASRTypeDTO } from '@/dtos/asr-model-dto'
+import { ASRModelDTO, ASRTypeDTO, getASRDTO } from '@/dtos/asr-model-dto'
 import { BusinessDTO, getBusinessDTO } from '@/dtos/business-dto'
-import { PropertyDTO } from '@/dtos/property-dto'
+import { FeeDTO, getFeeDTO } from '@/dtos/fee-dto'
+import { getPropertyDTO, PropertyDTO } from '@/dtos/property-dto'
 import ASRService from '@/services/asr'
 import BusinessService from '@/services/business'
 import FeeService from '@/services/fee'
@@ -36,151 +37,81 @@ export const setupProfile = async (
   )
 
   if (generalResponse.ok) {
-    /* Creating new amenity by using amenity service class*/
-    const amenityData: Map<string, boolean> = new Map(
-      Object.entries(JSON.parse(data.amenities))
-    )
-
-    const asr: ASRTypeDTO = {
-      amenity: {
-        ac: !!amenityData.get('ac'),
-        bedSheets: !!amenityData.get('bedSheets'),
-        coffeeMachine: !!amenityData.get('coffeeMachine'),
-        extraBed: !!amenityData.get('extraBed'),
-        garden: !!amenityData.get('garden'),
-        hotWater: !!amenityData.get('hotWater'),
-        kitchen: !!amenityData.get('kitchen'),
-        oven: !!amenityData.get('oven'),
-        refrigerator: !!amenityData.get('refrigerator'),
-        towels: !!amenityData.get('towels'),
-        tv: !!amenityData.get('tv')
-      },
-
-      service: {
-        freeParking: !!amenityData.get('freeParking'),
-        laundry: !!amenityData.get('laundry'),
-        pool: !!amenityData.get('pool'),
-        wifi: !!amenityData.get('wifi')
-      },
-      rule: {
-        smoking: !!amenityData.get('smoking'),
-        petFriendly: !!amenityData.get('petFriendly')
-      }
-    }
+    const asr: ASRTypeDTO = getASRDTO(data.amenities)
 
     const propertyObj = new ASRModelDTO(asr)
 
     // Change to createdASR
     const createdASR = await ASRService.create(propertyObj)
 
-    // if (createdASR.ok) {
-    //   const amenityCreated: ASRDTO = createdASR.data
-    //   let roomsCount = 0
-    //   let floorsCount = 0
+    if (createdASR.ok) {
+      const amenityCreated: ASRDTO = createdASR.data
 
-    //   if (rooms.length > 0) {
-    //     const floorsItems = rooms.reduce((acc, obj) => {
-    //       const floor = obj.floor
-    //       acc[floor] = (acc[floor] || 0) + 1
-    //       return acc
-    //     }, [])
+      const feeData = {
+        weekdayFee: data.pricing.price
+      }
+      const feeDTO: FeeDTO = getFeeDTO(feeData)
 
-    //     floorsCount = floorsItems.length - 1
-    //     roomsCount = floorsItems.reduce(
-    //       (sum: number, num: number) => (num > 0 ? sum + num : sum),
-    //       0
-    //     )
-    //   } else {
-    //     floorsCount = 1
-    //     roomsCount = data.bedrooms
-    //   }
+      const createdFeeData = await FeeService.create(feeDTO)
 
-    //   const propertyData = {
-    //     businessId: businessId,
-    //     asrId: amenityCreated.id,
-    //     name: data.propertyName,
-    //     slug: '',
-    //     description: '',
-    //     floors: floorsCount,
-    //     rooms: roomsCount,
-    //     generalRules: '',
-    //     safetyRules: '',
-    //     cancellationPolicy: '',
-    //     checkIn: `${data.checkInHour}:${data.checkInMinute} ${data.checkInPeriod}`,
-    //     checkOut: `${data.checkOutHour}:${data.checkOutMinute} ${data.checkOutPeriod}`,
-    //     active: true
-    //   }
+      const propertyData = getPropertyDTO(
+        businessId,
+        amenityCreated.id,
+        data.propertyType,
+        data.propertyName,
+        data.capacity,
+        data.pricing
+      )
 
-    //   const feeData = {
-    //     weekdayFee: data.price
-    //   }
+      const createdProperty = await PropertyService.create(propertyData)
 
-    //   const createdFeeData = await FeeService.create(feeData)
+      if (createdProperty.ok && createdFeeData.ok) {
+        const propertyCreated: PropertyDTO = createdProperty.data
+        const imagesPayload = images.map((image: string) => {
+          return {
+            url: image,
+            propertyId: propertyCreated.id
+          }
+        })
 
-    //   const createdProperty = await PropertyService.create(propertyData)
+        await PhotoService.create(imagesPayload)
 
-    //   if (createdProperty.ok && createdFeeData.ok) {
-    //     const propertyCreated: PropertyDTO = createdProperty.data
-    //     const imagesPayload = images.map((image: string) => {
-    //       return {
-    //         url: image,
-    //         propertyId: propertyCreated.id
-    //       }
-    //     })
+        const unitData = {
+          propertyId: createdProperty.data.id,
+          feeId: createdFeeData.data.id,
+          asrId: amenityCreated.id,
+          maxGuests: data.guests,
+          bedrooms: data.bathrooms,
+          bathrooms: data.bathrooms,
+          queenSizeBeds: data.beds
+        }
 
-    //     await PhotoService.create(imagesPayload)
+        await UnitService.create(unitData)
 
-    //     if (rooms.length > 0) {
-    //       const roomsPayload = rooms.map((room: any) => {
-    //         return {
-    //           propertyId: createdProperty.data.id,
-    //           feeId: createdFeeData.data.id,
-    //           asrId: amenityCreated.id,
-    //           floor: room.floor,
-    //           roomNumber: room.roomNumber,
-    //           roomType: room.type
-    //         }
-    //       })
+        const timezone =
+          data.country === 'Mexico'
+            ? 'GMT-6'
+            : data.country === 'Canada'
+              ? 'GTM-4'
+              : 'GTM-4'
 
-    //       await RoomService.create(roomsPayload)
-    //     } else {
-    //       const unitData = {
-    //         propertyId: createdProperty.data.id,
-    //         feeId: createdFeeData.data.id,
-    //         asrId: amenityCreated.id,
-    //         maxGuests: data.guests,
-    //         bedrooms: data.bathrooms,
-    //         bathrooms: data.bathrooms,
-    //         queenSizeBeds: data.beds
-    //       }
+        const settingsData = {
+          userId: data.userId,
+          currency: data.currency,
+          language: data.country,
+          timezone
+        }
+        await SettingsService.create(settingsData)
 
-    //       await UnitService.create(unitData)
-    //     }
+        const userData = {
+          id: data.userId,
+          password: data.password,
+          active: true
+        }
 
-    //     const timezone =
-    //       data.country === 'Mexico'
-    //         ? 'GMT-6'
-    //         : data.country === 'Canada'
-    //           ? 'GTM-4'
-    //           : 'GTM-4'
-
-    //     const settingsData = {
-    //       userId: data.userId,
-    //       currency: data.currency,
-    //       language: data.country,
-    //       timezone
-    //     }
-    //     await SettingsService.create(settingsData)
-
-    //     const userData = {
-    //       id: data.userId,
-    //       password: data.password,
-    //       active: true
-    //     }
-
-    //     await UserService.update(userData.id, userData)
-    //   }
-    // }
+        await UserService.update(userData.id, userData)
+      }
+    }
   }
 
   return generalResponse

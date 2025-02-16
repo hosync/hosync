@@ -30,6 +30,35 @@ export type ASRTypeDTO = {
   rule: RuleDTO
 }
 
+export const getASRDTO = (amenityData: any): ASRTypeDTO => {
+  return {
+    amenity: {
+      ac: !!amenityData.ac,
+      bedSheets: !!amenityData.bedSheets,
+      coffeeMachine: !!amenityData.coffeeMachine,
+      extraBed: !!amenityData.extraBed,
+      garden: !!amenityData.garden,
+      hotWater: !!amenityData.hotWater,
+      kitchen: !!amenityData.kitchen,
+      oven: !!amenityData.oven,
+      refrigerator: !!amenityData.refrigerator,
+      towels: !!amenityData.towels,
+      tv: !!amenityData.tv
+    },
+
+    service: {
+      freeParking: !!amenityData.freeParking,
+      laundry: !!amenityData.laundry,
+      pool: !!amenityData.pool,
+      wifi: !!amenityData.wifi
+    },
+    rule: {
+      smoking: !!amenityData.smoking,
+      petFriendly: !!amenityData.petFriendly
+    }
+  }
+}
+
 export class ASRModelDTO {
   asr: ASRTypeDTO | any = {}
 
@@ -52,7 +81,10 @@ export class ASRModelDTO {
 
     amenityKeys.forEach((element: any) => {
       if (!amenities[element][1]) {
-        amenitiesFalse = { [`${amenities[element][0]}`]: false, ...amenitiesFalse }
+        amenitiesFalse = {
+          [`${amenities[element][0]}`]: false,
+          ...amenitiesFalse
+        }
       }
     })
 
