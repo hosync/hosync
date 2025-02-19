@@ -2,7 +2,7 @@
  * An array of public routes that do not require authentication
  * @type {string[]}
  */
-export const publicRoutes = ['/', '/profile/setup']
+export const publicRoutes = ['/', '/profile/setup', '/auth/error']
 
 /**
  * An array of routes that are used for authentication

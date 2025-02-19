@@ -7,9 +7,9 @@ export const linkAccount = async (user: any): Promise<any> => {
     .select()
     .from(userTable)
     .where(eq(userTable.email, user.user.email))
-
+  console.log('RESPONSE 1===>', response)
   if (response.length === 0) {
-    throw {
+    return {
       status: 404,
       message: 'User not found'
     }
@@ -22,8 +22,10 @@ export const linkAccount = async (user: any): Promise<any> => {
     .from(accountTable)
     .where(eq(accountTable.userId, userResponse.id))
 
+  console.log('RESPONSE 2===>', accountResponse)
+
   if (accountResponse.length === 0) {
-    throw {
+    return {
       status: 404,
       message: 'Account not found'
     }

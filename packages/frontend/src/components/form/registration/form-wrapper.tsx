@@ -12,6 +12,7 @@ import { registrationValidator } from '@/validators/registration'
 
 interface RegistrationFormProps {
   area: string
+  error?: string
 }
 
 const initialValues = {
@@ -23,7 +24,7 @@ const initialValues = {
   country: ''
 }
 
-const FormContent: React.FC<RegistrationFormProps> = ({ area }) => {
+const FormContent: React.FC<RegistrationFormProps> = ({ area, error }) => {
   const { state } = useRegistrationForm()
 
   const SuccessMessage = () => (
@@ -67,6 +68,13 @@ const FormContent: React.FC<RegistrationFormProps> = ({ area }) => {
         <SuccessMessage />
       </RenderBlockIf>
 
+      <RenderBlockIf isTrue={!!error}>
+        <div className="text-red-500 text-center">
+          You must register an account first with the same email that you use at
+          Google
+        </div>
+      </RenderBlockIf>
+
       <RenderBlockIf isFalse={!!state.isSuccess}>
         <RegistrationForm columns={area === 'hero' ? 2 : 1} />
       </RenderBlockIf>
@@ -75,7 +83,8 @@ const FormContent: React.FC<RegistrationFormProps> = ({ area }) => {
 }
 
 const RegistrationFormWrapper: React.FC<RegistrationFormProps> = ({
-  area = 'hero'
+  area = 'hero',
+  error = ''
 }) => {
   return (
     <RegistrationFormProvider
@@ -83,7 +92,7 @@ const RegistrationFormWrapper: React.FC<RegistrationFormProps> = ({
       singleValidator={registrationValidator}
       onSubmit={initialSignup}
     >
-      <FormContent area={area} />
+      <FormContent area={area} error={error} />
     </RegistrationFormProvider>
   )
 }

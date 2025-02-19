@@ -61,7 +61,7 @@ const authOptions: NextAuthConfig = {
             password: security.password.encrypt(password)
           }
 
-          console.log('BODY===>', body)
+          console.log('BODY XXXX===>', body)
 
           const response = await api.fetch<any>(
             `${process.env.API_URL}/api/v1/user/login`,
@@ -70,6 +70,8 @@ const authOptions: NextAuthConfig = {
               body
             }
           )
+
+          console.log('RESPONSE credentials===>', response)
 
           if (response.ok) {
             const { items } = response
@@ -100,15 +102,49 @@ const authOptions: NextAuthConfig = {
     })
   ],
   callbacks: {
+    async signIn(allData: any) {
+      console.log('ALL DATA ===>', allData)
+
+      const response = await api.fetch<any>(
+        `${process.env.API_URL}/api/v1/account/link`,
+        {
+          method: 'POST',
+          body: {
+            ...allData,
+            scope
+          }
+        }
+      )
+
+      if (!response.ok) {
+        return '/auth/register?error=account'
+      }
+
+      console.log('RESPUESTA 111 XXXX===>', response)
+
+      //   const connectedUser = response.items[0]
+      //   const isActive = connectedUser.active
+      //   const isLinked =
+      //     connectedUser.providerAccountId === allData.account.providerAccountId
+
+      //   console.log('IS ACTIVATE===>', isActive)
+      //   console.log('IS LINKED===>', isLinked)
+
+      //   return true
+
+      return true
+    },
     async jwt(params: { token: any; account: any; user: any; profile?: any }) {
-      console.log('JWT COMPLETA===>', params)
+      // console.log('JWT COMPLETA===>', params)
       const { token, account, user } = params
 
+      // Login using credentials
       if (user) {
         token.id = user.id // Add the user ID to the token
         token.role = user.role // Add custom role field
       }
 
+      // Login using Google
       if (account) {
         token.accessToken = account.access_token
         token.refreshToken = account.refresh_token
@@ -127,43 +163,16 @@ const authOptions: NextAuthConfig = {
       return token
     },
     async session(params: any) {
-      console.log('SESSION COMPLETA===>', params)
+      // console.log('SESSION COMPLETA===>', params)
       const { session, token } = params
       session.user.id = token.id
       session.user.role = token.role
       session.user.accessToken = token.accessToken
       return session
-    },
-    async signIn(allData: any) {
-      console.log('ALL DATA ===>', allData)
-
-      return true
-      // try {
-      //   const response = await api.fetch<any>(
-      //     `${process.env.API_URL}/api/v1/account/link`,
-      //     {
-      //       method: 'POST',
-      //       body: {
-      //         ...allData,
-      //         scope
-      //       }
-      //     }
-      //   )
-
-      //   // const connectedUser = response.items[0]
-      //   // const isActive = connectedUser.active
-      //   // const isLinked =
-      //   //   connectedUser.providerAccountId === allData.account.providerAccountId
-
-      //   return true
-      // } catch (error) {
-      //   console.error('Error linking account:', error)
-      //   return true
-      // }
     }
   },
   basePath: BASE_PATH,
-  secret: process.env.AUTH_SECRET
+  secret: process.env.AUTH_CREDENTIALS_SECRET
 }
 
 export const { handlers, auth, signIn, signOut } = NextAuth(authOptions)

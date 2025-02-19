@@ -1,3 +1,5 @@
+import { response } from 'express'
+
 import { Account, account, DB } from '../../..'
 import CRUDHandler from '../../CRUD'
 import { linkAccount } from './actions'
@@ -8,24 +10,20 @@ class CRUD extends CRUDHandler<Account> {
   }
 
   async link({ user }: { user: any }): Promise<any> {
-    try {
-      const response = await linkAccount(user)
-
-      if (response) {
-        return {
-          ok: true,
-          items: response
-        }
-      }
-    } catch (error) {
+    const response: any = await linkAccount(user)
+    console.log('RESPONSE EN LINK ===>', response)
+    if (response.status !== 404) {
       return {
-        ok: false,
-        error
+        ok: true,
+        items: response
       }
     }
 
     return {
-      ok: false
+      ok: false,
+      error: {
+        message: response.message
+      }
     }
   }
 }
