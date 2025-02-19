@@ -13,6 +13,7 @@ import { registrationValidator } from '@/validators/registration'
 interface RegistrationFormProps {
   area: string
   error?: string
+  email?: string
 }
 
 const initialValues = {
@@ -24,7 +25,11 @@ const initialValues = {
   country: ''
 }
 
-const FormContent: React.FC<RegistrationFormProps> = ({ area, error }) => {
+const FormContent: React.FC<RegistrationFormProps> = ({
+  area,
+  error,
+  email
+}) => {
   const { state } = useRegistrationForm()
 
   const SuccessMessage = () => (
@@ -68,7 +73,7 @@ const FormContent: React.FC<RegistrationFormProps> = ({ area, error }) => {
         <SuccessMessage />
       </RenderBlockIf>
 
-      <RenderBlockIf isTrue={!!error}>
+      <RenderBlockIf isTrue={!!error && !state.isSuccess}>
         <div className="text-red-500 text-center">
           You must register an account first with the same email that you use at
           Google
@@ -76,7 +81,7 @@ const FormContent: React.FC<RegistrationFormProps> = ({ area, error }) => {
       </RenderBlockIf>
 
       <RenderBlockIf isFalse={!!state.isSuccess}>
-        <RegistrationForm columns={area === 'hero' ? 2 : 1} />
+        <RegistrationForm columns={area === 'hero' ? 2 : 1} email={email} />
       </RenderBlockIf>
     </div>
   )
@@ -84,15 +89,21 @@ const FormContent: React.FC<RegistrationFormProps> = ({ area, error }) => {
 
 const RegistrationFormWrapper: React.FC<RegistrationFormProps> = ({
   area = 'hero',
-  error = ''
+  error = '',
+  email = ''
 }) => {
+  if (email) {
+    initialValues.businessEmail = email
+    initialValues.businessWebsite = 'https://'
+  }
+
   return (
     <RegistrationFormProvider
       initialValues={initialValues}
       singleValidator={registrationValidator}
       onSubmit={initialSignup}
     >
-      <FormContent area={area} error={error} />
+      <FormContent area={area} error={error} email={email} />
     </RegistrationFormProvider>
   )
 }

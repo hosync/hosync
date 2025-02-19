@@ -9,10 +9,15 @@ import { useRegistrationForm } from '@/hooks/forms/useRegistrationForm'
 
 interface RegistrationFormProps {
   columns?: 1 | 2
+  email?: string
 }
 
-const RegistrationForm: React.FC<RegistrationFormProps> = ({ columns = 2 }) => {
+const RegistrationForm: React.FC<RegistrationFormProps> = ({
+  columns = 2,
+  email
+}) => {
   const { state, onChange, submitForm } = useRegistrationForm()
+  const disabledEmail = !!email
 
   return (
     <>
@@ -56,6 +61,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ columns = 2 }) => {
             required
             onChange={onChange}
             value={state.values.businessEmail}
+            disabled={disabledEmail}
             errorText={
               state.errors.error.businessEmail ||
               state.errors.error.responseError

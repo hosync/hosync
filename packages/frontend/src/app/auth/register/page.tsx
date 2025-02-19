@@ -5,13 +5,14 @@ import { RegistrationFormWrapper } from '@/components/form/registration/form-wra
 type Props = {
   searchParams: {
     error: string
+    email: string
   }
 }
 
 const RegisterPage: NextPage<Props> = async ({ searchParams }) => {
-  const { error = '' } = await searchParams
-
-  return <RegistrationFormWrapper area="register" error={error} />
+  const { error = '', email = '' } = await searchParams
+  console.log('EMAIL====>', email)
+  return <RegistrationFormWrapper area="register" error={error} email={email} />
 }
 
 export default RegisterPage

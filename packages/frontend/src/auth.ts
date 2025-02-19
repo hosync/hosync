@@ -117,20 +117,15 @@ const authOptions: NextAuthConfig = {
       )
 
       if (!response.ok) {
-        return '/auth/register?error=account'
+        return `/auth/register?error=account&email=${allData.user.email}`
       }
 
-      console.log('RESPUESTA 111 XXXX===>', response)
+      const connectedUser = response.items[0]
+      const isActive = connectedUser.active
 
-      //   const connectedUser = response.items[0]
-      //   const isActive = connectedUser.active
-      //   const isLinked =
-      //     connectedUser.providerAccountId === allData.account.providerAccountId
-
-      //   console.log('IS ACTIVATE===>', isActive)
-      //   console.log('IS LINKED===>', isLinked)
-
-      //   return true
+      if (!isActive) {
+        return `/auth/error?error=inactive&email=${allData.user.email}`
+      }
 
       return true
     },
