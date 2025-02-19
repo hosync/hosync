@@ -130,7 +130,7 @@ const authOptions: NextAuthConfig = {
       return true
     },
     async jwt(params: { token: any; account: any; user: any; profile?: any }) {
-      // console.log('JWT COMPLETA===>', params)
+      console.log('JWT COMPLETA===>', params)
       const { token, account, user } = params
 
       // Login using credentials
@@ -158,11 +158,12 @@ const authOptions: NextAuthConfig = {
       return token
     },
     async session(params: any) {
-      // console.log('SESSION COMPLETA===>', params)
+      console.log('SESSION COMPLETA===>', params)
       const { session, token } = params
       session.user.id = token.id
       session.user.role = token.role
       session.user.accessToken = token.accessToken
+      session.user.role = 'XXXXXXXX'
       return session
     }
   },

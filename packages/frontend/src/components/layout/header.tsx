@@ -17,13 +17,12 @@ import { HamburgerMenu } from './header-hamburger-menu'
 import { ThemeSwitcher } from './header-theme-switcher'
 
 interface HeaderProps {
-  connectedUser?: any
   page?: string
 }
 
-const Header: React.FC<HeaderProps> = ({ connectedUser = {}, page }) => {
+const Header: React.FC<HeaderProps> = ({ page }) => {
   const { data: session } = useSession()
-
+  console.log('CONNECTED USER====>', session)
   const isLogged = !!session
   const showLogin = !isLogged && page !== 'dashboard' && page !== 'profile'
   const showTryForFree = !isLogged && page !== 'dashboard' && page !== 'profile'
@@ -116,19 +115,19 @@ const Header: React.FC<HeaderProps> = ({ connectedUser = {}, page }) => {
 
         <RenderBlockIf isTrue={showHamburgerMenu}>
           <div className="ml-2 lg:hidden">
-            <HamburgerMenu isLogged={isLogged} connectedUser={connectedUser} />
+            <HamburgerMenu isLogged={isLogged} connectedUser={session} />
           </div>
         </RenderBlockIf>
 
-        <RenderBlockIf isTrue={connectedUser && page === 'dashboard'}>
+        {/* <RenderBlockIf isTrue={session && page === 'dashboard'}>
           <div className="-mt-1 ml-4">
             <Avatar
-              url={connectedUser.businessLogo || ''}
+              url={session.businessLogo || ''}
               name="1 G"
               size="medium"
             />
           </div>
-        </RenderBlockIf>
+        </RenderBlockIf> */}
       </div>
     </header>
   )
