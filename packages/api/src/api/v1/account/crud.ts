@@ -1,5 +1,3 @@
-import { response } from 'express'
-
 import { Account, account, DB } from '../../..'
 import CRUDHandler from '../../CRUD'
 import { linkAccount } from './actions'

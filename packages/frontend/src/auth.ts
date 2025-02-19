@@ -161,7 +161,6 @@ const authOptions: NextAuthConfig = {
       console.log('SESSION COMPLETA===>', params)
       const { session, token } = params
       session.user.id = token.id
-      session.user.role = token.role
       session.user.accessToken = token.accessToken
       session.user.role = 'XXXXXXXX'
       return session
