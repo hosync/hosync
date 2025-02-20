@@ -136,13 +136,20 @@ class CRUD<T extends PgTable<TableConfig>> {
   async getBy(field: string, value: string): Promise<DataResponse<ItemData>> {
     const finalSql = this.sql.empty()
     finalSql.append(this.sql`select * from ${this.table} where `)
+
     if (field === 'userId') {
       finalSql.append(this.sql`${this.table}`)
       finalSql.append(this.sql`."userId" = ${value}`)
     }
+
     if (field === 'id') {
       finalSql.append(this.sql`${this.table}`)
       finalSql.append(this.sql`."id" = ${value}`)
+    }
+
+    if (field === 'email') {
+      finalSql.append(this.sql`${this.table}`)
+      finalSql.append(this.sql`."email" = ${value}`)
     }
 
     const data = await this.db.execute(finalSql)

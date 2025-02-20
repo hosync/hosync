@@ -1,12 +1,9 @@
 'use client'
 
-import { useSession } from 'next-auth/react'
-
 import { cx } from '@hosync/utils'
 
 import { RenderBlockIf } from '@/components/helpers/render-block-if'
 import { Nav } from '@/components/layout/nav'
-import { Avatar } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Link } from '@/components/ui/link'
 import { Logo } from '@/components/ui/logo'
@@ -17,13 +14,12 @@ import { HamburgerMenu } from './header-hamburger-menu'
 import { ThemeSwitcher } from './header-theme-switcher'
 
 interface HeaderProps {
+  user?: any
   page?: string
 }
 
-const Header: React.FC<HeaderProps> = ({ page }) => {
-  const { data: session } = useSession()
-  console.log('CONNECTED USER====>', session)
-  const isLogged = !!session
+const Header: React.FC<HeaderProps> = ({ page, user = null }) => {
+  const isLogged = !!user
   const showLogin = !isLogged && page !== 'dashboard' && page !== 'profile'
   const showTryForFree = !isLogged && page !== 'dashboard' && page !== 'profile'
   const showSecondaryNav = page !== 'dashboard'
@@ -55,7 +51,7 @@ const Header: React.FC<HeaderProps> = ({ page }) => {
     ''
   )
 
-  const fullName = session?.user?.name || ''
+  const fullName = user?.name || ''
 
   const name = fullName.split(' ')[0]
   const lastName = fullName.split(' ')[1]
@@ -115,19 +111,9 @@ const Header: React.FC<HeaderProps> = ({ page }) => {
 
         <RenderBlockIf isTrue={showHamburgerMenu}>
           <div className="ml-2 lg:hidden">
-            <HamburgerMenu isLogged={isLogged} connectedUser={session} />
+            <HamburgerMenu isLogged={isLogged} />
           </div>
         </RenderBlockIf>
-
-        {/* <RenderBlockIf isTrue={session && page === 'dashboard'}>
-          <div className="-mt-1 ml-4">
-            <Avatar
-              url={session.businessLogo || ''}
-              name="1 G"
-              size="medium"
-            />
-          </div>
-        </RenderBlockIf> */}
       </div>
     </header>
   )

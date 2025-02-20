@@ -1,6 +1,5 @@
 'use client'
 
-import { useSession } from 'next-auth/react'
 import React, { FC, useState } from 'react'
 
 import { RenderBlockIf } from '@/components/helpers/render-block-if'
@@ -10,10 +9,10 @@ import { useTheme } from '@/contexts/theme'
 
 type Props = {
   isLogged: boolean
+  user?: any
 }
 
-const HamburgerMenu: FC<Props> = ({ isLogged }) => {
-  const { data: session } = useSession()
+const HamburgerMenu: FC<Props> = ({ isLogged, user = null }) => {
   const { darkMode } = useTheme()
 
   const [isOpen, setIsOpen] = useState<boolean>(false)
@@ -40,7 +39,7 @@ const HamburgerMenu: FC<Props> = ({ isLogged }) => {
           <RenderBlockIf isTrue={isLogged}>
             <div className="flex flex-col items-center justify-center pt-20 text-black dark:text-white text-xl">
               <div className="mb-10">
-                <b>Welcome,</b> {session?.user?.name}
+                <b>Welcome,</b> {user?.name}
               </div>
 
               <Link

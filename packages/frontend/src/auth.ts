@@ -130,28 +130,60 @@ const authOptions: NextAuthConfig = {
       return true
     },
     async jwt(params: { token: any; account: any; user: any; profile?: any }) {
-      console.log('JWT COMPLETA===>', params)
+      // console.log('JWT COMPLETA===>', params)
       const { token, account, user } = params
 
-      // Login using credentials
-      if (user) {
-        token.id = user.id // Add the user ID to the token
-        token.role = user.role // Add custom role field
-      }
+      const email = account?.email ?? user?.email
 
-      // Login using Google
-      if (account) {
-        token.accessToken = account.access_token
-        token.refreshToken = account.refresh_token
-        token.accessTokenExpires =
-          Date.now() + (account?.expires_in ?? 0) * 1000
-
-        if (Date.now() < token.accessTokenExpires) {
-          return token
+      const response = await api.fetch<any>(
+        `${process.env.API_URL}/api/v1/user/by/email/${email}`,
+        {
+          method: 'GET'
         }
+      )
 
-        if (token.refreshToken) {
-          return await refreshAccessToken(token)
+      if (response.ok) {
+        const localUser = response.items[0]
+
+        token.id = localUser.id
+        token.name = localUser.fullName
+        token.tier = localUser.tier
+        token.role = localUser.role
+        token.phone = localUser.phone
+        token.avatar = localUser.avatar
+        token.code = localUser.code
+
+        const businessResponse = await api.fetch<any>(
+          `${process.env.API_URL}/api/v1/business/by/userId/${localUser.id}`,
+          {
+            method: 'GET'
+          }
+        )
+
+        if (businessResponse.ok) {
+          const business = businessResponse.items[0]
+
+          token.businessId = business.id
+          token.businessName = business.name
+          token.slug = business.slug
+          token.businessEmail = business.email
+          token.logo = business.logo
+
+          // Login using Google
+          if (account) {
+            token.accessToken = account.access_token
+            token.refreshToken = account.refresh_token
+            token.accessTokenExpires =
+              Date.now() + (account?.expires_in ?? 0) * 1000
+
+            if (Date.now() < token.accessTokenExpires) {
+              return token
+            }
+
+            if (token.refreshToken) {
+              return await refreshAccessToken(token)
+            }
+          }
         }
       }
 
@@ -161,8 +193,21 @@ const authOptions: NextAuthConfig = {
       console.log('SESSION COMPLETA===>', params)
       const { session, token } = params
       session.user.id = token.id
+      session.user.name = token.name
       session.user.accessToken = token.accessToken
-      session.user.role = 'XXXXXXXX'
+      session.user.role = token.role
+      session.user.tier = token.tier
+      session.user.phone = token.phone
+      session.user.avatar = token.avatar
+      session.user.code = token.code
+      session.user.business = {
+        businessId: token.businessId,
+        name: token.businessName,
+        slug: token.slug,
+        email: token.businessEmail,
+        logo: token.logo
+      }
+      console.log('SESSION COMPLETA 22222===>', session)
       return session
     }
   },

@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import React, { FC, useState } from 'react'
+
 import { string as str } from '@hosync/utils'
 
 import { RenderBlockIf } from '@/components/helpers/render-block-if'
@@ -9,11 +10,9 @@ import { ThemeSwitcher } from '@/components/layout/header-theme-switcher'
 import { SVG } from '@/components/svg'
 import { Input } from '@/components/ui/input'
 import { Logo } from '@/components/ui/logo'
-import Config from '@/lib/config'
 
 type HeaderProps = {
-  locale: string
-  logoText?: string
+  user: any
 }
 
 type HambugerMenuProps = {
@@ -33,8 +32,9 @@ const HambugerMenu: FC<HambugerMenuProps> = ({ toggleSidebar }) => {
   )
 }
 
-const Header: FC<HeaderProps> = ({ locale, logoText = Config.siteTitle }) => {
+const Header: FC<HeaderProps> = ({ user }) => {
   const [showSidebar, setShowSidebar] = useState(false)
+  const businessName = user?.business?.name
 
   return (
     <>
@@ -44,8 +44,8 @@ const Header: FC<HeaderProps> = ({ locale, logoText = Config.siteTitle }) => {
 
           <Logo
             includeText={false}
-            alternativeText={str.ellipsis(logoText, 20)}
-            initials={str.initials(logoText)}
+            alternativeText={str.ellipsis(businessName, 20)}
+            initials={str.initials(businessName)}
           />
         </div>
 
