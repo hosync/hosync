@@ -207,7 +207,7 @@ const authOptions: NextAuthConfig = {
         email: token.businessEmail,
         logo: token.logo
       }
-      console.log('SESSION COMPLETA 22222===>', session)
+
       return session
     }
   },
