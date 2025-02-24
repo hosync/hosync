@@ -1,10 +1,10 @@
 # Db variables
 DB_ENGINE=postgresql
 DB_PORT=5432
-DB_HOST=localhost
-DB_DATABASE=hosync
+DB_HOST=db.xotrqzjohqiovsimhsci.supabase.co
+DB_DATABASE=postgres
 DB_USERNAME=postgres
-DB_PASSWORD=12345678
+DB_PASSWORD="Hosync2182$"
 DB_DEBUG=true
 
 # JWT variables
